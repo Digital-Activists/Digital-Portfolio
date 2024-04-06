@@ -1,0 +1,130 @@
+/*TO DO: Разобраться с кнопкой*/
+@font-face {
+	font-family: 'Inter Regular';
+  src: url('/fonts/Inter-Regular.otf') format('otf');
+	src: url('/fonts/Inter-Regular.woff2') format('woff2'),
+		url('/fonts/Inter-Regular.woff') format('woff');
+  
+}
+
+.main-header{
+    position: fixed;
+    z-index: 10000; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background-color: #21c2f8;
+  
+    box-shadow: 0px 1px 20px 0px rgb(65, 64, 64);
+}
+
+.logotip{
+    padding-left: 100px;
+}
+.main-footer{
+    position: fixed;
+    bottom: 0;
+    left:0;
+    width: 100%;
+    background-color: #21c2f8;
+    height: auto;
+}
+
+main{
+    display: flex;
+    justify-content: center; 
+}
+
+.headline{
+    position: absolute;
+    top: 60px;
+}
+
+.headline h1{
+    font-family: "Inter Regular", fantasy;
+    font-size: 35px;
+    font-weight: 300;
+}
+.registration{
+    position: absolute;
+    top:140px;
+    width: 400px;
+    height: 513px;
+    background-color: rgba(234, 237, 240, 1);
+    border-radius: 30px;
+    
+    box-shadow: 0.1px 19px 20px -17px rgb(65, 64, 64);
+    font-family: "Inter Regular", fantasy;
+    font-size: 17px;
+    font-weight: 550;
+    padding-left: 35px;
+    
+}
+
+li p{
+    padding-top: 25px;
+}
+.registration div{
+    text-align: left;
+    padding-left: 15px;
+    padding-top: 5px;
+    font-weight: 300;
+    font-size: 14px;
+    background-color: white;
+    border-radius: 16px;
+    width: 270px;
+    height: 23px;
+    border: 1px solid black;
+}
+.emailAdress div{
+    position: absolute;
+    top: 70px;
+    left: 70px;
+
+}
+
+.LastName div{
+    position: absolute;
+    top: 135px;
+    left: 70px;
+}
+
+.FirstName div{
+    position: absolute;
+    top: 195px;
+    left: 70px;
+}
+
+.MiddleName div{
+    position: absolute;
+    top: 260px;
+    left: 70px;
+}
+
+.Password div{
+    position: absolute;
+    top: 320px;
+    left: 70px;
+}
+
+.PasswordConfirm div{
+    position: absolute;
+    top: 385px;
+    left: 70px;
+}
+
+.Confirm button{
+    position: absolute;
+    top: 450px;
+    left: 95px;
+    display: inline-block;
+    background-color: #FFEC44;
+    border-radius: 15px;
+    border: none;
+    width: 230px;
+    height: 30px;
+    font-family: "Inter Regular", fantasy;
+    font-weight: 800;
+    font-size: 18px;
+}

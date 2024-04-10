@@ -137,7 +137,7 @@ main{
   padding-left: 50px;
   padding-right: 50px;
 }
-.login div{
+.login input{
   position: absolute;
   left: 100px;
   top: 217px;

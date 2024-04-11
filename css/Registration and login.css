@@ -1,257 +1,145 @@
-/* Доделать: ссылки:фото,логотип; глаз на ввод пароля;*/
 
-
-@font-face {
-	font-family: 'Inter Regular';
-  src: url('/fonts/Inter-Regular.otf') format('otf');
-	src: url('/fonts/Inter-Regular.woff2') format('woff2'),
-		url('/fonts/Inter-Regular.woff') format('woff');
-  
+body{
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
 }
 
-.main-header{
-  position: fixed;
-  z-index: 10000; 
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  background-color: #21c2f8;
+h1{
+  display: none
+}
+.account_form{
+  width: 700px;
+  height: 400px;
+  margin-top: 80px;
+  margin-right: 70px;
 
-  box-shadow: 0px 1px 20px 0px rgb(65, 64, 64);
+  background-color: #EAEDF0;
+  border-radius: 25px;
+  box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.25);
 }
-.logotip{
-  padding-left: 100px;
-}
-.main-footer{
-  position: fixed;
-  bottom: 0;
-  left:0;
-  width: 100%;
-  background-color: #21c2f8;
-  height: auto;
+.account_form h2{
+  margin-top: 40px;
+  margin-left: 70px;
+  font-size: 32px; 
+  font-weight: 400;
 }
 
-main{
-  padding-top: 60px;
-  padding-bottom: 60px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-/*DONE*/
-.accounts{
-  position: absolute;
-  top: 100px;
-  left: 45px;
-  width: 750px;
-  height: 343px;
-  background-color: rgba(234, 237, 240, 1);
-  border-radius: 30px;
-
-  box-shadow: 23px 6px 20px -17px rgb(65, 64, 64);
-}
-.accounts h2{
-  position: absolute;
-  left: 80px;
-  top: 8px;
-  font-size: 30px;
-  font-family: "Inter Regular", fantasy;
-  font-weight: 300;
-}
-.accounts p{
-  position: absolute;
-  left: 80px;
-  top: 60px;
-  font-size: 16px;
-  font-family: "Inter Regular", fantasy;
-  font-weight: 300;
+.account_form #text{
+  margin-top: 25px;
+  margin-left: 70px;
+  font-size:  18px;
 }
 .account{
-  position: absolute;
-  left: 80px;
-  top: 120px;
-  border-radius: 15px;
-  background-color: rgba(140, 140, 140, 1);
+  margin-top: 32px;
+  margin-left: 70px;
   width: 148px;
-  height: 180px;
-}
-.account div{
-  padding-top: 20px;
-  padding-left: 38px;
-}
-.account section{
-  text-align: center;
-  word-break:break-all;
-}
-.createAccount{
-  position: absolute;
-  left: 300px;
-  top: 120px;
+  height: 170px;
   border-radius: 15px;
-  background-color: rgba(140, 140, 140, 1);
+  background-color: #8C8C8C;
+  text-align: center;
+  padding-top: 24px
+}
+.create_account{
+  margin-top: -194px;
+  margin-left: 298px;
   width: 148px;
-  height: 180px;
-
-  box-shadow: -7px 18px 23px -14px #21c2f8;
-}
-.createAccount div{
-  padding-top: 20px;
-  padding-left: 37px;
-}
-.createAccount section{
-  text-align: center;
-}
-
-
-
-
-
-/*DONE*/
-.login{
-  position: absolute;
-  top: 100px;
-  left: 900px;
-  width: 449px;
-  height: 470px;
-  background-color: rgba(234, 237, 240, 1);
-  border-radius: 30px;
-
-  box-shadow: 0.1px 19px 20px -17px rgb(65, 64, 64);
-}
-
-.login section{
-  text-align: center;
-  padding-top: 9px;
-}
-
-.login h2{
-  position: absolute;
-  top: 40px;
-  text-align: center;
-  font-size: 40px;
-  font-family: "Inter Regular", fantasy;
-  font-weight: 300;
-  padding-left: 50px;
-  padding-right: 50px;
-}
-.login input{
-  position: absolute;
-  left: 100px;
-  top: 217px;
-  font-family: "Inter Regular", fantasy;
-  font-weight: 300;
-  font-size: 13px;
-}
-.emailAdress div{
-  top: 280px;
-  left: 72px;
-  position: absolute;
-  text-align: left;
-  padding-left: 15px;
-  padding-top: 8px;
-  font-family: "Inter Regular", fantasy;
-  font-weight: 300;
-  font-size: 14px;
-  background-color: white;
-  border-radius: 16px;
-  width: 295px;
-  height: 24px;
-  border: 2px solid black;
-}
-.emailAdress p{
-  position: absolute;
-  top: 240px;
-  left: 88px;
-  text-align: left;
-  font-family: "Inter Regular", fantasy;
-  font-weight: 300;
-  font-size: 14px;
-}
-.Password div{
-  top: 345px;
-  left: 72px;
-  position: absolute;
-  text-align: left;
-  padding-left: 15px;
-  padding-top: 8px;
-  font-family: "Inter Regular", fantasy;
-  font-weight: 300;
-  font-size: 14px;
-  background-color: white;
-  border-radius: 16px;
-  border: 2px solid black;
-  width: 295px;
-  height: 24px;
-}
-.Password p{
-  position: absolute;
-  left: 88px;
-  top: 310px;
-  text-align: left;
-  font-family: "Inter Regular", fantasy;
-  font-weight: 300;
-  font-size: 14px;
-}
-.loginLink  section{
-  top: 410px;
-  left: 72px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  position: absolute;
-  text-align: center;
-  font-family: "Inter Regular", fantasy;
-  font-weight: 600;
-  font-size: 20px;
-  background-color: yellow;
-  border-radius: 16px;
-  width: 310px;
-  height: 24px;
-}
-
-.forgotPassword{
-  position: absolute;
-  top: 450px;
-  left: 185px;
-  color: black;
-  font-family: "Inter Regular", fantasy;
-  font-weight: 300;
-  font-size: 11px;
-}
-
-
-
-/*DONE*/
-.registration{
-  position: absolute;
-  top: 580px;
-  left: 900px;
-  width: 449px;
-  height: 96px;
-  background-color: rgba(234, 237, 240, 1);
-  border-radius: 30px;
-  text-align: center;
-
-  box-shadow: 0.1px 19px 20px -17px rgb(65, 64, 64);
-}
-
-.registration h2{
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 300;
-  font-family: "Inter Regular", fantasy;
-}
-.registration section{
-  display: inline-block;
-  background-color: yellow;
+  height: 170px;
   border-radius: 15px;
-  width: 150px;
-  height: 30px;
-  font-family: "Inter Regular", fantasy;
-  font-weight: 800;
-  font-size: 18px;
+  background-color: #8C8C8C;
+  text-align: center;
+  padding-top: 24px;
+  box-shadow: 0px 10px 10px 0 #36C0F1;
+}
+
+
+.login_form{
+  width: 300px;
+  height: 482px;
+  margin-top: 80px;
+  margin-right: 85px;
+
+  background-color: #EAEDF0;
+  border-radius: 25px;
+  box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.25);
+
+  text-align: center;
+  padding-left: 60px;
+  padding-right: 68px;
+}
+.login_form img{
+  margin-top: 10px;
+}
+.login_form h2{
+  margin-top: 0;
+  font-size: 40px; 
+  font-weight: 400;
+}
+.login_form #text{
+  margin-top: -30px;
+}
+.login_form li{
+  text-align: left;
+}
+
+.email_Adress{
+  padding-top: 15px;
+}
+.password{
+  padding-top: 10px;
+  
+}
+ol{
+  margin-left: -35px;
+}
+.email_Adress input, .password input{
+    width: 293px;
+    height: 33px;
+    margin-top: 5px;
+    
+    text-align: left;
+    background-color: white;
+    border-radius: 25px;
+    border-color: black;
+    border-width: 1px;
+    padding-left: 5px;
+    
+}
+
+.loginLink input, .registration_form input{
+    margin-left: 1px;
+    background-color: #FFEC44;
+    color: black;
+    border-radius: 25px;
+    border: none;
+    width: 293px;
+    height: 35px;
+    font-weight: bold;
+    font-size: 18px;
+}
+.loginLink input{
+  margin-top: 20px;
+}
+.registration_form input{
+  margin-top: -10px;
+}
+
+
+.registration_form{
+  width: 430px;
+  height: 85px;
+  margin-top: 578px;
+  margin-left: -517px;
+
+  background-color: #EAEDF0;
+  border-radius: 15px;
+  box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.25);
+
+  text-align: center;
+}
+
+.registration_form h2{
+  margin-top: 3px;
+  font-size: 22px; 
+  font-weight: 400;
 }

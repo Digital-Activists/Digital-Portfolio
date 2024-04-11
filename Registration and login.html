@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/Registration and login.css" />
+    <link rel="stylesheet" href="css/Header&Footer.css" />
     <meta charset="utf-8">
     <style>
       ol {
@@ -13,56 +17,56 @@
   <body>
     <header class="main-header">
       <div class="logotip">
-        <img src="Share your projects.svg" width="250" height="60" alt="Share your projects">
+        <img src="images/Share your projects.svg" alt="Share your projects">
       </div>
     </header>
 
     <main>
-
-      <section class="accounts">
+      <h1>Страница регистрации и авторизации</h1>
+      <form action="" method="post" class="account_form">
         <h2>У вас есть еще один аккаунт?</h2>
-        <p>Нажмите на фотографию или имя, чтобы войти</p>
-        <section class="account">
-          <div><img src="/profile icon.svg" width="75" height="75" alt="Фотография аккаунта"></div>
-          <section><a href="#" style="text-decoration: none; color:white;">Фамилия <br/>Имя</a></section>
-        </section>
-        <section class="createAccount">
-          <div><img src="/circleAccount.svg" width="75" height="75" alt="Фотография аккаунта"></div>
-          <section><a href="#" style="text-decoration: none; color:white;">Добавить <br/>аккаунт</a></section>
-        </section>
-      </section>
+        <p id="text">Нажмите на фотографию или имя, чтобы войти</p>
+        <div class="account">
+          <img src="images/profile icon.svg" alt="Фотография аккаунта">
+          <p><a href="#" style="text-decoration: none; color:white;">Фамилия <br/>Имя</a></p>
+        </div>
+        <div class="create_account">
+          <img src="images/circleAccount.svg" alt="Добавить аккаунт">
+          <p><a href="#" style="text-decoration: none; color:white;">Добавить <br/>аккаунт</a></p>
+        </div>
+      </form>
 
-      <section class="login">
-        <section><img src="/log.svg" width="60" height="55" alt="Логотип сайта SYP"></section>
+      <form action="" method="post" class="login_form">
+        <img src="images/log.svg" alt="Логотип сайта SYP">
         <h2>Добро пожаловать в SYP</h2>
-        <div>Создавайте проекты и делитесь ими</div>
-        <ol >
-          <li class="emailAdress">
-            <p>Адрес электронной почты</p>
-            <input type="text" name="email.adress" placeholder="Введите адрес электронной почты">
-          </li>
-          <li class="Password">
-            <p>Пароль</p>
-            <div>Введите пароль</div>
-          </li>
-          <li class="loginLink">
-            <section><a href="#" style="text-decoration: none; color:black;">Войти</a></section>
-          </li>
-          <li class="forgotPassword">
-            <a href="#" style="color:black;">Забыли пароль?</a>
-          </li>
+        <p id="text">Создавайте проекты и делитесь ими</p>
+        <ol>
+        <li class="email_Adress">
+            <label for="email_Adress">Адрес электронной почты</label>
+            <input type="email" name="email_Adress" placeholder="Введите адрес электронной почты"/>
+        </li>
+        <li class="password">
+            <label for="Password">Пароль</label>
+            <input type="password" name="password" placeholder="Введите пароль"/>
+        </li>
+        <li class="loginLink">
+            <input type="submit" value='Войти'/>
+        </li>
         </ol>
-      </section>
+        <p class="forgotPassword">
+            <a href="#" style="color:black;">Забыли пароль?</a>
+        </p> 
+      </form>
 
-      <section class="registration">
+      <form action="" method="post" class="registration_form">
         <h2>У вас еще нет аккаунта?</h2>
-        <section><a href="#" style="text-decoration: none; color:black;">Создать</a></section>
+        <input type="submit" value='Создать'/>
       </section>
     </main>
 
     <footer class="main-footer">
       <div class="logotip">
-        <img src="Share your projects.svg" width="250" height="60" alt="Share your projects">
+        <img src="images/Share your projects.svg"alt="Share your projects">
       </div>
     </footer>
   </body>

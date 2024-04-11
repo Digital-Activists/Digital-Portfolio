@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/Registration.css" />
     <link rel="stylesheet" href="css/Header&Footer.css" />
     <meta charset="utf-8">
@@ -13,51 +16,56 @@
   </head>
 
   <body>
+    <h1>Окно регистрации</h1>
     <header class="main-header">
         <div class="logotip">
-            <img src="Share your projects.svg" width="250" height="60" alt="Share your projects">
-          </div>
+            <img src="images/Share your projects.svg"  alt="Share your projects">
+        </div>
     </header>
 
     <main>
-        <section class="headline"><h1>Регистрация</h1></section>
-        <section class="registration">
-            <ol>
-                <li class="emailAdress">
-                    <p>Адрес электронной почты</p>
-                    <div>Введите адрес электронной почты</div>
-                </li>
-                <li class="LastName">
-                    <p>Фамилия</p>
-                    <div>Введите фамилию</div>
-                </li>
-                <li class="FirstName">
-                    <p>Имя</p>
-                    <div>Введите имя</div>
-                </li>
-                <li class="MiddleName">
-                    <p>Отчество</p>
-                    <div>Введите отчество</div>
-                </li>
-                <li class="Password">
-                    <p>Пароль</p>
-                    <div>Введите пароль</div>
-                </li>
-                <li class="PasswordConfirm">
-                    <p>Подтверждение пароля</p>
-                    <div>Введите пароль</div>
-                </li>
-                <li class="Confirm">
-                    <button type="button">Подтвердить</button>
-                </li>
-            </ol>
-        </section>
+        <h2>Регистрация</h2>
 
+        <form action="" method="post" class="main_registration_form">
+            <ol>
+            <li class="email_Adress">
+                <label for="email_Adress">Адрес электронной почты</label>
+                <input type="email" name="email_Adress" placeholder="Введите адрес электронной почты"/>
+            </li>
+            <li class="LastName">
+                <label for="LastName">Фамилия</label>
+                <input type="text" name="LastName" placeholder="Введите фамилию"/>
+            </li>
+            <li class="FirstName">
+                <label for="FirstName">Имя</label>
+                <input type="text" name="FirstName" placeholder="Введите имя"/>
+            </li>
+            <li class="FirstName">
+                <label for="MiddleName">Отчество</label>
+                <input type="text" name="MiddleName" placeholder="Введите отчество,если есть"/>
+            </li>
+            <li class="BirthDate">
+                <labelfor="Password">Пароль</label>
+                <input type="date" name="BirthDate" placeholder="дд.мм.гггг"/>
+            </li>
+            <li class="password">
+                <labelfor="Password">Пароль</label>
+                <input type="password" name="password" placeholder="Введите пароль"/>
+            </li>
+            <li class="password">
+                <labelfor="Password">Подтверждение пароля</label>
+                <input type="password" name="password" placeholder="Введите пароль"/>
+            </li>
+            <li class="Confirm">
+                <input type="submit" value='Подтвердить'/>
+            </li>
+            </ol>
+        </form>
     </main>
 
     <footer class="main-footer">
         <div class="logotip">
-            <img src="Share your projects.svg" width="250" height="60" alt="Share your projects">
+            <img src="images/Share your projects.svg" alt="Share your projects">
           </div>
     </footer>
 </body>

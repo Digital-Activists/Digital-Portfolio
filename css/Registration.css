@@ -1,101 +1,57 @@
-/*TO DO: Разобраться с кнопкой*/
-@font-face {
-	font-family: 'Inter Regular';
-  src: url('/fonts/Inter-Regular.otf') format('otf');
-	src: url('/fonts/Inter-Regular.woff2') format('woff2'),
-		url('/fonts/Inter-Regular.woff') format('woff');
-  
+body{
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
 }
 
-.headline{
-    position: absolute;
-    top: 60px;
+h1{
+    display: none
 }
 
-.headline h1{
-    font-family: "Inter Regular", fantasy;
-    font-size: 35px;
-    font-weight: 300;
-}
-.registration{
-    position: absolute;
-    top:140px;
-    width: 400px;
-    height: 513px;
-    background-color: rgba(234, 237, 240, 1);
-    border-radius: 30px;
-    
-    box-shadow: 0.1px 19px 20px -17px rgb(65, 64, 64);
-    font-family: "Inter Regular", fantasy;
-    font-size: 17px;
-    font-weight: 550;
-    padding-left: 35px;
-    
+h2{
+    position: fixed;
+    font-size: 42px;
+    font-weight: 400;
+    margin-top: 75px;
+    margin-left: auto;
 }
 
-li p{
-    padding-top: 25px;
-}
-.registration div{
+.main_registration_form{
+    width: 350px;
+    height: 503px;
+    background-color: #EAEDF0;
+    border-radius: 25px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+    margin-top: 137px;
+    margin-left: 0;
+    padding:10px;
+    padding-right: 20px;
     text-align: left;
-    padding-left: 15px;
-    padding-top: 5px;
-    font-weight: 300;
-    font-size: 14px;
-    background-color: white;
-    border-radius: 16px;
-    width: 270px;
-    height: 23px;
-    border: 1px solid black;
 }
-.emailAdress div{
-    position: absolute;
-    top: 70px;
-    left: 70px;
-
-}
-
-.LastName div{
-    position: absolute;
-    top: 135px;
-    left: 70px;
-}
-
-.FirstName div{
-    position: absolute;
-    top: 195px;
-    left: 70px;
-}
-
-.MiddleName div{
-    position: absolute;
-    top: 260px;
-    left: 70px;
-}
-
-.Password div{
-    position: absolute;
-    top: 320px;
-    left: 70px;
-}
-
-.PasswordConfirm div{
-    position: absolute;
-    top: 385px;
-    left: 70px;
-}
-
-.Confirm button{
-    position: absolute;
-    top: 450px;
-    left: 95px;
-    display: inline-block;
-    background-color: #FFEC44;
-    border-radius: 15px;
-    border: none;
-    width: 230px;
+input{
+    width: 260px;
     height: 30px;
-    font-family: "Inter Regular", fantasy;
-    font-weight: 800;
-    font-size: 18px;
+    margin-top: 5px;
+    text-align: left;
+    background-color: white;
+    border-radius: 25px;
+    border-color: black;
+    border-width: 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.Confirm input{
+    text-align: center;
+    margin-left: 1px;
+    background-color: #FFEC44;
+    color: black;
+    border-radius: 25px;
+    border: none;
+    width: 280px;
+    height: 35px;
+    font-weight: bold;
+    font-size: 20px;
+}
+li{
+    margin-top: 5px;
 }

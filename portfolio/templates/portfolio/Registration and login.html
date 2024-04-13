@@ -1,0 +1,45 @@
+{% extends 'portfolio/base.html' %}
+
+{% block main %}
+<h1>Страница регистрации и авторизации</h1>
+<form action="" method="post" class="account_form">
+    <h2>У вас есть еще один аккаунт?</h2>
+    <p id="text">Нажмите на фотографию или имя, чтобы войти</p>
+    <div class="account">
+        <img src="images/profile icon.svg" alt="Фотография аккаунта">
+        <p><a href="#" style="text-decoration: none; color:white;">Фамилия <br/>Имя</a></p>
+    </div>
+    <div class="create_account">
+        <img src="images/circleAccount.svg" alt="Добавить аккаунт">
+        <p><a href="#" style="text-decoration: none; color:white;">Добавить <br/>аккаунт</a></p>
+    </div>
+</form>
+
+<form action="" method="post" class="login_form">
+    <img src="images/log.svg" alt="Логотип сайта SYP">
+    <h2>Добро пожаловать в SYP</h2>
+    <p id="text">Создавайте проекты и делитесь ими</p>
+    <ol>
+        <li class="email-address">
+            <label for="email_Adress">Адрес электронной почты</label>
+            <input type="email" name="email_Adress" placeholder="Введите адрес электронной почты"/>
+        </li>
+        <li class="password">
+            <label for="Password">Пароль</label>
+            <input type="password" name="password" placeholder="Введите пароль"/>
+        </li>
+        <li class="loginLink">
+            <input type="submit" value='Войти'/>
+        </li>
+    </ol>
+    <p class="forgotPassword">
+        <a href="#" style="color:black;">Забыли пароль?</a>
+    </p>
+</form>
+
+<form action="" method="post" class="registration_form">
+    <h2>У вас еще нет аккаунта?</h2>
+    <input type="submit" value='Создать'/>
+</form>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block style_load %}
+    <link rel="stylesheet" href="{% static 'portfolio/css/Registration.css' %}  "/>
+{% endblock %}
+
+{% block main %}
+    <h1>Регистрация</h1>
+    <form method="post" class="main_registration_form">
+        {% csrf_token %}
+        <ol>
+            {% for field in form_fields %}
+                <li>
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <div class="form-error">{{ field.errors }}</div>
+                </li>
+            {% endfor %}
+            <li>
+                <button type="submit" class="confirm">Подтвердить</button>
+            </li>
+        </ol>
+    </form>
+{% endblock %}
+

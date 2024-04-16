@@ -8,11 +8,6 @@ from django.urls import reverse
 # TODO: Хеширование пароля
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # email = models.EmailField(unique=True, verbose_name='Email')
-    # nickname = models.CharField(max_length=50, unique=True, verbose_name='Никнейм')
-    # first_name = models.CharField(max_length=50, verbose_name='Имя')
-    # last_name = models.CharField(max_length=50, verbose_name='Фамилия')
-    # password = models.CharField(max_length=50, verbose_name='Пароль')
     patronymic = models.CharField(max_length=50, blank=True, verbose_name='Отчество')
     date_of_birth = models.DateField(verbose_name='Дата рождения')
 
@@ -26,7 +21,6 @@ class Profile(models.Model):
         verbose_name = 'user'
         verbose_name_plural = 'users'
         ordering = ['user__last_name', 'user__first_name', 'patronymic']
-
 
 # @receiver(post_save, sender=User)
 # def create_user_profile(sender, instance, created, **kwargs):

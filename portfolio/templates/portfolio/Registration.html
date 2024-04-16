@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Регистрация</h1>
     <form method="post" class="main_registration_form">
         {% csrf_token %}
         <ol>
@@ -17,8 +16,8 @@
                     <div class="form-error">{{ field.errors }}</div>
                 </li>
             {% endfor %}
-            <li>
-                <button type="submit" class="confirm">Подтвердить</button>
+            <li class="Confirm">
+                <input type="submit" value='Подтвердить'/>
             </li>
         </ol>
     </form>

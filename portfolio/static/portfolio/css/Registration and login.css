@@ -11,7 +11,6 @@ h1 {
 
 .account_form {
     width: 700px;
-    height: 400px;
     margin-top: 80px;
     margin-right: 70px;
 
@@ -59,7 +58,6 @@ h1 {
 
 .login_form {
     width: 300px;
-    height: 482px;
     margin-top: 80px;
     margin-right: 85px;
 
@@ -90,7 +88,7 @@ h1 {
     text-align: left;
 }
 
-.email-address {
+.email_Adress {
     padding-top: 15px;
 }
 
@@ -103,7 +101,7 @@ ol {
     margin-left: -35px;
 }
 
-.email-address input, .password input {
+.email_Adress input, .password input {
     width: 293px;
     height: 33px;
     margin-top: 5px;
@@ -117,7 +115,20 @@ ol {
 
 }
 
-.loginLink input, .registration_form input {
+.registration_form a {
+    margin-left: 1px;
+    background-color: #FFEC44;
+    color: black;
+    padding: 10px;
+    border-radius: 25px;
+    border: solid 1px #FFEC44;
+    width: 293px;
+    height: 35px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.loginLink input {
     margin-left: 1px;
     background-color: #FFEC44;
     color: black;
@@ -140,7 +151,6 @@ ol {
 
 .registration_form {
     width: 430px;
-    height: 85px;
     margin-top: 578px;
     margin-left: -517px;
 

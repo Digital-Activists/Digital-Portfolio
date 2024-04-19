@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
 from django.core.exceptions import ValidationError
 
 from .models import *
@@ -36,7 +36,7 @@ class ProfileForm(forms.ModelForm):
 class LoginUserForm(AuthenticationForm):
     username = forms.EmailField(label='Адрес электронной почты',
                                 widget=forms.EmailInput(
-                                    attrs={'placeholder': 'Введите адрес электронной почты', 'class': 'email-address'}))
+                                    attrs={'placeholder': 'Введите адрес электронной почты', 'class': 'email_Adress'}))
     password = forms.CharField(label='Пароль',
                                widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль', 'class': 'password'}))
 
@@ -51,11 +51,8 @@ class EmailRecoveryForm(forms.Form):
             raise ValidationError("Пользователь с таким email не зарегистрирован")
 
 
-class ResetPasswordForm(forms.ModelForm):
+class ResetPasswordForm(PasswordResetForm):
     password1 = forms.CharField(label='Новый пароль', required=True,
                                 widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль'}))
     password2 = forms.CharField(label='Подтверждение нового пароля', required=True,
                                 widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль'}))
-
-    class Meta:
-        model = User

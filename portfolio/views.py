@@ -39,21 +39,13 @@ def reset_password(request):
 
 class EmailRecovery(FormView):
     form_class = EmailRecoveryForm
-    template_name = 'portfolio/Email-recovery.html'
-    success_url = reverse_lazy('enter_code_from_email')
+    template_name = 'portfolio/Password-Recovery.html'
+    # success_url = reverse_lazy('enter_code_from_email')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update({'title': 'Страница подтверждения почты'})
+        context.update({'title': 'Страница восстановления пароля'})
         return context
-
-
-def email_recovery(request):
-    return render(request, 'portfolio/Email-Recovery.html', {'title': 'Email Confirmation'})
-
-
-def enter_code_from_email(request):
-    return render(request, 'portfolio/Code-for-email.html', {'title': 'enter code from email'})
 
 
 def register(request):

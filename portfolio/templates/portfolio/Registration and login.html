@@ -23,17 +23,7 @@
         <img src="{% static 'portfolio/images/log.svg' %}" alt="Логотип сайта SYP">
         <h2>Добро пожаловать в SYP</h2>
         <p id="text">Создавайте проекты и делитесь ими</p>
-        {% csrf_token %}
-
         <ol>
-{#            <li class="email-address">#}
-{#                <label for="email_Adress">Адрес электронной почты</label>#}
-{#                <input type="email" name="email_Adress" placeholder="Введите адрес электронной почты"/>#}
-{#            </li>#}
-{#            <li class="password">#}
-{#                <label for="Password">Пароль</label>#}
-{#                <input type="password" name="password" placeholder="Введите пароль"/>#}
-{#            </li>#}
             {% for field in form_login %}
                 <li class="{{ field.field.widget.attrs.class }}">
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -41,9 +31,8 @@
                     <div class="form-error">{{ field.errors }}</div>
                 </li>
             {% endfor %}
-
             <li class="loginLink">
-                <button type="submit">Войти</button>
+                <input type="submit" value='Войти'/>
             </li>
         </ol>
         <p class="forgotPassword">

@@ -14,17 +14,6 @@ main {
     align-items: center;
 }
 
-<<<<<<< HEAD
-h2{
-    position: absolute;
-    font-size: 42px;
-    font-weight: 400;
-    top: 55px;
-}
-
-.main_registration_form{
-    
-=======
 h1 {
     font-size: 42px;
     font-weight: 400;
@@ -32,7 +21,6 @@ h1 {
 }
 
 .main_registration_form {
->>>>>>> 18a3b3a662a2cbb7fee6c892f437e60995df8b00
     width: 350px;
     background-color: #EAEDF0;
     border-radius: 25px;

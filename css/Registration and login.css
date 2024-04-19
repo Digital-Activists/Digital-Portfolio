@@ -1,16 +1,16 @@
 
-body{
+body {
   font-family: "Inter", sans-serif;
   font-size: 14px;
   font-weight: 400;
 }
 
-h1{
+h1 {
   display: none
 }
-.account_form{
+
+.account_form {
   width: 700px;
-  height: 400px;
   margin-top: 80px;
   margin-right: 70px;
 
@@ -18,19 +18,21 @@ h1{
   border-radius: 25px;
   box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.25);
 }
-.account_form h2{
+
+.account_form h2 {
   margin-top: 40px;
   margin-left: 70px;
-  font-size: 32px; 
+  font-size: 32px;
   font-weight: 400;
 }
 
-.account_form #text{
+.account_form #text {
   margin-top: 25px;
   margin-left: 70px;
-  font-size:  18px;
+  font-size: 18px;
 }
-.account{
+
+.account {
   margin-top: 32px;
   margin-left: 70px;
   width: 148px;
@@ -40,7 +42,8 @@ h1{
   text-align: center;
   padding-top: 24px
 }
-.create_account{
+
+.create_account {
   margin-top: -194px;
   margin-left: 298px;
   width: 148px;
@@ -53,9 +56,8 @@ h1{
 }
 
 
-.login_form{
+.login_form {
   width: 300px;
-  height: 482px;
   margin-top: 80px;
   margin-right: 85px;
 
@@ -67,67 +69,74 @@ h1{
   padding-left: 60px;
   padding-right: 68px;
 }
-.login_form img{
+
+.login_form img {
   margin-top: 10px;
 }
-.login_form h2{
+
+.login_form h2 {
   margin-top: 0;
-  font-size: 40px; 
+  font-size: 40px;
   font-weight: 400;
 }
-.login_form #text{
+
+.login_form #text {
   margin-top: -30px;
 }
-.login_form li{
+
+.login_form li {
   text-align: left;
 }
 
-.email_Adress{
+.email-address {
   padding-top: 15px;
 }
-.password{
+
+.password {
   padding-top: 10px;
-  
-}
-ol{
-  margin-left: -35px;
-}
-.email_Adress input, .password input{
-    width: 293px;
-    height: 33px;
-    margin-top: 5px;
-    
-    text-align: left;
-    background-color: white;
-    border-radius: 25px;
-    border-color: black;
-    border-width: 1px;
-    padding-left: 5px;
-    
+
 }
 
-.loginLink input, .registration_form input{
-    margin-left: 1px;
-    background-color: #FFEC44;
-    color: black;
-    border-radius: 25px;
-    border: none;
-    width: 293px;
-    height: 35px;
-    font-weight: bold;
-    font-size: 18px;
+ol {
+  margin-left: -35px;
 }
-.loginLink input{
+
+.email-address input, .password input {
+  width: 293px;
+  height: 33px;
+  margin-top: 5px;
+
+  text-align: left;
+  background-color: white;
+  border-radius: 25px;
+  border-color: black;
+  border-width: 1px;
+  padding-left: 5px;
+
+}
+
+.loginLink input, .registration_form input {
+  margin-left: 1px;
+  background-color: #FFEC44;
+  color: black;
+  border-radius: 25px;
+  border: none;
+  width: 293px;
+  height: 35px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.loginLink input {
   margin-top: 20px;
 }
-.registration_form input{
+
+.registration_form input {
   margin-top: -10px;
 }
 
-
-.registration_form{
+.registration_form {
   width: 430px;
-  height: 85px;
   margin-top: 578px;
   margin-left: -517px;
 
@@ -138,8 +147,8 @@ ol{
   text-align: center;
 }
 
-.registration_form h2{
+.registration_form h2 {
   margin-top: 3px;
-  font-size: 22px; 
+  font-size: 22px;
   font-weight: 400;
 }

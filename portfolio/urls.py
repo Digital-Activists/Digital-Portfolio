@@ -7,6 +7,6 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
-    path('reset_password/', reset_password, name='reset_password'),
-    path('email_recovery/', EmailRecovery.as_view(), name='email_recovery'),
+    path('enter_email/', EnterEmailToResetPassword.as_view(), name='enter_email'),
+    path('set_new_password/<uidb64>/<token>/', SetNewPassword.as_view(), name='reset_password'),
 ]

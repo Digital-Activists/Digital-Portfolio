@@ -2,6 +2,10 @@ body{
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 400;
+
+    display: flex;
+    flex-direction: column;
+    height: 120vh;
 }
 
 h1{
@@ -9,14 +13,14 @@ h1{
 }
 
 h2{
-    position: fixed;
+    position: absolute;
     font-size: 42px;
     font-weight: 400;
-    margin-top: 75px;
-    margin-left: auto;
+    top: 55px;
 }
 
 .main_registration_form{
+    
     width: 350px;
     height: 503px;
     background-color: #EAEDF0;

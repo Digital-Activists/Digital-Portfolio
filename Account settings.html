@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/Account settings.css" />
+    <link rel="stylesheet" href="css/Header&Footer.css" />
+    <meta charset="utf-8">
+    <title>Страница настроек аккаунта</title>
+  </head>
+
+  <body>
+    <header class="main-header">
+        <h1>Настройки аккаунта</h1>
+        <div class="logotip">
+            <img src="images/Share your projects.svg"  alt="Share your projects">
+        </div>
+    </header>
+
+    <main>
+        <form action="" method="post" class="account-form">
+            <h2>Общее</h2>
+            
+            <ol>
+                <li class="last-name">
+                    <label for="last-name">Фамилия</label>
+                    <input type="text" name="LastName" placeholder="Введите фамилию"/>
+                </li>
+                <li class="first-name">
+                    <label for="first-name">Имя</label>
+                    <input type="text" name="FirstName" placeholder="Введите имя"/>
+                </li>
+                <li class="middle-name">
+                    <label for="middle-name">Отчество</label>
+                    <input type="text" name="MiddleName" placeholder="Введите отчество,если есть"/>
+                </li>
+                <li class="birth-date">
+                    <label for="birth-Date">Дата рождения</label>
+                    <div>
+                        <select id="day"><br>
+                            <option value="">1</option>
+                            <script>
+                                let x = 0
+                                while(x<31)
+                                {
+                                    x++
+                                    document.getElementById('day').innerHTML += '<option>'+x+'</option>'
+                                }
+                            </script>
+                        </select>
+                        <select id="month">
+                            <option value="">Мес</option>                       
+                            <option value="1">Янв</option>                      
+                            <option value="2">Февр</option>                      
+                            <option value="3">Март</option>                      
+                            <option value="4">Апр</option>                      
+                            <option value="5">Май</option>                      
+                            <option value="6">Июнь</option>                       
+                            <option value="7">Июль</option>                       
+                            <option value="8">Авг</option>                       
+                            <option value="9">Сент</option>  
+                            <option value="10">Окт</option>
+                            <option value="11">Нояб</option>
+                            <option value="12">Дек</option>  
+                        </select>
+                        <select id="year"><br>
+                            <option value="">1970</option>
+                            <script>
+                                let y = 1969
+                                while(y<2024)
+                                {
+                                    y++
+                                    document.getElementById('year').innerHTML += '<option>'+y+'</option>'
+                                }
+                            </script>
+                        </select>
+                    </div>
+                </li>
+                <li class="nickname">
+                    <label for="nickname">Никнейм</label>
+                    <input type="text" name="Nickname" placeholder="Введите свой никнейм"/>
+                </li>
+            </ol>
+            <button type="submit" value='Сохранить'>Сохранить</button>
+        </form>
+        <section class="settings-items">
+            <nav>
+                <ul>
+                    <li class="account">
+                        <a href="#">Аккаунт</a>
+                        <img src="images/account icon.svg" alt="Account icon">
+                    </li>
+                    <li class="infromation">
+                        <a href="#">Информация профиля</a>
+                        <img src="images/infromation icon.svg" alt="Infromation icon">
+                    </li>
+                    <li class="security">
+                        <a href="#">Безопасность</a>
+                        <img src="images/security icon.svg" alt="Security icon">
+                    </li>
+                </ul>
+            </nav>
+        </section>
+       
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="logotip">
+            <img src="images/Share your projects.svg" alt="Share your projects">
+        </div>
+    </footer>
+
+  </body>
+

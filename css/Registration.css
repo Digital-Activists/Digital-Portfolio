@@ -1,4 +1,4 @@
-body{
+body {
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 400;
@@ -8,10 +8,13 @@ body{
     height: 120vh;
 }
 
-h1{
-    display: none
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+<<<<<<< HEAD
 h2{
     position: absolute;
     font-size: 42px;
@@ -21,18 +24,27 @@ h2{
 
 .main_registration_form{
     
+=======
+h1 {
+    font-size: 42px;
+    font-weight: 400;
+    margin-top: 75px;
+}
+
+.main_registration_form {
+>>>>>>> 18a3b3a662a2cbb7fee6c892f437e60995df8b00
     width: 350px;
-    height: 503px;
     background-color: #EAEDF0;
     border-radius: 25px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
-    margin-top: 137px;
-    margin-left: 0;
-    padding:10px;
+    padding: 10px;
     padding-right: 20px;
     text-align: left;
+    margin-top: 35px;
+    margin-bottom: 155px;
 }
-input{
+
+input {
     width: 260px;
     height: 30px;
     margin-top: 5px;
@@ -44,7 +56,8 @@ input{
     padding-left: 10px;
     padding-right: 10px;
 }
-.Confirm input{
+
+.Confirm input {
     text-align: center;
     margin-left: 1px;
     background-color: #FFEC44;
@@ -56,6 +69,17 @@ input{
     font-weight: bold;
     font-size: 20px;
 }
-li{
+
+.Confirm {
+    margin-top: 63px;
+    margin-bottom: 70px;
+}
+
+li {
     margin-top: 5px;
+}
+
+main {
+    display: flex;
+    justify-content: center;
 }

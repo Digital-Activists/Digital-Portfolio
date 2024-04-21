@@ -5,7 +5,7 @@ body {
 
     display: flex;
     flex-direction: column;
-    height: 120vh;
+    margin: 0;
 }
 
 main {
@@ -14,26 +14,18 @@ main {
     align-items: center;
 }
 
-<<<<<<< HEAD
-h2{
-    position: absolute;
-    font-size: 42px;
-    font-weight: 400;
-    top: 55px;
+h1{
+    display: none;
 }
-
-.main_registration_form{
-    
-=======
-h1 {
+h2 {
     font-size: 42px;
     font-weight: 400;
     margin-top: 75px;
 }
 
 .main_registration_form {
->>>>>>> 18a3b3a662a2cbb7fee6c892f437e60995df8b00
-    width: 350px;
+    width: 560px;
+    height: 1040px;
     background-color: #EAEDF0;
     border-radius: 25px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);

@@ -1,31 +1,33 @@
-
 body{
   font-family: "Inter", sans-serif;
   font-size: 14px;
   font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
 }
 
 h1{
   display: none
 }
-.account_form{
+.account-form{
   width: 700px;
   height: 400px;
-  margin-top: 80px;
+  margin-top: 75px;
   margin-right: 70px;
-
+  margin-bottom: 423px;
   background-color: #EAEDF0;
   border-radius: 25px;
   box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.25);
 }
-.account_form h2{
+.account-form h2{
   margin-top: 40px;
   margin-left: 70px;
   font-size: 32px; 
   font-weight: 400;
 }
 
-.account_form #text{
+.account-form #text{
   margin-top: 25px;
   margin-left: 70px;
   font-size:  18px;
@@ -53,10 +55,11 @@ h1{
 }
 
 
-.login_form{
+.login-form{
   width: 300px;
-  height: 482px;
-  margin-top: 80px;
+  height: 536px;
+  margin-top: 75px;
+  margin-bottom: 334px;
   margin-right: 85px;
 
   background-color: #EAEDF0;
@@ -67,32 +70,32 @@ h1{
   padding-left: 60px;
   padding-right: 68px;
 }
-.login_form img{
+.login-form img {
   margin-top: 10px;
 }
-.login_form h2{
+.login-form h2 {
   margin-top: 0;
   font-size: 40px; 
   font-weight: 400;
 }
-.login_form #text{
+.login-form #text {
   margin-top: -30px;
 }
-.login_form li{
+.login-form li {
   text-align: left;
 }
 
-.email_Adress{
-  padding-top: 15px;
+.email-Adress {
+  padding-top: 40px;
 }
-.password{
+.password {
   padding-top: 10px;
   
 }
-ol{
+ol {
   margin-left: -35px;
 }
-.email_Adress input, .password input{
+.email-Adress input, .password input {
     width: 293px;
     height: 33px;
     margin-top: 5px;
@@ -106,7 +109,7 @@ ol{
     
 }
 
-.loginLink input, .registration_form input{
+.loginLink input {
     margin-left: 1px;
     background-color: #FFEC44;
     color: black;
@@ -117,19 +120,19 @@ ol{
     font-weight: bold;
     font-size: 18px;
 }
-.loginLink input{
-  margin-top: 20px;
+.loginLink input {
+  margin-top: 50px;
 }
-.registration_form input{
-  margin-top: -10px;
+.registration-form input {
+  margin-top: -10px; 
 }
 
 
-.registration_form{
-  width: 430px;
-  height: 85px;
-  margin-top: 578px;
-  margin-left: -517px;
+.registration-form {
+  width: 445px;
+  height: 129px;
+  margin-top: 661px;
+  margin-left: -525px;
 
   background-color: #EAEDF0;
   border-radius: 15px;
@@ -138,8 +141,24 @@ ol{
   text-align: center;
 }
 
-.registration_form h2{
-  margin-top: 3px;
+.registration-form h2{
+  margin-top: 10px;
   font-size: 22px; 
   font-weight: 400;
+}
+
+.registration-form div{
+  background-color: #FFEC44;
+  margin-top: 15px;
+  margin-left: 73px;
+  width: 293px;
+  height: 35px;
+  border-radius: 25px;
+  
+}
+.registration-form a{
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 25px;
 }

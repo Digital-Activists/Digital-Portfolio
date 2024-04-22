@@ -63,8 +63,8 @@ def register(request):
             user = user_form.save(commit=False)
             user.email = user_form.cleaned_data['username']
             profile = Profile(user=user, **profile_form.cleaned_data)
-            user.save()
             profile.save()
+            user.save()
             login(request, user)
             return redirect('home')
     else:

@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth import password_validation
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django.core.exceptions import ValidationError
 
@@ -12,7 +13,7 @@ class UserForm(UserCreationForm):
                                 widget=forms.TextInput(attrs={'placeholder': 'Введите фамилию'}))
     first_name = forms.CharField(label='Имя', required=True,
                                  widget=forms.TextInput(attrs={'placeholder': 'Введите имя'}))
-    password1 = forms.CharField(label='Пароль', required=True,
+    password1 = forms.CharField(label='Пароль', required=True,  # help_text="Минимум 8 символов",
                                 widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль'}))
     password2 = forms.CharField(label='Подтверждение пароля', required=True,
                                 widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль'}))
@@ -23,7 +24,7 @@ class UserForm(UserCreationForm):
 
 
 class ProfileForm(forms.ModelForm):
-    patronymic = forms.CharField(label='Отчество',
+    patronymic = forms.CharField(label='Отчество', required=False,
                                  widget=forms.TextInput(attrs={'placeholder': 'Введите отчество, если есть'}))
     date_of_birth = forms.DateField(label='Дата рождения', required=True, input_formats=['%d.%m.%Y'],
                                     widget=forms.DateInput(attrs={'placeholder': 'дд.мм.гггг'}))

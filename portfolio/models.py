@@ -1,27 +1,37 @@
-import datetime
-
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.timezone import now
+
+from .utils import get_path_to_user_avatar
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     patronymic = models.CharField(max_length=50, blank=True, verbose_name='Отчество')
     date_of_birth = models.DateField(verbose_name='Дата рождения')
+    nickname = models.CharField(max_length=50, blank=True, unique=True, verbose_name='Никнейм')
+    text = models.TextField(blank=True, verbose_name='Описание профиля')
+    image = models.ImageField(upload_to=get_path_to_user_avatar, null=True)
+    phone_number = models.CharField(max_length=10, blank=True, verbose_name='Номер телефона')
+    email_public = models.EmailField(blank=True, verbose_name='Почта для связи')
+    city = models.CharField(max_length=50, blank=True, verbose_name='Город')
+    scope_of_work = models.ForeignKey('ProfileScopeWork', null=True, on_delete=models.PROTECT)
+    # TODO: Соцсети
 
     def __str__(self):
         return self.user.last_name + self.user.first_name + self.patronymic
 
     def get_absolute_url(self):
-        return reverse('user', kwargs={'pk': self.pk})
+        if self.nickname != '':
+            return reverse('portfolio:profile', kwargs={'nickname': self.nickname})
+        return reverse('portfolio:profile', kwargs={'pk': self.pk})
 
     class Meta:
-        verbose_name = 'user'
-        verbose_name_plural = 'users'
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
         ordering = ['user__last_name', 'user__first_name', 'patronymic']
 
 
@@ -31,9 +41,9 @@ class Profile(models.Model):
 #         Profile.objects.create(user=instance, **kwargs['request'].session)
 
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()
 
 
 class Post(models.Model):
@@ -48,7 +58,6 @@ class Post(models.Model):
     genre = models.ForeignKey('PostGenre', null=True, on_delete=models.PROTECT)
     style = models.ForeignKey('PostStyle', null=True, on_delete=models.PROTECT)
     age_limit = models.CharField(max_length=3, blank=True, choices=AGE_LIMITS, verbose_name='Возрастные ограничения')
-    scope_of_work = models.ForeignKey('PostScopeOfWork', null=True, on_delete=models.PROTECT)
 
 
 class PostBudget(models.Model):
@@ -67,5 +76,6 @@ class PostStyle(models.Model):
     style = models.CharField(max_length=50, verbose_name='Стиль проекта')
 
 
-class PostScopeOfWork(models.Model):
+class ProfileScopeWork(models.Model):
     scope_of_word = models.CharField(max_length=50, verbose_name='Сфера работы')
+

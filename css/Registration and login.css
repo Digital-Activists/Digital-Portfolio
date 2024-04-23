@@ -12,56 +12,6 @@ h1 {
   display: none
 }
 
-.account-form{
-  width: 700px;
-  height: 400px;
-  margin-top: 75px;
-  margin-right: 70px;
-  margin-bottom: 423px;
-  background-color: #EAEDF0;
-  border-radius: 25px;
-  box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.25);
-}
-
-.account-form h2{
-  margin-top: 40px;
-  margin-left: 70px;
-  font-size: 32px;
-  font-weight: 400;
-}
-
-
-.account-form #text{
-  margin-top: 25px;
-  margin-left: 70px;
-  font-size: 18px;
-}
-
-.account {
-  margin-top: 32px;
-  margin-left: 70px;
-  width: 148px;
-  height: 170px;
-  border-radius: 15px;
-  background-color: #8C8C8C;
-  text-align: center;
-  padding-top: 24px
-}
-
-.create_account {
-  margin-top: -194px;
-  margin-left: 298px;
-  width: 148px;
-  height: 170px;
-  border-radius: 15px;
-  background-color: #8C8C8C;
-  text-align: center;
-  padding-top: 24px;
-  box-shadow: 0px 10px 10px 0 #36C0F1;
-}
-
-
-
 .login-form{
   width: 300px;
   height: 536px;
@@ -133,10 +83,10 @@ ol {
 
 
 .registration-form {
-  width: 445px;
+  width: 440px;
   height: 129px;
   margin-top: 661px;
-  margin-left: -525px;
+  margin-left: -520px;
   background-color: #EAEDF0;
   border-radius: 15px;
   box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.25);

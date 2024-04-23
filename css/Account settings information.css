@@ -1,0 +1,174 @@
+body {
+    font-family: "Inter", sans-serif;
+    font-size: 25px;
+    font-weight: 400;
+    color: rgba(140, 140, 140, 1);
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    }
+  
+  h1 {
+    display: none;
+    }
+.account-form {
+  width: 820px;
+  margin-top: 60px;
+  margin-bottom: 166px;
+  margin-left: 85px;
+
+  border-radius: 10px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+  background-color: rgba(234, 237, 240, 1);
+
+  padding-left: 45px;
+  padding-right: 45px;
+
+  text-align: left;
+}
+
+ol {
+    padding: 0;
+}
+
+ol,
+ul {
+  list-style-type: none; /* Убирает буллиты */
+}
+
+.account-form input,
+select {
+  display: block;
+  font-family: "Inter", sans-serif;
+  width: 300px;
+  height: 25px;
+  font-size: 12px;
+  color: rgba(140, 140, 140, 1);
+  background-color: rgba(217, 217, 217, 1);
+  border-radius: 10px;
+  border-width: 0;
+  padding-left: 10px;
+
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.profile-description input{
+    width: 449px;
+       
+    white-space: normal;
+    word-break: break-all;
+}
+
+
+.account-form label{
+    display: block;
+    color: rgba(0, 0, 0, 1);
+    margin-bottom: 15px;
+}
+
+.account-image, .profile-description, .contacts {
+    border-bottom: 1px solid rgba(140, 140, 140, 1);
+    padding-bottom: 25px;
+    margin-top: 25px;
+}
+.activity{
+    margin-top: 25px;
+}
+.account-image img{
+    width: 110px;
+    height: 110px;
+    margin-left: 20px;
+}
+
+.contacts-list label{
+    font-size: 18px;
+}
+.contacts-list{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: "telephone social-networks"
+    "email social-networks"
+    "city social-networks";
+}
+.contacts-list li{
+    margin-left: 30px;
+}
+.social-networks{
+    grid-area: social-networks;
+}
+.telephone{
+    grid-area: telephone;
+}
+.email{
+    grid-area: email;
+}
+.city{
+    grid-area: city;
+}
+.social-networks div{
+    width: 330px;
+    height: 130px;
+    background-color: rgba(217, 217, 217, 1);
+    border-radius: 10px;
+}
+
+.account-form button {
+    text-align: center;
+    background-color: rgba(54, 192, 241, 1);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    width: 185px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
+  
+    margin-bottom: 25px;
+    margin-left: 586px;
+}
+
+
+.settings-items {
+  width: 465px;
+  height: 143px;
+  margin-left: 35px;
+  margin-right: 35px;
+  margin-top: 60px;
+  margin-bottom: 621px;
+
+  border-radius: 10px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+  background-color: rgba(234, 237, 240, 1);
+
+  padding: 5px 6px 5px 5px;
+  text-align: left;
+  font-size: 18px;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+.settings-items li {
+  display: flex;
+  width: auto;
+  height: 24px;
+  border-radius: 10px;
+  padding: 10px;
+}
+.settings-items a {
+  justify-content: start;
+  margin-right: auto;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 1);
+}
+.settings-items img {
+  justify-content: end;
+  width: 20px;
+  height: 20px;
+}
+li.information {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+

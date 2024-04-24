@@ -20,6 +20,7 @@
     </form>
 
     <form action="" method="post" class="login_form">
+    {% csrf_token %}
         <img src="{% static 'portfolio/images/log.svg' %}" alt="Логотип сайта SYP">
         <h2>Добро пожаловать в SYP</h2>
         <p id="text">Создавайте проекты и делитесь ими</p>

@@ -1,7 +1,9 @@
 from django.contrib.auth import logout, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import FormView
 
 from .forms import *
@@ -11,9 +13,40 @@ def index(request):
     return render(request, 'portfolio/index.html', {'title': 'Home'})
 
 
-class EditProfileView(FormView):
-    # template_name = ''
+@method_decorator(login_required, name='dispatch')
+class EditProfileInformationView(FormView):
+    template_name = 'portfolio/settings.html'
     form_class = EditProfileForm
+    success_url = reverse_lazy('home')
+
+    def get_form_kwargs(self):
+        kwargs = super(EditProfileInformationView, self).get_form_kwargs()
+        kwargs.update({'instance': Profile.objects.get(user=self.request.user)})
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return redirect('home')
+
+
+@method_decorator(login_required, name='dispatch')
+class EditAccountInformationView(FormView):
+    form_class = EditAccountInformationForm
+    template_name = 'portfolio/settings.html'
+    success_url = reverse_lazy('home')
+
+    def get_form_kwargs(self):
+        kwargs = super(EditAccountInformationView, self).get_form_kwargs()
+        kwargs.update({'instance': Profile.objects.get(user=self.request.user)})
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return redirect('home')
+
+
+# class EditSecurityInformationView(FormView):
+#     form_class = EditSecurityInformationForm
 
 
 class LoginUser(LoginView):

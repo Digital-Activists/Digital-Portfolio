@@ -65,20 +65,34 @@ class EditProfileForm(forms.ModelForm):
         model = Profile
         fields = ['text', 'image', 'phone_number', 'email_public', 'city', 'scope_of_work']
 
+    def __init__(self, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        for field_name in self.fields:
+            field = self.fields[field_name]
+            field.required = False
+            if hasattr(self.instance.user, field_name):
+                field.initial = getattr(self.instance.user, field_name)
+            else:
+                field.initial = getattr(self.instance.user.profile, field_name)
+
 
 class EditAccountInformationForm(forms.ModelForm):
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30)
+    first_name = forms.CharField(max_length=30, label='Имя')
+    last_name = forms.CharField(max_length=30, label='Фамилия')
 
     class Meta:
         model = Profile
-        fields = ['patronymic', 'date_of_birth', 'nickname']
+        fields = ['last_name', 'first_name', 'patronymic', 'date_of_birth', 'nickname']
 
     def __init__(self, *args, **kwargs):
         super(EditAccountInformationForm, self).__init__(*args, **kwargs)
-        if self.instance.pk:
-            self.fields['first_name'].initial = self.instance.user.first_name
-            self.fields['last_name'].initial = self.instance.user.last_name
+        for field_name in self.fields:
+            field = self.fields[field_name]
+            field.required = False
+            if hasattr(self.instance.user, field_name):
+                field.initial = getattr(self.instance.user, field_name)
+            else:
+                field.initial = getattr(self.instance.user.profile, field_name)
 
     def save(self, *args, **kwargs):
         instance = super(EditAccountInformationForm, self).save(*args, **kwargs)

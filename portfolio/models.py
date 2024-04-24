@@ -14,11 +14,11 @@ class Profile(models.Model):
     date_of_birth = models.DateField(verbose_name='Дата рождения')
     nickname = models.CharField(max_length=50, blank=True, unique=True, verbose_name='Никнейм')
     text = models.TextField(blank=True, verbose_name='Описание профиля')
-    image = models.ImageField(upload_to=get_path_to_user_avatar, null=True)
+    image = models.ImageField(upload_to=get_path_to_user_avatar, null=True, verbose_name='Фото профиля')
     phone_number = models.CharField(max_length=10, blank=True, verbose_name='Номер телефона')
-    email_public = models.EmailField(blank=True, verbose_name='Почта для связи')
+    email_public = models.EmailField(blank=True, verbose_name='Электронная почта')
     city = models.CharField(max_length=50, blank=True, verbose_name='Город')
-    scope_of_work = models.ForeignKey('ProfileScopeWork', null=True, on_delete=models.PROTECT)
+    scope_of_work = models.ForeignKey('ProfileScopeWork', null=True, on_delete=models.PROTECT, verbose_name='Сфера деятельности')
     # TODO: Соцсети
 
     def __str__(self):

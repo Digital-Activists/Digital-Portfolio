@@ -70,9 +70,9 @@ def logout_user(request):
 class EnterEmailToResetPassword(PasswordResetView):
     form_class = EnterEmailToResetPasswordForm
     template_name = 'portfolio/Password-Recovery.html'
-    success_url = reverse_lazy('home')
-    # subject_template_name = 'portfolio/email/password_subject_reset_mail.txt'
     email_template_name = 'portfolio/email/password_reset_mail_v2.html'
+    subject_template_name = 'portfolio/email/password_subject_reset_mail.txt'
+    success_url = reverse_lazy('home')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -80,7 +80,7 @@ class EnterEmailToResetPassword(PasswordResetView):
         return context
 
 
-class SetNewPassword(PasswordResetConfirmView):
+class UserResetPasswordConfirm(PasswordResetConfirmView):
     form_class = SetNewPasswordForm
     template_name = 'portfolio/Password-reset.html'
     success_url = reverse_lazy('login')

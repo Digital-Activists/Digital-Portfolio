@@ -1,7 +1,5 @@
 from django import forms
-from django.contrib.auth import password_validation
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm, \
-    PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django.core.exceptions import ValidationError
 
 from .models import *
@@ -51,13 +49,14 @@ class EnterEmailToResetPasswordForm(PasswordResetForm):
         email = self.cleaned_data['email']
         if not User.objects.filter(username=email).exists():
             raise ValidationError("Пользователь с таким email не зарегистрирован")
+        return email
 
 
 class SetNewPasswordForm(SetPasswordForm):
-    password1 = forms.CharField(label='Новый пароль', required=True,
-                                widget=forms.PasswordInput(attrs={'placeholder': 'Введите новый пароль'}))
-    password2 = forms.CharField(label='Подтверждение пароля', required=True,
-                                widget=forms.PasswordInput(attrs={'placeholder': 'Подтвердите пароль'}))
+    new_password1 = forms.CharField(label='Новый пароль', required=True,
+                                    widget=forms.PasswordInput(attrs={'placeholder': 'Введите новый пароль'}))
+    new_password2 = forms.CharField(label='Подтверждение пароля', required=True,
+                                    widget=forms.PasswordInput(attrs={'placeholder': 'Подтвердите пароль'}))
 
 
 class EditProfileForm(forms.ModelForm):

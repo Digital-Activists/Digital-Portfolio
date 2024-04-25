@@ -32,7 +32,7 @@ class EditProfileInformationView(FormView):
 @method_decorator(login_required, name='dispatch')
 class EditAccountInformationView(FormView):
     form_class = EditAccountInformationForm
-    template_name = 'portfolio/settings.html'
+    template_name = 'portfolio/Account settings.html'
     success_url = reverse_lazy('home')
 
     def get_form_kwargs(self):

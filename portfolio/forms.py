@@ -76,9 +76,11 @@ class EditProfileForm(forms.ModelForm):
 
 
 class EditAccountInformationForm(forms.ModelForm):
-    first_name = forms.CharField(max_length=30, label='Имя')
-    last_name = forms.CharField(max_length=30, label='Фамилия')
-
+    first_name = forms.CharField(max_length=30, label='Имя',widget=forms.PasswordInput(attrs={'placeholder': 'Введите имя', 'class' :'first-name'}))
+    last_name = forms.CharField(max_length=30, label='Фамилия',  widget=forms.PasswordInput(attrs={'placeholder': 'Введите фамилию', 'class' :'last-name'}))
+    patronymic = forms.CharField(max_length=30, label='Отчество', widget=forms.PasswordInput(attrs={'placeholder': 'Введите отчество,если есть', 'class' :'middle-name'}))
+    nickname = forms.CharField(max_length=30, label='Никнейм', widget=forms.PasswordInput(attrs={'placeholder': 'Введите свой никнейм', 'class' :'nickname'}))
+     
     class Meta:
         model = Profile
         fields = ['last_name', 'first_name', 'patronymic', 'date_of_birth', 'nickname']

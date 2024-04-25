@@ -1,10 +1,16 @@
 {% extends "portfolio/base.html" %}
 
 {% block main %}
-    {% if request.user.is_authenticated %}
-        <a href="{% url 'logout' %}">Выйти</a>
-    {% else %}
-        <p>Пользователь не авторизирован</p>
-        <a href="{% url "login" %}">Авторизация</a>
-    {% endif %}
+    <section>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}">Выйти</a>
+            <a href="{% url 'edit_settings_account' %}">Аккаунт</a>
+            <a href="{% url 'edit_settings_profile' %}">Профиль</a>
+        {% else %}
+            <p>Пользователь не авторизирован</p>
+            <a href="{% url "login" %}">Авторизация</a>
+            <a href="{% url "register" %}">Регистрация</a>
+
+        {% endif %}
+    </section>
 {% endblock %}

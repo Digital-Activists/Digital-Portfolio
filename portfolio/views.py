@@ -1,14 +1,52 @@
 from django.contrib.auth import logout, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
-from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.generic import FormView
 
 from .forms import *
 
 
 def index(request):
     return render(request, 'portfolio/index.html', {'title': 'Home'})
+
+
+@method_decorator(login_required, name='dispatch')
+class EditProfileInformationView(FormView):
+    template_name = 'portfolio/settings.html'
+    form_class = EditProfileForm
+    success_url = reverse_lazy('home')
+
+    def get_form_kwargs(self):
+        kwargs = super(EditProfileInformationView, self).get_form_kwargs()
+        kwargs.update({'instance': Profile.objects.get(user=self.request.user)})
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return redirect('home')
+
+
+@method_decorator(login_required, name='dispatch')
+class EditAccountInformationView(FormView):
+    form_class = EditAccountInformationForm
+    template_name = 'portfolio/settings.html'
+    success_url = reverse_lazy('home')
+
+    def get_form_kwargs(self):
+        kwargs = super(EditAccountInformationView, self).get_form_kwargs()
+        kwargs.update({'instance': Profile.objects.get(user=self.request.user)})
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return redirect('home')
+
+
+# class EditSecurityInformationView(FormView):
+#     form_class = EditSecurityInformationForm
 
 
 class LoginUser(LoginView):
@@ -29,13 +67,12 @@ def logout_user(request):
     return redirect('login')
 
 
-class EnterEmailToResetPassword(SuccessMessageMixin, PasswordResetView):
+class EnterEmailToResetPassword(PasswordResetView):
     form_class = EnterEmailToResetPasswordForm
     template_name = 'portfolio/Password-Recovery.html'
-    success_url = reverse_lazy('home')
-    success_message = 'Письмо с инструкцией по восстановлению пароля отправлена на ваш email'
+    email_template_name = 'portfolio/email/password_reset_mail_v2.html'
     subject_template_name = 'portfolio/email/password_subject_reset_mail.txt'
-    email_template_name = 'portfolio/email/password_reset_mail.html'
+    success_url = reverse_lazy('home')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -43,11 +80,10 @@ class EnterEmailToResetPassword(SuccessMessageMixin, PasswordResetView):
         return context
 
 
-class SetNewPassword(SuccessMessageMixin, PasswordResetConfirmView):
+class UserResetPasswordConfirm(PasswordResetConfirmView):
     form_class = SetNewPasswordForm
     template_name = 'portfolio/Password-reset.html'
     success_url = reverse_lazy('login')
-    success_message = "Пароль успешно сброшен"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -57,8 +93,8 @@ class SetNewPassword(SuccessMessageMixin, PasswordResetConfirmView):
 
 def register(request):
     if request.method == 'POST':
-        user_form = UserForm(request.POST)
-        profile_form = ProfileForm(request.POST)
+        user_form = CreateUserForm(request.POST)
+        profile_form = CreateProfileForm(request.POST)
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save(commit=False)
             user.email = user_form.cleaned_data['username']
@@ -68,8 +104,8 @@ def register(request):
             login(request, user)
             return redirect('home')
     else:
-        user_form = UserForm()
-        profile_form = ProfileForm()
+        user_form = CreateUserForm()
+        profile_form = CreateProfileForm()
 
     fields = list(user_form)[:3] + list(profile_form) + list(user_form)[3:]
     return render(request, 'portfolio/Registration.html', {'form_fields': fields, 'title': 'Регистрация'})

@@ -1,4 +1,4 @@
-body{
+body {
     font-family: "Inter", sans-serif;
     font-size: 18px;
     font-weight: 400;
@@ -6,43 +6,41 @@ body{
     display: flex;
     flex-direction: column;
     margin: 0;
-
-}
-
-h1{
-    display: none
-}
-
-
-.account-form{
+  }
+  
+  h1 {
+    display: none;
+  }
+  
+  .account-form {
     width: 820px;
-    height: 598px;
     margin-top: 60px;
     margin-bottom: 166px;
     margin-left: 85px;
-
+  
     border-radius: 10px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
     background-color: rgba(234, 237, 240, 1);
-    
+  
     padding-left: 45px;
     padding-right: 45px;
-
+  
     text-align: left;
-}
-
-h2{
+  }
+  
+  h2 {
     font-size: 32px;
     font-weight: 400;
     color: rgba(0, 0, 0, 1);
     border-bottom: 1px solid rgba(140, 140, 140, 1);
     padding-bottom: 25px;
-}
-
-ol{
+  }
+  
+  ol {
     padding: 0;
-}
-.account-form input, select{
+  }
+  .account-form input,
+  select {
     display: block;
     font-family: "Inter", sans-serif;
     width: 300px;
@@ -51,46 +49,44 @@ ol{
     color: rgba(140, 140, 140, 1);
     background-color: rgba(217, 217, 217, 1);
     border-radius: 10px;
-    border-width: 0;  
+    border-width: 0;
     padding-left: 10px;
-
+  
     margin-top: 5px;
     margin-bottom: 15px;
-}
-
-.middle-name{
+  }
+  
+  .middle-name {
     border-bottom: 1px solid rgba(140, 140, 140, 1);
     padding-bottom: 10px;
-    
-}
-.birth-date div{
+  }
+  .birth-date div {
     margin-top: 5px;
-}
-.birth-date{
+  }
+  .birth-date {
     margin-top: 25px;
     border-bottom: 1px solid rgba(140, 140, 140, 1);
     padding-bottom: 10px;
-}
-#day{
+  }
+  #day {
     display: inline;
     width: 37px;
     padding-left: 0;
-}
-#month{
+  }
+  #month {
     display: inline;
     width: 55px;
     padding-left: 0;
-}
-#year{
+  }
+  #year {
     display: inline;
     width: 60px;
     padding-left: 0;
-}
-.nickname{
+  }
+  .nickname {
     margin-top: 25px;
-    
-}
-.account-form button{
+  }
+  .account-form button {
     text-align: center;
     background-color: rgba(54, 192, 241, 1);
     color: white;
@@ -100,59 +96,54 @@ ol{
     height: 30px;
     font-size: 18px;
     font-weight: bold;
-
+  
     margin-bottom: 25px;
     margin-left: 590px;
-}
-
-.settings-items{
-   
+  }
+  
+  .settings-items {
     width: 465px;
     height: 143px;
     margin-left: 35px;
     margin-right: 35px;
     margin-top: 60px;
     margin-bottom: 621px;
-
+  
     border-radius: 10px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
     background-color: rgba(234, 237, 240, 1);
-    
+  
     padding: 5px 6px 5px 5px;
     text-align: left;
     font-size: 18px;
-}
-ul{
-   
+  }
+  ul {
     margin: 0;
     padding: 0;
-}
-.settings-items li{
+  }
+  .settings-items li {
     display: flex;
     width: auto;
     height: 24px;
-    border-radius: 10px; 
-    padding:  10px; 
-}
-.settings-items a{
+    border-radius: 10px;
+    padding: 10px;
+  }
+  .settings-items a {
     justify-content: start;
     margin-right: auto;
     text-decoration: none;
     color: rgba(0, 0, 0, 1);
-}
-.settings-items img{
+  }
+  .settings-items img {
     justify-content: end;
     width: 20px;
     height: 20px;
-}
-li.account{
-    background-color: rgba(0, 0, 0, 0.25);   
-}
-
-
-
-
-
-ol, ul {
+  }
+  li.account {
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+  
+  ol,
+  ul {
     list-style-type: none; /* Убирает буллиты */
-   }
+  }

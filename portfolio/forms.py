@@ -36,7 +36,7 @@ class ProfileForm(forms.ModelForm):
 class LoginUserForm(AuthenticationForm):
     username = forms.EmailField(label='Адрес электронной почты',
                                 widget=forms.EmailInput(
-                                    attrs={'placeholder': 'Введите адрес электронной почты', 'class': 'email_Adress'}))
+                                    attrs={'placeholder': 'Введите адрес электронной почты', 'class': 'email-Adress'}))
     password = forms.CharField(label='Пароль',
                                widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль', 'class': 'password'}))
 

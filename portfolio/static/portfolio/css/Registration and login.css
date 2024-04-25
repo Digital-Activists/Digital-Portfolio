@@ -1,154 +1,110 @@
-
 body {
+
     font-family: "Inter", sans-serif;
     font-size: 14px;
     font-weight: 400;
-}
-
-h1 {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+  
+  h1 {
     display: none
-}
-
-.account_form {
-    width: 700px;
-    margin-top: 80px;
-    margin-right: 70px;
-
-    background-color: #EAEDF0;
-    border-radius: 25px;
-    box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.25);
-}
-
-.account_form h2 {
-    margin-top: 40px;
-    margin-left: 70px;
-    font-size: 32px;
-    font-weight: 400;
-}
-
-.account_form #text {
-    margin-top: 25px;
-    margin-left: 70px;
-    font-size: 18px;
-}
-
-.account {
-    margin-top: 32px;
-    margin-left: 70px;
-    width: 148px;
-    height: 170px;
-    border-radius: 15px;
-    background-color: #8C8C8C;
-    text-align: center;
-    padding-top: 24px
-}
-
-.create_account {
-    margin-top: -194px;
-    margin-left: 298px;
-    width: 148px;
-    height: 170px;
-    border-radius: 15px;
-    background-color: #8C8C8C;
-    text-align: center;
-    padding-top: 24px;
-    box-shadow: 0px 10px 10px 0 #36C0F1;
-}
-
-
-.login_form {
+  }
+  
+  .login-form{
     width: 300px;
-    margin-top: 80px;
+    height: 536px;
+    margin-top: 75px;
+    margin-bottom: 334px;
     margin-right: 85px;
-
+  
     background-color: #EAEDF0;
     border-radius: 25px;
     box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.25);
-
+  
     text-align: center;
     padding-left: 60px;
     padding-right: 68px;
-}
-
-.login_form img {
+  }
+  
+  .login-form img {
     margin-top: 10px;
-}
-
-.login_form h2 {
+  }
+  .login-form h2 {
     margin-top: 0;
     font-size: 40px;
     font-weight: 400;
-}
-
-.login_form #text {
+  }
+  
+  .login-form #text {
     margin-top: -30px;
-}
-
-.login_form li {
+  }
+  .login-form li {
     text-align: left;
-}
-
-.email-address {
-    padding-top: 15px;
-}
-
-.password {
-    padding-top: 10px;
-
-}
-
-ol {
+  }
+  
+  ol {
     margin-left: -35px;
-}
-
-.email-address input, .password input {
-    width: 293px;
-    height: 33px;
-    margin-top: 5px;
-
-    text-align: left;
-    background-color: white;
-    border-radius: 25px;
-    border-color: black;
-    border-width: 1px;
-    padding-left: 5px;
-
-}
-
-.loginLink input, .registration_form input {
-    margin-left: 1px;
-    background-color: #FFEC44;
-    color: black;
-    border-radius: 25px;
-    border: none;
-    width: 293px;
-    height: 35px;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.loginLink input {
-    margin-top: 20px;
-}
-
-.registration_form input {
-    margin-top: -10px;
-}
-
-.registration_form {
-    width: 430px;
-    margin-top: 578px;
-    margin-left: -517px;
-
+  }
+  .email-Adress input, .password input {
+      width: 293px;
+      height: 33px;
+      margin-top: 5px;
+      
+      text-align: left;
+      background-color: white;
+      border-radius: 25px;
+      border-color: black;
+      border-width: 1px;
+      padding-left: 5px;
+      
+  }
+  
+  .loginLink input {
+      margin-left: 1px;
+      background-color: #FFEC44;
+      color: black;
+      border-radius: 25px;
+      border: none;
+      width: 293px;
+      height: 35px;
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 40px;
+  }
+  
+  
+  .registration-form {
+    width: 440px;
+    height: 129px;
+    margin-top: 661px;
+    margin-left: -520px;
     background-color: #EAEDF0;
     border-radius: 15px;
     box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.25);
-
+  
     text-align: center;
-}
-
-.registration_form h2 {
-    margin-top: 3px;
-    font-size: 22px;
+  }
+  
+  .registration-form h2{
+    margin-top: 10px;
+    font-size: 22px; 
     font-weight: 400;
-}
+  }
+  
+  .registration-form div{
+    background-color: #FFEC44;
+    margin-top: 15px;
+    margin-left: 73px;
+    width: 293px;
+    height: 35px;
+    border-radius: 25px;
+    
+  }
+  .registration-form a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 25px;
+  }

@@ -7,6 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import FormView
 
 from .forms import *
+from .utils import PageTitleMixin
 
 
 def index(request):
@@ -15,7 +16,7 @@ def index(request):
 
 @method_decorator(login_required, name='dispatch')
 class EditProfileInformationView(FormView):
-    template_name = 'portfolio/plug-form.html'
+    template_name = 'portfolio/settings-information.html'
     form_class = EditProfileForm
     success_url = reverse_lazy('home')
 
@@ -49,14 +50,10 @@ class EditAccountInformationView(FormView):
 #     form_class = EditSecurityInformationForm
 
 
-class LoginUser(LoginView):
+class LoginUser(LoginView, PageTitleMixin):
     form_class = LoginUserForm
     template_name = 'portfolio/authorization.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({'title': 'Страница регистрации и авторизации', 'form_login': self.get_form_class()})
-        return context
+    PageTitle = 'Страница регистрации и авторизации'
 
     def get_success_url(self):
         return reverse_lazy('home')
@@ -67,28 +64,20 @@ def logout_user(request):
     return redirect('login')
 
 
-class EnterEmailToResetPassword(PasswordResetView):
+class EnterEmailToResetPassword(PasswordResetView, PageTitleMixin):
     form_class = EnterEmailToResetPasswordForm
     template_name = 'portfolio/reset-password.html'
     email_template_name = 'portfolio/email/password_reset_mail_v2.html'
     subject_template_name = 'portfolio/email/password_subject_reset_mail.txt'
     success_url = reverse_lazy('home')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({'title': 'Страница запроса на сброс пароля'})
-        return context
+    PageTitle = 'Страница запроса на сброс пароля'
 
 
 class UserResetPasswordConfirm(PasswordResetConfirmView):
     form_class = SetNewPasswordForm
     template_name = 'portfolio/reset-password-confirm.html'
     success_url = reverse_lazy('login')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({'title': 'Страница сброса пароля'})
-        return context
+    PageTitle = 'Страница сброса пароля'
 
 
 def register(request):

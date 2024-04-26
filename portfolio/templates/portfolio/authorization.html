@@ -12,7 +12,7 @@
         <h2>Добро пожаловать в SYP</h2>
         <p id="text">Создавайте проекты и делитесь ими</p>
         <ol>
-            {% for field in form_login %}
+            {% for field in form %}
             <li class="{{ field.field.widget.attrs.class }}">
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                 {{ field }}

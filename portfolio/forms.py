@@ -1,8 +1,11 @@
+import datetime
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django.core.exceptions import ValidationError
 
 from .models import *
+from .utils import MONTHS
 
 
 class CreateUserForm(UserCreationForm):
@@ -76,11 +79,19 @@ class EditProfileForm(forms.ModelForm):
 
 
 class EditAccountInformationForm(forms.ModelForm):
-    first_name = forms.CharField(max_length=30, label='Имя',widget=forms.PasswordInput(attrs={'placeholder': 'Введите имя', 'class' :'first-name'}))
-    last_name = forms.CharField(max_length=30, label='Фамилия',  widget=forms.PasswordInput(attrs={'placeholder': 'Введите фамилию', 'class' :'last-name'}))
-    patronymic = forms.CharField(max_length=30, label='Отчество', widget=forms.PasswordInput(attrs={'placeholder': 'Введите отчество,если есть', 'class' :'middle-name'}))
-    nickname = forms.CharField(max_length=30, label='Никнейм', widget=forms.PasswordInput(attrs={'placeholder': 'Введите свой никнейм', 'class' :'nickname'}))
-     
+    first_name = forms.CharField(max_length=30, label='Имя', widget=forms.PasswordInput(
+        attrs={'placeholder': 'Введите имя', 'class': 'first-name'}))
+    last_name = forms.CharField(max_length=30, label='Фамилия', widget=forms.PasswordInput(
+        attrs={'placeholder': 'Введите фамилию', 'class': 'last-name'}))
+    patronymic = forms.CharField(label='Отчество', required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Введите отчество, если есть', 'class': 'middle-name'}))
+    date_of_birth = forms.ChoiceField(label='Дата рождения',
+                                      widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
+                                                                    years=range(datetime.date.today().year - 99,
+                                                                                datetime.date.today().year)))
+    nickname = forms.CharField(max_length=30, label='Никнейм', widget=forms.PasswordInput(
+        attrs={'placeholder': 'Введите свой никнейм', 'class': 'nickname'}))
+
     class Meta:
         model = Profile
         fields = ['last_name', 'first_name', 'patronymic', 'date_of_birth', 'nickname']

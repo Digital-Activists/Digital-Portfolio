@@ -11,5 +11,5 @@ urlpatterns = [
     path('set-new-password/<uidb64>/<token>/', UserResetPasswordConfirm.as_view(), name='reset_password'),
     path('eidt-settings-account', EditAccountInformationView.as_view(), name='edit_settings_account'),
     path('edit-settings-profile', EditProfileInformationView.as_view(), name='edit_settings_profile'),
-    # path('edit_settings_security', .as_view(), name='edit_settings_security'),
+    # path('edit-settings-security', .as_view(), name='edit_settings_security'),
 ]

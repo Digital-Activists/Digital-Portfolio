@@ -1,0 +1,13 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block site-navigation %}
+    <div class="profile-settings">
+        <a href="#" class="profile-icon">
+            <img src="{% static 'portfolio/images/profile icon.svg' %} " alt="Иконка профиля"/>
+        </a>
+        <a href="{% url "edit_settings_account" %}" class="settings-icon">
+            <img src="{% static 'portfolio/images/settings icon.png' %} " alt="Иконка настроек"/>
+        </a>
+    </div>
+{% endblock %}

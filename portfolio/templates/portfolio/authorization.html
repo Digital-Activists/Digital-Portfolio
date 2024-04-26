@@ -2,11 +2,12 @@
 {% load static %}
 
 {% block style_load %}
-    <link rel="stylesheet" href="{% static 'portfolio/css/Registration and login.css' %} "/>
+    <link rel="stylesheet" href="{% static 'portfolio/css/authorization.css' %} "/>
 {% endblock %}
 
 {% block main %}
       <form action="" method="post" class="login-form">
+      {% csrf_token %}
         <img src="{% static 'portfolio/images/log.svg' %}" alt="Логотип сайта SYP">
         <h2>Добро пожаловать в SYP</h2>
         <p id="text">Создавайте проекты и делитесь ими</p>

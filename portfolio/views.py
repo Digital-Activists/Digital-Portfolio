@@ -10,12 +10,12 @@ from .forms import *
 
 
 def index(request):
-    return render(request, 'portfolio/index.html', {'title': 'Home'})
+    return render(request, 'portfolio/plug-index.html', {'title': 'Home'})
 
 
 @method_decorator(login_required, name='dispatch')
 class EditProfileInformationView(FormView):
-    template_name = 'portfolio/settings.html'
+    template_name = 'portfolio/plug-form.html'
     form_class = EditProfileForm
     success_url = reverse_lazy('home')
 
@@ -32,7 +32,7 @@ class EditProfileInformationView(FormView):
 @method_decorator(login_required, name='dispatch')
 class EditAccountInformationView(FormView):
     form_class = EditAccountInformationForm
-    template_name = 'portfolio/Account settings.html'
+    template_name = 'portfolio/settings-account.html'
     success_url = reverse_lazy('home')
 
     def get_form_kwargs(self):
@@ -51,7 +51,7 @@ class EditAccountInformationView(FormView):
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
-    template_name = 'portfolio/Registration and login.html'
+    template_name = 'portfolio/authorization.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -69,7 +69,7 @@ def logout_user(request):
 
 class EnterEmailToResetPassword(PasswordResetView):
     form_class = EnterEmailToResetPasswordForm
-    template_name = 'portfolio/Password-Recovery.html'
+    template_name = 'portfolio/reset-password.html'
     email_template_name = 'portfolio/email/password_reset_mail_v2.html'
     subject_template_name = 'portfolio/email/password_subject_reset_mail.txt'
     success_url = reverse_lazy('home')
@@ -82,7 +82,7 @@ class EnterEmailToResetPassword(PasswordResetView):
 
 class UserResetPasswordConfirm(PasswordResetConfirmView):
     form_class = SetNewPasswordForm
-    template_name = 'portfolio/Password-reset.html'
+    template_name = 'portfolio/reset-password-confirm.html'
     success_url = reverse_lazy('login')
 
     def get_context_data(self, **kwargs):
@@ -108,4 +108,4 @@ def register(request):
         profile_form = CreateProfileForm()
 
     fields = list(user_form)[:3] + list(profile_form) + list(user_form)[3:]
-    return render(request, 'portfolio/Registration.html', {'form_fields': fields, 'title': 'Регистрация'})
+    return render(request, 'portfolio/registration.html', {'form_fields': fields, 'title': 'Регистрация'})

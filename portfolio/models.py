@@ -18,8 +18,9 @@ class Profile(models.Model):
     phone_number = models.CharField(max_length=10, blank=True, verbose_name='Номер телефона')
     email_public = models.EmailField(blank=True, verbose_name='Электронная почта')
     city = models.CharField(max_length=50, blank=True, verbose_name='Город')
-    scope_of_work = models.ForeignKey('ProfileScopeWork', null=True, on_delete=models.PROTECT, verbose_name='Сфера деятельности')
-    # TODO: Соцсети
+    scope_of_work = models.ForeignKey('ProfileScopeWork', null=True, on_delete=models.PROTECT,
+                                      verbose_name='Сфера деятельности')
+    social_links = models.JSONField(blank=True, verbose_name='Социальные сети')
 
     def __str__(self):
         return self.user.last_name + self.user.first_name + self.patronymic
@@ -48,20 +49,18 @@ class Profile(models.Model):
 
 class Post(models.Model):
     AGE_LIMITS = [('0+', '0+'), ('6+', '6+'), ('12+', '12+'), ('16+', '16+'), ('18+', '18+')]
+    BUDGET = [('100тыс-1млн', 'От 100 тыс до 1 млн'), ('1млн-10млн', 'От 1 млн до 10 млн'),
+              ('10млн-100млн', 'От 10 млн до 100 млн'), ('>100 млн', 'Более 100 млн')]
 
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=120, verbose_name='Заголовок')
-    text = models.TextField(max_length=500, blank=True, verbose_name='Описание')
+    text = models.TextField(max_length=700, blank=True, verbose_name='Описание')
     date = models.DateField(default=now)
-    budget = models.ForeignKey('PostBudget', null=True, on_delete=models.PROTECT)
+    budget = models.CharField(max_length=50, blank=True, choices=BUDGET, verbose_name='Бюджет в рублях')
     post_type = models.ForeignKey('PostType', null=True, on_delete=models.PROTECT)
     genre = models.ForeignKey('PostGenre', null=True, on_delete=models.PROTECT)
     style = models.ForeignKey('PostStyle', null=True, on_delete=models.PROTECT)
     age_limit = models.CharField(max_length=3, blank=True, choices=AGE_LIMITS, verbose_name='Возрастные ограничения')
-
-
-class PostBudget(models.Model):
-    budget = models.CharField(max_length=50, verbose_name='Бюджет в рублях')
 
 
 class PostType(models.Model):
@@ -78,4 +77,3 @@ class PostStyle(models.Model):
 
 class ProfileScopeWork(models.Model):
     scope_of_word = models.CharField(max_length=50, verbose_name='Сфера работы')
-

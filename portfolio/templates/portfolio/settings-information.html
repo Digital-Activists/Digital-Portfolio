@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block style_load %}
-<<<<<<< HEAD
     <link rel="stylesheet" href="{% static 'portfolio/css/settings-information.css' %} "/>
 {% endblock %}
 
@@ -19,21 +18,6 @@
               <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                     {{ field }}
                     <div class="form-error">{{ field.errors }}</div>
-=======
-    <link rel="stylesheet" href="{% static 'portfolio/css/settings-information.css' %}"/>
-{% endblock %}
-{% block main %}
-    <form action="" method="post" class="account-form">
-        {% csrf_token %}
-        <ol>
-            <li class="account-image">
-                <label for="account-image">Фото профиля</label>
-                <img src="images/add image.svg" alt="Добавить фото">
-            </li>
-            <li class="profile-description">
-                <label for="profile-description">Описание профиля</label>
-                <input type="text" name="FirstName" placeholder="Добавьте описание к своему профилю..."/>
->>>>>>> 983da636aa312888a463c99706edca0f246d53ca
             </li>
             {% endfor %}
             
@@ -66,50 +50,7 @@
                     </li>
                 </ol>
             </li>
-<<<<<<< HEAD
-            
-          </ol>
-          <button type="submit" value="Сохранить">Сохранить</button>
-        </form>
-        <section class="settings-items">
-          <nav>
-            <ul>
-              <li class="account">
-                <a href="{% url 'edit_settings_account' %}">Аккаунт</a>
-                <img src="{% static "portfolio/images/account icon.svg" %}" alt="Account icon" />
-              </li>
-              <li class="information">
-                <a href="{% url 'edit_settings_profile' %}">Информация профиля</a>
-                <img src="{% static "portfolio/images/infromation icon.svg" %}" alt="Infromation icon" />
-              </li>
-              <li class="security">
-                <a href="#">Безопасность</a>
-                <img src="{% static "portfolio/images/security icon.svg" %}" alt="Security icon" />
-              </li>
-            </ul>
-          </nav>
-        </section>
-=======
-            <li class="activity">
-                <label for="activity">Сфера деятельности</label>
-                <div>
-                    <select id="activity">
-                        <option value="">Выберите свою сферу деятельности</option>
-                        <option value="1">Режиссер</option>
-                        <option value="2">Режиссер</option>
-                        <option value="3">Режиссер</option>
-                        <option value="4">Режиссер</option>
-                        <option value="5">Режиссер</option>
-                        <option value="6">Режиссер</option>
-                        <option value="7">Режиссер</option>
-                        <option value="8">Режиссер</option>
-                        <option value="9">Режиссер</option>
-                        <option value="10">Режиссер</option>
-                        <option value="11">Режиссер</option>
-                        <option value="12">Режиссер</option>
-                    </select>
-                </div>
-            </li>
+
         </ol>
         <button type="submit" value="Сохранить">Сохранить</button>
     </form>
@@ -146,5 +87,4 @@
     </div>
 
     <script src="{% static 'portfolio/js/social-form.js' %}"></script>
->>>>>>> 983da636aa312888a463c99706edca0f246d53ca
 {% endblock %}

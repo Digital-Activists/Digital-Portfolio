@@ -5,7 +5,6 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.core.exceptions import ValidationError
 
 from .models import *
-from .utils import MONTHS
 
 
 class CreateUserForm(UserCreationForm):
@@ -70,26 +69,21 @@ class EditProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
-            field = self.fields[field_name]
-            field.required = False
-            if hasattr(self.instance.user, field_name):
-                field.initial = getattr(self.instance.user, field_name)
-            else:
-                field.initial = getattr(self.instance.user.profile, field_name)
+            self.initial[field_name] = getattr(self.instance.user.profile, field_name)
 
 
 class EditAccountInformationForm(forms.ModelForm):
-    first_name = forms.CharField(max_length=30, label='Имя', widget=forms.PasswordInput(
+    first_name = forms.CharField(max_length=30, label='Имя', widget=forms.TextInput(
         attrs={'placeholder': 'Введите имя', 'class': 'first-name'}))
-    last_name = forms.CharField(max_length=30, label='Фамилия', widget=forms.PasswordInput(
+    last_name = forms.CharField(max_length=30, label='Фамилия', widget=forms.TextInput(
         attrs={'placeholder': 'Введите фамилию', 'class': 'last-name'}))
     patronymic = forms.CharField(label='Отчество', required=False, widget=forms.TextInput(
         attrs={'placeholder': 'Введите отчество, если есть', 'class': 'middle-name'}))
-    date_of_birth = forms.ChoiceField(label='Дата рождения',
-                                      widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
-                                                                    years=range(datetime.date.today().year - 99,
-                                                                                datetime.date.today().year)))
-    nickname = forms.CharField(max_length=30, label='Никнейм', widget=forms.PasswordInput(
+    date_of_birth = forms.DateField(label='Дата рождения', widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
+                                                                                         years=range(
+                                                                                             datetime.date.today().year - 99,
+                                                                                             datetime.date.today().year)))
+    nickname = forms.CharField(max_length=30, label='Никнейм', required=False, widget=forms.PasswordInput(
         attrs={'placeholder': 'Введите свой никнейм', 'class': 'nickname'}))
 
     class Meta:
@@ -99,12 +93,10 @@ class EditAccountInformationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EditAccountInformationForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
-            field = self.fields[field_name]
-            field.required = False
             if hasattr(self.instance.user, field_name):
-                field.initial = getattr(self.instance.user, field_name)
+                self.initial[field_name] = getattr(self.instance.user, field_name)
             else:
-                field.initial = getattr(self.instance.user.profile, field_name)
+                self.initial[field_name] = getattr(self.instance.user.profile, field_name)
 
     def save(self, *args, **kwargs):
         instance = super(EditAccountInformationForm, self).save(*args, **kwargs)
@@ -112,3 +104,8 @@ class EditAccountInformationForm(forms.ModelForm):
         instance.user.last_name = self.cleaned_data['last_name']
         instance.user.save()
         return instance
+
+
+class AddSocialNetworkForm(forms.Form):
+    social_network = forms.CharField(max_length=30, widget=forms.HiddenInput(attrs={'id': 'social-network'}))
+    link = forms.URLField(label='Лэйбл', widget=forms.URLInput(attrs={'class': 'social-network-link'}))

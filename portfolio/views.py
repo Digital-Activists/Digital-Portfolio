@@ -7,21 +7,30 @@ from django.utils.decorators import method_decorator
 from django.views.generic import FormView
 
 from .forms import *
-from .utils import PageTitleMixin
+from .utils import PageTitleMixin, SOCIAL_NETWORKS
 
 
 def index(request):
-    return render(request, 'portfolio/plug-index.html', {'title': 'Home'})
+    return render(request, 'portfolio/plug-index.html', {'title': 'Home', 'social_networks': SOCIAL_NETWORKS})
 
 
 @method_decorator(login_required, name='dispatch')
-class EditProfileInformationView(FormView):
+class EditProfileView(FormView):
     template_name = 'portfolio/settings-information.html'
     form_class = EditProfileForm
     success_url = reverse_lazy('home')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        list_form = list(context['form'])
+        context['form_photo_and_description'] = list_form[:2]
+        context['form_contacts'] = list_form[2:5]
+        context['form_scope_of_work'] = list_form[5:]
+        context.update({'social_networks': SOCIAL_NETWORKS, 'form_add_social_network': AddSocialNetworkForm()})
+        return context
+
     def get_form_kwargs(self):
-        kwargs = super(EditProfileInformationView, self).get_form_kwargs()
+        kwargs = super(EditProfileView, self).get_form_kwargs()
         kwargs.update({'instance': Profile.objects.get(user=self.request.user)})
         return kwargs
 
@@ -80,6 +89,7 @@ class UserResetPasswordConfirm(PasswordResetConfirmView):
     PageTitle = 'Страница сброса пароля'
 
 
+# TODO: подтверждение почты после регистрации
 def register(request):
     if request.method == 'POST':
         user_form = CreateUserForm(request.POST)
@@ -88,6 +98,7 @@ def register(request):
             user = user_form.save(commit=False)
             user.email = user_form.cleaned_data['username']
             profile = Profile(user=user, **profile_form.cleaned_data)
+            profile.social_links = {}
             user.save()
             profile.save()
             login(request, user)
@@ -98,3 +109,12 @@ def register(request):
 
     fields = list(user_form)[:3] + list(profile_form) + list(user_form)[3:]
     return render(request, 'portfolio/registration.html', {'form_fields': fields, 'title': 'Регистрация'})
+
+
+@method_decorator(login_required, name='dispatch')
+def submit_social_network(request):
+    if request.method == 'POST':
+        form = AddSocialNetworkForm(request.POST)
+        if form.is_valid():
+            social_network_name = form.cleaned_data['social_network']
+            request.user.profile.social_links[social_network_name] = form.cleaned_data['link']

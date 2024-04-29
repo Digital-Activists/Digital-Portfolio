@@ -10,6 +10,10 @@ urlpatterns = [
     path('enter-email/', EnterEmailToResetPassword.as_view(), name='enter_email'),
     path('set-new-password/<uidb64>/<token>/', UserResetPasswordConfirm.as_view(), name='reset_password'),
     path('eidt-settings-account', EditAccountInformationView.as_view(), name='edit_settings_account'),
-    path('edit-settings-profile', EditProfileInformationView.as_view(), name='edit_settings_profile'),
+    path('edit-settings-profile', EditProfileView.as_view(), name='edit_settings_profile'),
+    path('submit-social-network-form', submit_social_network, name='submit_social_network_form'),
+    # TODO: Комментарии ниже
     # path('edit-settings-security', .as_view(), name='edit_settings_security'),
+    # path('profile')
+    # path('post)
 ]

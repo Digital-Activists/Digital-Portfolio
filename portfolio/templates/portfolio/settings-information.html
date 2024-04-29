@@ -1,43 +1,26 @@
-<!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/settings-information.css" />
-    <link rel="stylesheet" href="css/header-footer.css" />
-    <meta charset="utf-8" />
-    <title>Страница настроек информации профиля</title>
-  </head>
+{% extends 'portfolio/base-with-navigation.html' %}
+{% load static %}
 
-  <body>
-    <header class="main-header">
-      <h1>Настройки аккаунта</h1>   
-      <img src="images/Share your projects.svg" alt="Share your projects" />
-      <div class="profile-settings">
-          <a href="#" class="profile-icon">
-              <img src="images/profile icon.svg" alt="Иконка профиля" />
-          </a>
-          <a href="#" class="settings-icon">
-              <img src="images/settings icon.png" alt="Иконка настроек" />
-          </a>
-      </div>    
-    </header>
+{% block style_load %}
+    <link rel="stylesheet" href="{% static 'portfolio/css/settings-information.css' %} "/>
+{% endblock %}
 
-    <main>
+{% block main %}
         <form action="" method="post" class="account-form">
+          {% csrf_token %}
           <ol>
-            <li class="account-image">
+            <li class="{{ field.field.widget.attrs.class }}">
               <label for="account-image">Фото профиля</label>
-              <img src="images/add image.svg" alt="Добавить фото">
+              <img src="{% static "portfolio/images/add image.svg" %}" alt="Добавить фото">
             </li>
-            <li class="profile-description">
-              <label for="profile-description">Описание профиля</label>
-              <input type="text" name="FirstName" placeholder="Добавьте описание к своему профилю..." />
+            {% for field in form %}
+            <li class="{{ field.field.widget.attrs.class }}">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <div class="form-error">{{ field.errors }}</div>
             </li>
+            {% endfor %}
+            
             <li class="contacts">
               <label for="contacts">Контакты</label>
               <ol class = "contacts-list">
@@ -59,26 +42,7 @@
                 </li>
                 </ol>
             </li>
-            <li class="activity">
-              <label for="activity">Сфера деятельности</label>
-              <div>
-                <select id="activity">
-                  <option value="">Выберите свою сферу деятельности</option>
-                  <option value="1">Режиссер</option>
-                  <option value="2">Режиссер</option>
-                  <option value="3">Режиссер</option>
-                  <option value="4">Режиссер</option>
-                  <option value="5">Режиссер</option>
-                  <option value="6">Режиссер</option>
-                  <option value="7">Режиссер</option>
-                  <option value="8">Режиссер</option>
-                  <option value="9">Режиссер</option>
-                  <option value="10">Режиссер</option>
-                  <option value="11">Режиссер</option>
-                  <option value="12">Режиссер</option>
-                </select>
-              </div>
-            </li>
+            
           </ol>
           <button type="submit" value="Сохранить">Сохранить</button>
         </form>
@@ -86,26 +50,18 @@
           <nav>
             <ul>
               <li class="account">
-                <a href="#">Аккаунт</a>
-                <img src="images/account icon.svg" alt="Account icon" />
+                <a href="{% url 'edit_settings_account' %}">Аккаунт</a>
+                <img src="{% static "portfolio/images/account icon.svg" %}" alt="Account icon" />
               </li>
               <li class="information">
-                <a href="#">Информация профиля</a>
-                <img src="images/infromation icon.svg" alt="Infromation icon" />
+                <a href="{% url 'edit_settings_profile' %}">Информация профиля</a>
+                <img src="{% static "portfolio/images/infromation icon.svg" %}" alt="Infromation icon" />
               </li>
               <li class="security">
                 <a href="#">Безопасность</a>
-                <img src="images/security icon.svg" alt="Security icon" />
+                <img src="{% static "portfolio/images/security icon.svg" %}" alt="Security icon" />
               </li>
             </ul>
           </nav>
         </section>
-      </main>
-
-    <footer class="main-footer">
-        <div class="logotip">
-          <img src="images/Share your projects.svg" alt="Share your projects" />
-        </div>
-      </footer>
-    </body>
-  </html>
+{% endblock %}

@@ -1,0 +1,96 @@
+body {
+    font-family: "Inter", sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(140, 140, 140, 1);
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+  
+h1 {
+    display: none;
+  }
+
+  .post-form {
+    width: 1250px;
+    margin-top: 30px;
+    margin-bottom: 81px;
+    margin-left: 95px;
+    margin-right: 95px;
+    border-radius: 10px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+    background-color: rgba(234, 237, 240, 1);
+  
+    padding-left: 50px;
+    padding-right: 65px;
+  
+    text-align: left;
+  }
+
+  h2 {
+    font-size: 32px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 1);
+  }
+
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post-form input,
+  select {
+    display: block;
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    color: rgba(140, 140, 140, 1);
+    background-color: rgba(217, 217, 217, 1);
+    border-radius: 10px;
+    border-width: 0;
+    padding-left: 10px;
+  
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
+
+.post-form label{
+    color: black;
+    font-size: 18px;
+    line-height: 25px;
+}
+.post-form li{
+    margin-top: 15px;
+    border-bottom: 1px solid rgba(140, 140, 140, 1);
+}
+
+li.post-title input{
+    width: 250px;
+    min-height: 25px;
+}
+li.post-description input{
+    width: 450px;
+    padding-top: 5px;
+    padding-bottom: 100px;
+}
+li.post-type select{
+    width: 280px;
+    min-height: 35px;
+}
+.post-form button {
+    text-align: center;
+    background-color: rgba(54, 192, 241, 1);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    width: 185px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    
+    margin-top: 250px;
+    margin-bottom: 25px;
+    
+    margin-left: 1020px;
+  }

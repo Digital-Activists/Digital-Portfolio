@@ -135,6 +135,10 @@ p.about{
 
     text-align: center;
 }
+.post img{
+    width: 100%;
+    height: 50%;
+}
 
 .post-name{
     font-size: 18px;

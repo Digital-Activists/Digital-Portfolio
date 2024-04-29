@@ -99,6 +99,7 @@ def register(request):
             user.email = user_form.cleaned_data['username']
             profile = Profile(user=user, **profile_form.cleaned_data)
             profile.social_links = {}
+            profile.nickname = user_form.cleaned_data['username']
             user.save()
             profile.save()
             login(request, user)

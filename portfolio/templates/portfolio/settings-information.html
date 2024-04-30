@@ -9,33 +9,36 @@
         <form action="" method="post" class="account-form">
           {% csrf_token %}
           <ol>
-            <li class="{{ field.field.widget.attrs.class }}">
-              <label for="account-image">Фото профиля</label>
-              <img src="{% static "portfolio/images/add image.svg" %}" alt="Добавить фото">
-            </li>
-            {% for field in form %}
+
+            {% for field in form_photo_and_description %}
             <li class="{{ field.field.widget.attrs.class }}">
               <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                     {{ field }}
                     <div class="form-error">{{ field.errors }}</div>
             </li>
             {% endfor %}
+
             
+
+            {% for field in form_scope_of_work%}
+            <li class="{{ field.field.widget.attrs.class }}">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <div class="form-error">{{ field.errors }}</div>
+            </li>
+            {% endfor %}
             <li class="contacts">
+              
                 <label for="contacts">Контакты</label>
                 <ol class="contacts-list">
-                    <li class="telephone">
-                        <label for="telephone">Номер телефона</label>
-                        <input type="tel" placeholder="+7(900)000-00-00" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-                    </li>
-                    <li class="email">
-                        <label for="email">Электронная почта</label>
-                        <input type="email" placeholder="Введите адрес электронной почты" pattern=".+@example\.com">
-                    </li>
-                    <li class="city">
-                        <label for="city">Город</label>
-                        <input type="text" placeholder="Введите название города">
-                    </li>
+                  {% for field in form_contacts %}
+                  <li class="{{ field.field.widget.attrs.class }}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                          {{ field }}
+                          <div class="form-error">{{ field.errors }}</div>
+                  </li>
+                  {% endfor %}
+                    
                     <li class="social-networks">
                         <label for="social-networks">Социальные сети</label>
                         <div>

@@ -1,12 +1,10 @@
-{% extends "portfolio/base.html" %}
+{% extends "portfolio/base-with-navigation.html" %}
 {% load static %}
 
 {% block main %}
     <section>
         {% if request.user.is_authenticated %}
-            <a href="{% url 'logout' %}">Выйти</a>
-            <a href="{% url 'edit_settings_account' %}">Аккаунт</a>
-            <a href="{% url 'edit_settings_profile' %}">Профиль</a>
+            <a href="{% url 'logout' %}">Выйти из аккаунта</a>
         {% else %}
             <p>Пользователь не авторизирован</p>
             <a href="{% url "login" %}">Авторизация</a>

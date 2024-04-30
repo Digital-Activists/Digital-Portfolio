@@ -1,0 +1,27 @@
+{% extends 'portfolio/base-with-navigation.html' %}
+{% load static %}
+
+{% block main %}
+
+    {% block settings %}
+    {% endblock %}
+
+    <section class="settings-items">
+        <nav>
+            <ul>
+                <li class="account">
+                    <a href="{% url 'edit_settings_account' %}">Аккаунт</a>
+                    <img src="{% static "portfolio/images/account icon.svg" %}" alt="Account icon"/>
+                </li>
+                <li class="infromation">
+                    <a href="{% url 'edit_settings_profile' %}">Информация профиля</a>
+                    <img src="{% static "portfolio/images/infromation icon.svg" %}" alt="Infromation icon"/>
+                </li>
+                <li class="security">
+                    <a href="{% url 'edit_settings_security' %}">Безопасность</a>
+                    <img src="{% static "portfolio/images/security icon.svg" %}" alt="Security icon"/>
+                </li>
+            </ul>
+        </nav>
+    </section>
+{% endblock %}

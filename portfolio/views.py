@@ -1,5 +1,7 @@
-from django.contrib.auth import logout, login
+from django.contrib import messages
+from django.contrib.auth import logout, login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -14,8 +16,7 @@ def index(request):
     return render(request, 'portfolio/plug-index.html', {'title': 'Home', 'social_networks': SOCIAL_NETWORKS})
 
 
-@method_decorator(login_required, name='dispatch')
-class EditProfileView(FormView):
+class EditProfileView(LoginRequiredMixin, FormView):
     template_name = 'portfolio/settings-information.html'
     form_class = EditProfileForm
     success_url = reverse_lazy('home')
@@ -39,8 +40,7 @@ class EditProfileView(FormView):
         return redirect('home')
 
 
-@method_decorator(login_required, name='dispatch')
-class EditAccountInformationView(FormView):
+class EditAccountInformationView(LoginRequiredMixin, FormView):
     form_class = EditAccountInformationForm
     template_name = 'portfolio/settings-account.html'
     success_url = reverse_lazy('home')
@@ -55,8 +55,29 @@ class EditAccountInformationView(FormView):
         return redirect('home')
 
 
-# class EditSecurityInformationView(FormView):
-#     form_class = EditSecurityInformationForm
+def change_user_email_and_password(request):
+    if request.method == 'POST':
+        email_form = ChangeEmailForm(request.POST, instance=request.user)
+        password_form = CustomSetPasswordFormNoRequired(request.user, request.POST)
+        if email_form.is_valid():
+            email_form.save()
+            messages.success(request, 'Ваша почта была обновлена')
+
+        if password_form.is_valid():
+            password_form.save()
+            update_session_auth_hash(request, password_form.user)
+            messages.success(request, 'Ваша пароль был обновлен')
+
+    else:
+        email_form = ChangeEmailForm(instance=request.user)
+        password_form = CustomSetPasswordFormNoRequired(user=request.user)
+
+    context = {
+        'form_email': email_form,
+        'form_password': password_form
+    }
+
+    return render(request, 'portfolio/settings-security.html', context)
 
 
 class LoginUser(LoginView, PageTitleMixin):
@@ -83,7 +104,7 @@ class EnterEmailToResetPassword(PasswordResetView, PageTitleMixin):
 
 
 class UserResetPasswordConfirm(PasswordResetConfirmView):
-    form_class = SetNewPasswordForm
+    form_class = CustomSetPasswordForm
     template_name = 'portfolio/reset-password-confirm.html'
     success_url = reverse_lazy('login')
     PageTitle = 'Страница сброса пароля'

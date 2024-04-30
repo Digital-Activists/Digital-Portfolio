@@ -1,24 +1,20 @@
-{% extends 'portfolio/base-with-navigation.html' %}
+{% extends 'portfolio/base-settings.html' %}
 {% load static %}
 
 {% block style_load %}
     <link rel="stylesheet" href="{% static 'portfolio/css/settings-information.css' %} "/>
 {% endblock %}
 
-{% block main %}
-        <form action="" method="post" class="account-form">
-          {% csrf_token %}
-          <ol>
-
-            {% for field in form_photo_and_description %}
-            <li class="{{ field.field.widget.attrs.class }}">
-              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {{ field }}
-                    <div class="form-error">{{ field.errors }}</div>
+{% block settings %}
+    <form action="" method="post" class="account-form">
+        {% csrf_token %}
+        <ol>
+            <li class="account-image">
+                <label for="account-image">Фото профиля</label>
+                <button type="button">
+                    <img src="{% static "portfolio/images/add image.svg " %}" alt="Добавить фото"/>
+                </button>
             </li>
-            {% endfor %}
-
-            
 
             {% for field in form_scope_of_work%}
             <li class="{{ field.field.widget.attrs.class }}">
@@ -42,39 +38,18 @@
                     <li class="social-networks">
                         <label for="social-networks">Социальные сети</label>
                         <div>
-                            {% for social_network in social_networks %}
-                                <li>
+                            {% for social_network in social_networks %}        
                                     <button type="button" onclick="openForm('{{ social_network.name }}')">
                                         <img src="{% static social_network.path %}">
-                                    </button>
-                                </li>
+                                    </button>   
                             {% endfor %}
                         </div>
                     </li>
                 </ol>
             </li>
-
         </ol>
-        <button type="submit" value="Сохранить">Сохранить</button>
+        <button type="submit" value="Сохранить" class="save">Сохранить</button>
     </form>
-    <section class="settings-items">
-        <nav>
-            <ul>
-                <li class="account">
-                    <a href="#">Аккаунт</a>
-                    <img src="images/account icon.svg" alt="Account icon"/>
-                </li>
-                <li class="information">
-                    <a href="#">Информация профиля</a>
-                    <img src="images/infromation icon.svg" alt="Infromation icon"/>
-                </li>
-                <li class="security">
-                    <a href="#">Безопасность</a>
-                    <img src="images/security icon.svg" alt="Security icon"/>
-                </li>
-            </ul>
-        </nav>
-    </section>
 
     <div id="socialModal">
         <div>

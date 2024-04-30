@@ -14,7 +14,7 @@ class CreateUserForm(UserCreationForm):
                                 widget=forms.TextInput(attrs={'placeholder': 'Введите фамилию'}))
     first_name = forms.CharField(label='Имя', required=True,
                                  widget=forms.TextInput(attrs={'placeholder': 'Введите имя'}))
-    password1 = forms.CharField(label='Пароль', required=True,  # help_text="Минимум 8 символов",
+    password1 = forms.CharField(label='Пароль', required=True,
                                 widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль'}))
     password2 = forms.CharField(label='Подтверждение пароля', required=True,
                                 widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль'}))
@@ -54,7 +54,7 @@ class EnterEmailToResetPasswordForm(PasswordResetForm):
         return email
 
 
-class SetNewPasswordForm(SetPasswordForm):
+class CustomSetPasswordForm(SetPasswordForm):
     new_password1 = forms.CharField(label='Новый пароль', required=True,
                                     widget=forms.PasswordInput(attrs={'placeholder': 'Введите новый пароль'}))
     new_password2 = forms.CharField(label='Подтверждение пароля', required=True,
@@ -109,3 +109,41 @@ class EditAccountInformationForm(forms.ModelForm):
 class AddSocialNetworkForm(forms.Form):
     social_network = forms.CharField(max_length=30, widget=forms.HiddenInput(attrs={'id': 'social-network'}))
     link = forms.URLField(label='Лэйбл', widget=forms.URLInput(attrs={'class': 'social-network-link'}))
+
+
+class ChangeEmailForm(forms.ModelForm):
+    username = forms.EmailField(label='Адрес электронной почты', required=False,
+                                widget=forms.EmailInput(attrs={'placeholder': 'Введите адрес электронной почты'}))
+
+    class Meta:
+        model = User
+        fields = ['username']
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if not username:
+            raise ValidationError('Это поле обязательно для заполнения.')
+        if User.objects.filter(username=username).exists():
+            raise ValidationError('Такая почта уже используется')
+        return username
+
+    def save(self, commit=True):
+        user = super(ChangeEmailForm, self).save(commit=False)
+        user.email = self.cleaned_data['username']
+        user.save()
+
+
+class CustomSetPasswordFormNoRequired(CustomSetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomSetPasswordForm, self).__init__(*args, **kwargs)
+        self.fields['new_password1'].required = False
+        self.fields['new_password2'].required = False
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get('new_password1')
+        password2 = cleaned_data.get('new_password2')
+
+        if not password1 or not password2:
+            raise ValidationError('Пароли не совпадают, либо пустые')
+        return cleaned_data

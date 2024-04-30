@@ -1,10 +1,11 @@
-{% extends 'portfolio/base-with-navigation.html' %}
+{% extends 'portfolio/base-settings.html' %}
 {% load static %}
 
 {% block style_load %}
     <link rel="stylesheet" href="{% static 'portfolio/css/settings-information.css' %}"/>
 {% endblock %}
-{% block main %}
+
+{% block settings %}
     <form action="" method="post" class="account-form">
         {% csrf_token %}
         <ol>
@@ -68,24 +69,6 @@
         </ol>
         <button type="submit" value="Сохранить">Сохранить</button>
     </form>
-    <section class="settings-items">
-        <nav>
-            <ul>
-                <li class="account">
-                    <a href="#">Аккаунт</a>
-                    <img src="images/account icon.svg" alt="Account icon"/>
-                </li>
-                <li class="information">
-                    <a href="#">Информация профиля</a>
-                    <img src="images/infromation icon.svg" alt="Infromation icon"/>
-                </li>
-                <li class="security">
-                    <a href="#">Безопасность</a>
-                    <img src="images/security icon.svg" alt="Security icon"/>
-                </li>
-            </ul>
-        </nav>
-    </section>
 
     <div id="socialModal">
         <div>

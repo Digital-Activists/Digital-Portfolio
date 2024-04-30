@@ -12,8 +12,8 @@ urlpatterns = [
     path('eidt-settings-account', EditAccountInformationView.as_view(), name='edit_settings_account'),
     path('edit-settings-profile', EditProfileView.as_view(), name='edit_settings_profile'),
     path('submit-social-network-form', submit_social_network, name='submit_social_network_form'),
+    path('edit-settings-security', change_user_email_and_password, name='edit_settings_security'),
     # TODO: Комментарии ниже
-    # path('edit-settings-security', .as_view(), name='edit_settings_security'),
     # path('profile')
     # path('post)
 ]

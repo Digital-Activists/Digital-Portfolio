@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, DetailView
+from django.views.generic import FormView, DetailView, CreateView
 
 from .forms import *
 from .utils import PageTitleMixin, SOCIAL_NETWORKS
@@ -13,6 +13,22 @@ from .utils import PageTitleMixin, SOCIAL_NETWORKS
 
 def index(request):
     return render(request, 'portfolio/plug-index.html', {'title': 'Home', 'social_networks': SOCIAL_NETWORKS})
+
+
+class CreatePostView(LoginRequiredMixin, CreateView, PageTitleMixin):
+    PageTitle = 'Create Post'
+    form_class = CreatePostForm
+    template_name = 'portfolio/plug-form.html'
+    success_url = reverse_lazy('home')
+    login_url = reverse_lazy('login')
+    raise_exception = True
+
+    def form_valid(self, form):
+        author = Profile.objects.get(user=self.request.user)
+        new_post = form.save(commit=False)
+        new_post.author = author
+        new_post.save()
+        return redirect(self.success_url)
 
 
 class EditProfileView(LoginRequiredMixin, FormView):
@@ -149,6 +165,6 @@ class UserProfileView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
-        context['profile'] = self.request.user.profile
+        context['profile'] = Profile.objects.get(user=self.request.user)
         context['posts'] = Post.objects.filter(user=self.request.user)
         return context

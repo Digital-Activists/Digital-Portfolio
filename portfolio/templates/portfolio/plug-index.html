@@ -13,10 +13,16 @@
     </section>
 
     <section>
+        {{ object.text }}
         {{ posts }}
         {{ profile.patronymic }}
+        {{ profile.date_of_birth }}
         {{ user_profile.date_of_birth }}
         {{ user.email }}
+        {{ user.profile.date_of_birth }}
         {{ user.first_name }}
+    </section>
+    <section>
+    <a href="{% url 'create_post' %}">Создать пост</a>
     </section>
 {% endblock %}

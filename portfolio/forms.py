@@ -22,6 +22,29 @@ class BaseFilledFieldsForm(forms.ModelForm):
                 field.initial = getattr(self.instance.user.profile, field_name)
 
 
+class CreatePostForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CreatePostForm, self).__init__(*args, **kwargs)
+        for field_name in self.fields:
+            field = self.fields[field_name]
+            field.required = False
+        self.fields['title'].required = True
+
+    class Meta:
+        model = Post
+        fields = ['title', 'text', 'date', 'budget', 'post_type', 'genre', 'style', 'age_limit']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': '', 'placeholder': ''}),
+            'text': forms.Textarea(attrs={'class': '', 'placeholder': ''}),
+            'date': forms.DateInput(attrs={'class': '', 'placeholder': ''}),
+            'budget': forms.Select(attrs={'class': '', 'placeholder': ''}),
+            'post_type': forms.Select(attrs={'class': '', 'placeholder': ''}),
+            'genre': forms.Select(attrs={'class': '', 'placeholder': ''}),
+            'style': forms.Select(attrs={'class': '', 'placeholder': ''}),
+            'age_limit': forms.Select(attrs={'class': '', 'placeholder': ''}),
+        }
+
+
 class CreateUserForm(UserCreationForm):
     username = forms.EmailField(label='Адрес электронной почты',
                                 widget=forms.EmailInput(attrs={'placeholder': 'Введите адрес электронной почты'}))

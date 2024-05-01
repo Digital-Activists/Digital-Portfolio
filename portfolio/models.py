@@ -48,17 +48,17 @@ class Profile(models.Model):
 
 class Post(models.Model):
     AGE_LIMITS = [('0+', '0+'), ('6+', '6+'), ('12+', '12+'), ('16+', '16+'), ('18+', '18+')]
-    BUDGET = [('100тыс-1млн', 'От 100 тыс до 1 млн'), ('1млн-10млн', 'От 1 млн до 10 млн'),
+    BUDGET = [('', '-'), ('100тыс-1млн', 'От 100 тыс до 1 млн'), ('1млн-10млн', 'От 1 млн до 10 млн'),
               ('10млн-100млн', 'От 10 млн до 100 млн'), ('>100 млн', 'Более 100 млн')]
 
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=120, verbose_name='Заголовок')
     text = models.TextField(max_length=700, blank=True, verbose_name='Описание')
-    date = models.DateField(default=now)
+    date = models.DateField(default=now, verbose_name='Дата')
     budget = models.CharField(max_length=50, blank=True, choices=BUDGET, verbose_name='Бюджет в рублях')
-    post_type = models.ForeignKey('PostType', null=True, on_delete=models.PROTECT)
-    genre = models.ForeignKey('PostGenre', null=True, on_delete=models.PROTECT)
-    style = models.ForeignKey('PostStyle', null=True, on_delete=models.PROTECT)
+    post_type = models.ForeignKey('PostType', null=True, on_delete=models.PROTECT, verbose_name='Тип поста')
+    genre = models.ForeignKey('PostGenre', null=True, on_delete=models.PROTECT, verbose_name='Жанр')
+    style = models.ForeignKey('PostStyle', null=True, on_delete=models.PROTECT, verbose_name='Стиль')
     age_limit = models.CharField(max_length=3, blank=True, choices=AGE_LIMITS, verbose_name='Возрастные ограничения')
 
 

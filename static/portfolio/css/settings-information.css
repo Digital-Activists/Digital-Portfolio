@@ -11,6 +11,7 @@ body {
   h1 {
     display: none;
     }
+
 .account-form {
   width: 820px;
   margin-top: 60px;
@@ -106,14 +107,9 @@ select {
 .city{
     grid-area: city;
 }
-.social-networks div{
-    width: 330px;
-    height: 130px;
-    background-color: rgba(217, 217, 217, 1);
-    border-radius: 10px;
-}
 
-.account-form button {
+
+.account-form button.save {
     text-align: center;
     background-color: rgba(54, 192, 241, 1);
     color: white;
@@ -167,8 +163,27 @@ ul {
   width: 20px;
   height: 20px;
 }
-li.information {
+li.infromation {
   background-color: rgba(0, 0, 0, 0.25);
 }
+
+li.social-networks button, li.social-networks button img{
+  
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: rgba(217, 217, 217, 1);
+}
+.social-networks div{
+  width: 340px;
+  padding: 10px;
+  background-color: rgba(217, 217, 217, 1);
+  border-radius: 10px;
+}
+
+.account-image button{
+  border: none;
+}
+
 
 

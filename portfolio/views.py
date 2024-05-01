@@ -5,8 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
-from django.views.generic import FormView, TemplateView, DetailView
+from django.views.generic import FormView, DetailView
 
 from .forms import *
 from .utils import PageTitleMixin, SOCIAL_NETWORKS
@@ -35,9 +34,9 @@ class EditProfileView(LoginRequiredMixin, FormView):
         kwargs.update({'instance': Profile.objects.get(user=self.request.user)})
         return kwargs
 
-    # def form_valid(self, form):
-    #     form.save()
-    #     return redirect('home')
+    def form_valid(self, form):
+        form.save()
+        return redirect('home')
 
 
 class EditAccountInformationView(LoginRequiredMixin, FormView):

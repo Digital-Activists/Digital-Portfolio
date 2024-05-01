@@ -84,17 +84,21 @@ class CustomSetPasswordForm(SetPasswordForm):
 
 class EditProfileForm(BaseFilledFieldsForm, forms.ModelForm):
     required_fields = False
+    text = forms.CharField(label='Описание профиля', widget=forms.TextInput(
+        attrs={'placeholder': 'Добавьте описание к своему профилю...', 'class': 'profile-description'}))
     email = forms.EmailField(label='Электронная почта',
                              widget=forms.EmailInput(attrs={'placeholder': 'Введите адрес электронной почты'}))
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    phone_number = forms.CharField(validators=[phone_regex], max_length=17, label='Номер телефона',widget=forms.TextInput(
-        attrs={'placeholder': '+7(000)000-00-00', 'class': 'telephone'}))
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
+                                 message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    phone_number = forms.CharField(validators=[phone_regex], max_length=17, label='Номер телефона',
+                                   widget=forms.TextInput(
+                                       attrs={'placeholder': '+7(000)000-00-00', 'class': 'telephone'}))
     city = forms.CharField(max_length=30, label='Город', widget=forms.TextInput(
         attrs={'placeholder': 'Введите город', 'class': 'city'}))
 
     class Meta:
         model = Profile
-        fields = ['text', 'image', 'phone_number', 'email', 'city', 'scope_of_work']
+        fields = ['image', 'text', 'phone_number', 'email', 'city', 'scope_of_work']
 
     def save(self, *args, **kwargs):
         instance = super(EditProfileForm, self).save(*args, **kwargs)

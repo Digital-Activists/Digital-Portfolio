@@ -7,6 +7,20 @@ from django.core.exceptions import ValidationError
 from .models import *
 
 
+class BaseFilledFieldsForm(forms.ModelForm):
+    required_fields = True
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name in self.fields:
+            field = self.fields[field_name]
+            field.required = self.required_fields
+            if hasattr(self.instance.user, field_name):
+                field.initial = getattr(self.instance.user, field_name)
+            else:
+                field.initial = getattr(self.instance.user.profile, field_name)
+
+
 class CreateUserForm(UserCreationForm):
     username = forms.EmailField(label='Адрес электронной почты',
                                 widget=forms.EmailInput(attrs={'placeholder': 'Введите адрес электронной почты'}))
@@ -29,6 +43,12 @@ class CreateProfileForm(forms.ModelForm):
                                  widget=forms.TextInput(attrs={'placeholder': 'Введите отчество, если есть'}))
     date_of_birth = forms.DateField(label='Дата рождения', required=True, input_formats=['%d.%m.%Y'],
                                     widget=forms.DateInput(attrs={'placeholder': 'дд.мм.гггг'}))
+
+    def clean_date_of_birth(self):
+        date = self.cleaned_data['date_of_birth']
+        if date.year < datetime.datetime.now().year - 99:
+            raise ValidationError('Некорректная дата рождения')
+        return date
 
     class Meta:
         model = Profile
@@ -61,42 +81,40 @@ class CustomSetPasswordForm(SetPasswordForm):
                                     widget=forms.PasswordInput(attrs={'placeholder': 'Подтвердите пароль'}))
 
 
-class EditProfileForm(forms.ModelForm):
+class EditProfileForm(BaseFilledFieldsForm, forms.ModelForm):
+    required_fields = False
+
+    email = forms.EmailField(label='Адрес электронной почты, отображаемый в профиле',
+                             widget=forms.EmailInput(attrs={'placeholder': 'example@gmail.com'}))
+
     class Meta:
         model = Profile
-        fields = ['text', 'image', 'phone_number', 'email_public', 'city', 'scope_of_work']
+        fields = ['text', 'image', 'phone_number', 'email', 'city', 'scope_of_work']
 
-    def __init__(self, *args, **kwargs):
-        super(EditProfileForm, self).__init__(*args, **kwargs)
-        for field_name in self.fields:
-            self.initial[field_name] = getattr(self.instance.user.profile, field_name)
+    def save(self, *args, **kwargs):
+        instance = super(EditProfileForm, self).save(*args, **kwargs)
+        instance.user.email = self.cleaned_data['email']
+        instance.user.save()
+        return instance
 
 
-class EditAccountInformationForm(forms.ModelForm):
+class EditAccountInformationForm(BaseFilledFieldsForm, forms.ModelForm):
     first_name = forms.CharField(max_length=30, label='Имя', widget=forms.TextInput(
         attrs={'placeholder': 'Введите имя', 'class': 'first-name'}))
     last_name = forms.CharField(max_length=30, label='Фамилия', widget=forms.TextInput(
         attrs={'placeholder': 'Введите фамилию', 'class': 'last-name'}))
     patronymic = forms.CharField(label='Отчество', required=False, widget=forms.TextInput(
         attrs={'placeholder': 'Введите отчество, если есть', 'class': 'middle-name'}))
+    nickname = forms.CharField(max_length=30, label='Никнейм', required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Введите свой никнейм', 'class': 'nickname'}))
     date_of_birth = forms.DateField(label='Дата рождения', widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
                                                                                          years=range(
                                                                                              datetime.date.today().year - 99,
                                                                                              datetime.date.today().year)))
-    nickname = forms.CharField(max_length=30, label='Никнейм', required=False, widget=forms.PasswordInput(
-        attrs={'placeholder': 'Введите свой никнейм', 'class': 'nickname'}))
 
     class Meta:
         model = Profile
         fields = ['last_name', 'first_name', 'patronymic', 'date_of_birth', 'nickname']
-
-    def __init__(self, *args, **kwargs):
-        super(EditAccountInformationForm, self).__init__(*args, **kwargs)
-        for field_name in self.fields:
-            if hasattr(self.instance.user, field_name):
-                self.initial[field_name] = getattr(self.instance.user, field_name)
-            else:
-                self.initial[field_name] = getattr(self.instance.user.profile, field_name)
 
     def save(self, *args, **kwargs):
         instance = super(EditAccountInformationForm, self).save(*args, **kwargs)
@@ -126,11 +144,6 @@ class ChangeEmailForm(forms.ModelForm):
         if User.objects.filter(username=username).exists():
             raise ValidationError('Такая почта уже используется')
         return username
-
-    def save(self, commit=True):
-        user = super(ChangeEmailForm, self).save(commit=False)
-        user.email = self.cleaned_data['username']
-        user.save()
 
 
 class CustomSetPasswordFormNoRequired(CustomSetPasswordForm):

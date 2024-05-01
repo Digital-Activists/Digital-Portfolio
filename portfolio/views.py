@@ -6,7 +6,7 @@ from django.contrib.auth.views import LoginView, PasswordResetView, PasswordRese
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView, DetailView
 
 from .forms import *
 from .utils import PageTitleMixin, SOCIAL_NETWORKS
@@ -35,9 +35,9 @@ class EditProfileView(LoginRequiredMixin, FormView):
         kwargs.update({'instance': Profile.objects.get(user=self.request.user)})
         return kwargs
 
-    def form_valid(self, form):
-        form.save()
-        return redirect('home')
+    # def form_valid(self, form):
+    #     form.save()
+    #     return redirect('home')
 
 
 class EditAccountInformationView(LoginRequiredMixin, FormView):
@@ -55,6 +55,7 @@ class EditAccountInformationView(LoginRequiredMixin, FormView):
         return redirect('home')
 
 
+@login_required
 def change_user_email_and_password(request):
     if request.method == 'POST':
         email_form = ChangeEmailForm(request.POST, instance=request.user)
@@ -117,7 +118,6 @@ def register(request):
         profile_form = CreateProfileForm(request.POST)
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save(commit=False)
-            user.email = user_form.cleaned_data['username']
             profile = Profile(user=user, **profile_form.cleaned_data)
             profile.social_links = {}
             profile.nickname = user_form.cleaned_data['username']
@@ -133,10 +133,23 @@ def register(request):
     return render(request, 'portfolio/registration.html', {'form_fields': fields, 'title': 'Регистрация'})
 
 
-@method_decorator(login_required, name='dispatch')
+@login_required
 def submit_social_network(request):
     if request.method == 'POST':
         form = AddSocialNetworkForm(request.POST)
         if form.is_valid():
             social_network_name = form.cleaned_data['social_network']
             request.user.profile.social_links[social_network_name] = form.cleaned_data['link']
+
+
+class UserProfileView(LoginRequiredMixin, DetailView):
+    model = Profile
+    template_name = 'portfolio/plug-index.html'
+    context_object_name = 'user_profile'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        context['profile'] = self.request.user.profile
+        context['posts'] = Post.objects.filter(user=self.request.user)
+        return context

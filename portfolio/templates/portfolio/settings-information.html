@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block style_load %}
-    <link rel="stylesheet" href="{% static 'portfolio/css/settings-information.css' %}"/>
+    <link rel="stylesheet" href="{% static 'portfolio/css/settings-information.css' %} "/>
 {% endblock %}
 
 {% block settings %}
@@ -11,63 +11,44 @@
         <ol>
             <li class="account-image">
                 <label for="account-image">Фото профиля</label>
-                <img src="images/add image.svg" alt="Добавить фото">
+                <button type="button">
+                    <img src="{% static "portfolio/images/add image.svg " %}" alt="Добавить фото"/>
+                </button>
             </li>
-            <li class="profile-description">
-                <label for="profile-description">Описание профиля</label>
-                <input type="text" name="FirstName" placeholder="Добавьте описание к своему профилю..."/>
+
+            {% for field in form_scope_of_work%}
+            <li class="{{ field.field.widget.attrs.class }}">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <div class="form-error">{{ field.errors }}</div>
             </li>
+            {% endfor %}
             <li class="contacts">
+              
                 <label for="contacts">Контакты</label>
                 <ol class="contacts-list">
-                    <li class="telephone">
-                        <label for="telephone">Номер телефона</label>
-                        <input type="tel" placeholder="+7(900)000-00-00" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-                    </li>
-                    <li class="email">
-                        <label for="email">Электронная почта</label>
-                        <input type="email" placeholder="Введите адрес электронной почты" pattern=".+@example\.com">
-                    </li>
-                    <li class="city">
-                        <label for="city">Город</label>
-                        <input type="text" placeholder="Введите название города">
-                    </li>
+                  {% for field in form_contacts %}
+                  <li class="{{ field.field.widget.attrs.class }}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                          {{ field }}
+                          <div class="form-error">{{ field.errors }}</div>
+                  </li>
+                  {% endfor %}
+                    
                     <li class="social-networks">
                         <label for="social-networks">Социальные сети</label>
                         <div>
-                            {% for social_network in social_networks %}
-                                <li>
+                            {% for social_network in social_networks %}        
                                     <button type="button" onclick="openForm('{{ social_network.name }}')">
                                         <img src="{% static social_network.path %}">
-                                    </button>
-                                </li>
+                                    </button>   
                             {% endfor %}
                         </div>
                     </li>
                 </ol>
             </li>
-            <li class="activity">
-                <label for="activity">Сфера деятельности</label>
-                <div>
-                    <select id="activity">
-                        <option value="">Выберите свою сферу деятельности</option>
-                        <option value="1">Режиссер</option>
-                        <option value="2">Режиссер</option>
-                        <option value="3">Режиссер</option>
-                        <option value="4">Режиссер</option>
-                        <option value="5">Режиссер</option>
-                        <option value="6">Режиссер</option>
-                        <option value="7">Режиссер</option>
-                        <option value="8">Режиссер</option>
-                        <option value="9">Режиссер</option>
-                        <option value="10">Режиссер</option>
-                        <option value="11">Режиссер</option>
-                        <option value="12">Режиссер</option>
-                    </select>
-                </div>
-            </li>
         </ol>
-        <button type="submit" value="Сохранить">Сохранить</button>
+        <button type="submit" value="Сохранить" class="save">Сохранить</button>
     </form>
 
     <div id="socialModal">

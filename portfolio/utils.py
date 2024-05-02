@@ -1,5 +1,4 @@
 import os.path
-import pathlib
 from django.conf import settings
 
 PATH_TO_SOCIAL_NETWORKS = 'portfolio/images/social-networks'
@@ -12,20 +11,29 @@ class SocialNetwork:
 
 
 path = os.path.join(settings.BASE_DIR, 'portfolio/static', PATH_TO_SOCIAL_NETWORKS)
-file_filter = '*.svg'
 
-SOCIAL_NETWORKS = [SocialNetwork(file.stem, os.path.join(PATH_TO_SOCIAL_NETWORKS, file.name)) for file in
-                   pathlib.Path(path).glob(file_filter)]
+SOCIAL_NETWORKS = [('Medium', 'Medium.svg'), ('Tumblr', 'Tumblr.svg'), ('ВКонтакте', 'ВКонтакте.svg'),
+                   ('Мой Мир', 'Mailru_mir.svg'),
+                   ('GitHub', 'GitHub.svg'), ('Boosty', 'Boosty.svg'), ('Instagram', 'Instagram.svg'),
+                   ('Одноклассники', 'Одноклассники.svg'), ('Telegram', 'Telegram.svg'), ('Facebook', 'Facebook.svg'),
+                   ('Pinterest', 'Pinterest.svg'), ('Twitch', 'Twitch.svg'), ('YouTube', 'YouTube.svg'),
+                   ('Reddit', 'Reddit.svg'),
+                   ('Dribbble', 'Dribbble.svg'), ('Linkedin', 'Linkedin.svg'), ('Patreon', 'Patreon.svg'),
+                   ('Discord', 'Discord.svg'),
+                   ('Slack', 'Slack.svg'), ('TikTok', 'TikTok.svg'), ('Behance', 'Behance.svg')]
+
+SOCIAL_NETWORKS = [SocialNetwork(name, os.path.join(PATH_TO_SOCIAL_NETWORKS, file)) for (name, file) in
+                   SOCIAL_NETWORKS]
 
 
 def get_path_to_user_avatar(instance, filename):
     return f'images/users/user_{instance.user.id}/{filename}'
 
 
-class PageTitleMixin:
+class ContextUpdateMixin:
     PageTitle = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update({'title': self.PageTitle})
+        context['PageTitle'] = self.PageTitle
         return context

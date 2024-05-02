@@ -10,15 +10,15 @@
         <nav>
             <ul>
                 <li class="account">
-                    <a href="{% url 'edit_settings_account' %}">Аккаунт</a>
+                    <a href="{% url 'edit_settings_account' user_profile.nickname %}">Аккаунт</a>
                     <img src="{% static "portfolio/images/account icon.svg" %}" alt="Account icon"/>
                 </li>
                 <li class="infromation">
-                    <a href="{% url 'edit_settings_profile' %}">Информация профиля</a>
+                    <a href="{% url 'edit_settings_profile' user_profile.nickname %}">Информация профиля</a>
                     <img src="{% static "portfolio/images/infromation icon.svg" %}" alt="Infromation icon"/>
                 </li>
                 <li class="security">
-                    <a href="{% url 'edit_settings_security' %}">Безопасность</a>
+                    <a href="{% url 'edit_settings_security' user_profile.nickname %}">Безопасность</a>
                     <img src="{% static "portfolio/images/security icon.svg" %}" alt="Security icon"/>
                 </li>
             </ul>

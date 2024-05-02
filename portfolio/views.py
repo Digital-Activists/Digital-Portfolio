@@ -3,19 +3,22 @@ from django.contrib.auth import logout, login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import FormView, DetailView, CreateView
+from django.views.generic import DetailView, CreateView, UpdateView
 
 from .forms import *
-from .utils import PageTitleMixin, SOCIAL_NETWORKS
+from .utils import ContextUpdateMixin, SOCIAL_NETWORKS
 
 
+@login_required(login_url='login')
 def index(request):
-    return render(request, 'portfolio/plug-index.html', context={'user_profile': Profile.objects.get(user=request.user)})
+    return render(request, 'portfolio/plug-index.html',
+                  context={'user_profile': Profile.objects.get(user=request.user)})
 
 
-class CreatePostView(LoginRequiredMixin, CreateView, PageTitleMixin):
+class CreatePostView(LoginRequiredMixin, CreateView, ContextUpdateMixin):
     PageTitle = 'Create Post'
     form_class = CreatePostForm
     template_name = 'portfolio/plug-form.html'
@@ -35,52 +38,138 @@ class CreatePostView(LoginRequiredMixin, CreateView, PageTitleMixin):
         return redirect(self.success_url)
 
 
-class EditProfileView(LoginRequiredMixin, FormView):
+class EditProfileView(UpdateView, LoginRequiredMixin):
+    model = Profile
     template_name = 'portfolio/settings-information.html'
     form_class = EditProfileForm
-    success_url = reverse_lazy('home')
+    second_form_class = AddSocialNetworkForm
+    context_object_name = 'user_profile'
+    slug_url_kwarg = 'nickname'
+    slug_field = 'nickname'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        list_form = list(context['form'])
-        context['form_photo_and_description'] = list_form[:2]
-        context['form_contacts'] = list_form[2:5]
-        context['form_scope_of_work'] = list_form[5:]
+
+        if 'profile_form' in context:
+            list_profile_form_fields = list(context['profile_form'])
+        else:
+            list_profile_form_fields = list(self.form_class(self.request.user))
+
+        context['form_photo_and_description'] = list_profile_form_fields[:2]
+        context['form_contacts'] = list_profile_form_fields[2:5]
+        context['form_scope_of_work'] = list_profile_form_fields[5:]
         context['user'] = self.request.user
-        context.update({'social_networks': SOCIAL_NETWORKS, 'form_add_social_network': AddSocialNetworkForm()})
+        context['social_networks'] = SOCIAL_NETWORKS
+
+        if 'form_add_social_network' not in context:
+            context['form_add_social_network'] = self.second_form_class(self.request.GET)
+
         return context
 
-    def get_form_kwargs(self):
-        kwargs = super(EditProfileView, self).get_form_kwargs()
-        kwargs.update({'instance': Profile.objects.get(user=self.request.user)})
-        return kwargs
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        profile_form = self.form_class(request.POST)
+        social_network_form = self.second_form_class(request.POST)
 
-    def form_valid(self, form):
-        form.save()
-        return redirect('home')
+        if profile_form.is_valid() or social_network_form.is_valid():
+            if profile_form.is_valid():
+                self.form_profile_save(profile_form)
+                # TODO: Если форма не прошла проверку, display: не none
+            if social_network_form.is_valid():
+                self.form_social_network_save(social_network_form)
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(
+                self.get_context_data(profile_form=profile_form, form_add_social_network=social_network_form))
+
+    def form_profile_save(self, form):
+        profile = form.save(commit=False)
+        profile.user = self.request.user
+        profile.save()
+
+    def form_social_network_save(self, form):
+        social_network_name = form.cleaned_data['social_network']
+        profile = Profile.objects.get(user=self.request.user)
+        profile.social_links[social_network_name] = form.cleaned_data['link']
+        profile.save()
+
+    def get_success_url(self):
+        return reverse('edit_settings_profile', kwargs={'nickname': self.request.user.profile.nickname})
 
 
-class EditAccountInformationView(LoginRequiredMixin, FormView):
+class EditAccountInformationView(LoginRequiredMixin, UpdateView):
+    model = Profile
     form_class = EditAccountInformationForm
     template_name = 'portfolio/settings-account.html'
-    success_url = reverse_lazy('home')
+    context_object_name = 'user_profile'
+    slug_url_kwarg = 'nickname'
+    slug_field = 'nickname'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
         return context
 
-    def get_form_kwargs(self):
-        kwargs = super(EditAccountInformationView, self).get_form_kwargs()
-        kwargs.update({'instance': Profile.objects.get(user=self.request.user)})
-        return kwargs
+    def get_object(self, queryset=None):
+        return Profile.objects.get(user=self.request.user)
 
     def form_valid(self, form):
-        form.save()
-        return redirect('home')
+        response = super().form_valid(form)
+        form.instance.user.first_name = form.cleaned_data['first_name']
+        form.instance.user.last_name = form.cleaned_data['last_name']
+        form.instance.user.save()
+        return response
+
+    def get_success_url(self):
+        return reverse('edit_settings_account', kwargs={'nickname': self.request.user.profile.nickname})
 
 
-@login_required
+class EditSecuritySettingsView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = ChangeEmailForm
+    second_form_class = CustomSetPasswordFormNoRequired
+    template_name = 'portfolio/settings-security.html'
+    context_object_name = 'user_profile'
+    slug_url_kwarg = 'nickname'
+    slug_field = 'nickname'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_profile'] = Profile.objects.get(user=self.request.user)
+        if 'form_email' not in context.keys():
+            email_form = self.form_class(instance=self.request.user)
+            context['form_email'] = email_form,
+        if 'form_password' not in context.keys():
+            password_form = self.second_form_class(user=self.request.user)
+            context['form_password'] = password_form
+        return context
+
+    def get_object(self):
+        nickname = self.kwargs.get('nickname')
+        profile = get_object_or_404(Profile, nickname=nickname)
+        return profile.user
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        email_form = self.form_class(request.POST, instance=self.object)
+        password_form = self.second_form_class(self.object, self.request.POST)
+
+        if email_form.is_valid() or password_form.is_valid():
+            if email_form.is_valid():
+                email_form.save()
+                messages.success(request, 'Ваша почта была обновлена')
+            if password_form.is_valid():
+                password_form.save()
+                messages.success(request, 'Ваша пароль был обновлен')
+            update_session_auth_hash(request, password_form.user)
+            return HttpResponseRedirect(self.get_success_url())
+        return self.render_to_response(self.get_context_data(form_email=email_form, form_password=password_form))
+
+    def get_success_url(self):
+        return reverse('edit_settings_security', kwargs={'nickname': self.request.user.profile.nickname})
+
+
+@login_required(login_url='login')
 def change_user_email_and_password(request):
     if request.method == 'POST':
         email_form = ChangeEmailForm(request.POST, instance=request.user)
@@ -93,7 +182,6 @@ def change_user_email_and_password(request):
             password_form.save()
             update_session_auth_hash(request, password_form.user)
             messages.success(request, 'Ваша пароль был обновлен')
-
     else:
         email_form = ChangeEmailForm(instance=request.user)
         password_form = CustomSetPasswordFormNoRequired(user=request.user)
@@ -106,7 +194,7 @@ def change_user_email_and_password(request):
     return render(request, 'portfolio/settings-security.html', context)
 
 
-class LoginUser(LoginView, PageTitleMixin):
+class LoginUser(LoginView, ContextUpdateMixin):
     form_class = LoginUserForm
     template_name = 'portfolio/authorization.html'
     PageTitle = 'Страница регистрации и авторизации'
@@ -120,7 +208,7 @@ def logout_user(request):
     return redirect('login')
 
 
-class EnterEmailToResetPassword(PasswordResetView, PageTitleMixin):
+class EnterEmailToResetPassword(PasswordResetView, ContextUpdateMixin):
     form_class = EnterEmailToResetPasswordForm
     template_name = 'portfolio/reset-password.html'
     email_template_name = 'portfolio/email/password_reset_mail_v2.html'
@@ -157,13 +245,13 @@ def register(request):
     return render(request, 'portfolio/registration.html', {'form_fields': fields, 'title': 'Регистрация'})
 
 
-@login_required
 def submit_social_network(request):
     if request.method == 'POST':
         form = AddSocialNetworkForm(request.POST)
         if form.is_valid():
             social_network_name = form.cleaned_data['social_network']
-            request.user.profile.social_links[social_network_name] = form.cleaned_data['link']
+            profile = Profile.objects.get(user=request.user)
+            profile.social_links[social_network_name] = form.cleaned_data['link']
 
 
 class UserProfileView(DetailView):
@@ -175,6 +263,7 @@ class UserProfileView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
-        context['posts'] = Post.objects.filter(author=self.request.user)
+        user = Profile.objects.get(nickname=self.kwargs['nickname'])
+        context['user'] = user
+        context['posts'] = Post.objects.filter(author=user)
         return context

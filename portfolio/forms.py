@@ -151,17 +151,11 @@ class EditAccountInformationForm(BaseFilledFieldsForm, forms.ModelForm):
         model = Profile
         fields = ['last_name', 'first_name', 'patronymic', 'date_of_birth', 'nickname']
 
-    def save(self, *args, **kwargs):
-        instance = super(EditAccountInformationForm, self).save(*args, **kwargs)
-        instance.user.first_name = self.cleaned_data['first_name']
-        instance.user.last_name = self.cleaned_data['last_name']
-        instance.user.save()
-        return instance
-
 
 class AddSocialNetworkForm(forms.Form):
     social_network = forms.CharField(max_length=30, widget=forms.HiddenInput(attrs={'id': 'social-network'}))
-    link = forms.URLField(label='Введите ссылку на вашу социальную сеть', widget=forms.URLInput(attrs={'class': 'social-network-link', 'placeholder':'Вставьте ссылку...'}))
+    link = forms.URLField(label='Введите ссылку на вашу социальную сеть', widget=forms.URLInput(
+        attrs={'class': 'social-network-link', 'placeholder': 'Вставьте ссылку...'}))
 
 
 class ChangeEmailForm(forms.ModelForm):
@@ -176,6 +170,8 @@ class ChangeEmailForm(forms.ModelForm):
         username = self.cleaned_data.get('username')
         if not username:
             raise ValidationError('Это поле обязательно для заполнения.')
+        if username == self.instance.username:
+            raise ValidationError('Почта не была изменена')
         if User.objects.filter(username=username).exists():
             raise ValidationError('Такая почта уже используется')
         return username

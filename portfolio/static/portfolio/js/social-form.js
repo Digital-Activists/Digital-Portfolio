@@ -7,6 +7,14 @@ function closeForm() {
     document.getElementById("socialModal").style.display = "none";
 }
 
+document.querySelector('#demoModalStart').addEventListener('click', function () {
+    document.querySelector('#socialModal').style.display = 'flex';
+});
+// Закрытие модального окна
+document.querySelector('#demoModalStart').addEventListener('click', function () {
+    document.querySelector('#socialModal').style.display = 'none';
+});
+
 // document.getElementById("add_social-network-form").addEventListener('submit', function (event) {
 //     event.preventDefault();
 //

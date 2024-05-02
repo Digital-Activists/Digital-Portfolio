@@ -116,7 +116,7 @@ class EditAccountInformationForm(forms.ModelForm):
 
 class AddSocialNetworkForm(forms.Form):
     social_network = forms.CharField(max_length=30, widget=forms.HiddenInput(attrs={'id': 'social-network'}))
-    link = forms.URLField(label='Лэйбл', widget=forms.URLInput(attrs={'class': 'social-network-link'}))
+    link = forms.URLField(label='Введите ссылку на вашу социальную сеть', widget=forms.URLInput(attrs={'class': 'social-network-link', 'placeholder':'Вставьте ссылку...'}))
 
 
 class ChangeEmailForm(forms.ModelForm):

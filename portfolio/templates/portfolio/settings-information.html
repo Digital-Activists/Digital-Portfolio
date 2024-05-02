@@ -39,7 +39,7 @@
                         <label for="social-networks">Социальные сети</label>
                         <div>
                             {% for social_network in social_networks %}        
-                                    <button type="button" onclick="openForm('{{ social_network.name }}')">
+                                    <button type="button" id='demoModalStart' class='demoModalStart' onclick="openForm('{{ social_network.name }}')">
                                         <img src="{% static social_network.path %}">
                                     </button>   
                             {% endfor %}
@@ -51,18 +51,20 @@
         <button type="submit" value="Сохранить" class="save">Сохранить</button>
     </form>
 
+
+
     <div id="socialModal">
-        <div>
-            <button type="button" onclick="closeForm()">
-                <span aria-hidden="true">&times; - закрыть форму</span>
-            </button>
-        </div>
         <form id="add_social-network-form">
             {% csrf_token %}
+            <button type="button" id="close" onclick="closeForm()">
+                <span aria-hidden="true">&times; </span>
+            </button>
             {{ form_add_social_network.as_div }}
+            
             <button type="submit">Сохранить</button>
         </form>
     </div>
 
     <script src="{% static 'portfolio/js/social-form.js' %}"></script>
+    
 {% endblock %}

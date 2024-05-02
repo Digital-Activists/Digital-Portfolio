@@ -187,3 +187,69 @@ li.social-networks button, li.social-networks button img{
 
 
 
+#socialModal{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%!important;
+  height: 100%!important;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 99999;
+  display: none;
+}
+#add_social-network-form{
+  width: 580px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  margin: 0 auto;
+  margin-top: 200px;
+  flex-direction: column;
+  text-align: left;
+  padding: 0;
+}
+#add_social-network-form label{
+  font-size: 14px;
+  color: rgba(0, 0, 0, 1);
+  margin-top: 20px;
+  margin-left: 10px;
+}
+#add_social-network-form input{
+  border: none;
+  width: 542px;
+  background-color: rgba(217, 217, 217, 1);
+  border-radius: 5px;
+  padding-top: 7px;
+  padding-bottom: 8px;
+  padding-left: 10px;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+#add_social-network-form button{
+  text-align: center;
+  background-color: rgba(54, 192, 241, 1);
+  color: white;
+  border-radius: 10px;
+  border: none;
+  width: 120px;
+  height: 25px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  margin-left: 435px;
+}
+
+button#close{
+  text-align: center;
+  border-radius: 3px;
+  border: none;
+  color: white;
+  width: 25px;
+  height: 25px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: auto;
+}

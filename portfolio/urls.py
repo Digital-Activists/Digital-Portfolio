@@ -13,7 +13,7 @@ urlpatterns = [
     path('edit-settings-profile', EditProfileView.as_view(), name='edit_settings_profile'),
     path('submit-social-network-form', submit_social_network, name='submit_social_network_form'),
     path('edit-settings-security', change_user_email_and_password, name='edit_settings_security'),
+    path('post-kakogoto-usera', CreatePostView.as_view(), name='create_post'),
+    path('profile/<slug:nickname>/', UserProfileView.as_view(), name='view_user_profile'),
     # TODO: Комментарии ниже
-    # path('profile')
-    # path('post)
 ]

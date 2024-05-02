@@ -3,7 +3,7 @@
 
 {% block site-navigation %}
     <div class="profile-settings">
-        <a href="#" class="profile-icon">
+        <a href="{{ profile.get_absolute_url }}" class="profile-icon">
             <img src="{% static 'portfolio/images/profile icon.svg' %} " alt="Иконка профиля"/>
         </a>
         <a href="{% url "edit_settings_account" %}" class="settings-icon">

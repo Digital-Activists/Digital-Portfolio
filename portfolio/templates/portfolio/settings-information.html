@@ -15,26 +15,24 @@
                     <img src="{% static "portfolio/images/add image.svg " %}" alt="Добавить фото"/>
                 </button>
             </li>
-
-            {% for field in form_scope_of_work%}
-            <li class="{{ field.field.widget.attrs.class }}">
-              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% for field in form_photo_and_description %}
+                <li class="{{ field.field.widget.attrs.class }}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                     {{ field }}
                     <div class="form-error">{{ field.errors }}</div>
-            </li>
+                </li>
             {% endfor %}
+
             <li class="contacts">
-              
                 <label for="contacts">Контакты</label>
                 <ol class="contacts-list">
-                  {% for field in form_contacts %}
-                  <li class="{{ field.field.widget.attrs.class }}">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                          {{ field }}
-                          <div class="form-error">{{ field.errors }}</div>
-                  </li>
-                  {% endfor %}
-                    
+                    {% for field in form_contacts %}
+                        <li class="{{ field.field.widget.attrs.class }}">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            <div class="form-error">{{ field.errors }}</div>
+                        </li>
+                    {% endfor %}
                     <li class="social-networks">
                         <label for="social-networks">Социальные сети</label>
                         <div>
@@ -47,6 +45,13 @@
                     </li>
                 </ol>
             </li>
+            {% for field in form_scope_of_work %}
+                <li class="{{ field.field.widget.attrs.class }}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <div class="form-error">{{ field.errors }}</div>
+                </li>
+            {% endfor %}
         </ol>
         <button type="submit" value="Сохранить" class="save">Сохранить</button>
     </form>

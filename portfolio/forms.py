@@ -8,6 +8,46 @@ from django.core.validators import RegexValidator
 from .models import *
 
 
+class BaseFilledFieldsForm(forms.ModelForm):
+    required_fields = True
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name in self.fields:
+            field = self.fields[field_name]
+            field.required = self.required_fields
+            if hasattr(self.instance.user, field_name):
+                field.initial = getattr(self.instance.user, field_name)
+            else:
+                field.initial = getattr(self.instance.user.profile, field_name)
+
+
+# TODO: Загрузка файлов
+class CreatePostForm(forms.ModelForm):
+    images = forms.ImageField(widget=forms.ClearableFileInput(attrs={'allow_multiple_selected': True}))
+
+    def __init__(self, *args, **kwargs):
+        super(CreatePostForm, self).__init__(*args, **kwargs)
+        for field_name in self.fields:
+            field = self.fields[field_name]
+            field.required = False
+        self.fields['title'].required = True
+
+    class Meta:
+        model = Post
+        fields = ['title', 'text', 'date', 'budget', 'post_type', 'genre', 'style', 'age_limit', 'images']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': '', 'placeholder': ''}),
+            'text': forms.Textarea(attrs={'class': '', 'placeholder': ''}),
+            'date': forms.DateInput(attrs={'class': '', 'placeholder': ''}),
+            'budget': forms.Select(attrs={'class': '', 'placeholder': ''}),
+            'post_type': forms.Select(attrs={'class': '', 'placeholder': ''}),
+            'genre': forms.Select(attrs={'class': '', 'placeholder': ''}),
+            'style': forms.Select(attrs={'class': '', 'placeholder': ''}),
+            'age_limit': forms.Select(attrs={'class': '', 'placeholder': ''}),
+        }
+
+
 class CreateUserForm(UserCreationForm):
     username = forms.EmailField(label='Адрес электронной почты',
                                 widget=forms.EmailInput(attrs={'placeholder': 'Введите адрес электронной почты'}))
@@ -30,6 +70,12 @@ class CreateProfileForm(forms.ModelForm):
                                  widget=forms.TextInput(attrs={'placeholder': 'Введите отчество, если есть'}))
     date_of_birth = forms.DateField(label='Дата рождения', required=True, input_formats=['%d.%m.%Y'],
                                     widget=forms.DateInput(attrs={'placeholder': 'дд.мм.гггг'}))
+
+    def clean_date_of_birth(self):
+        date = self.cleaned_data['date_of_birth']
+        if date.year < datetime.datetime.now().year - 99:
+            raise ValidationError('Некорректная дата рождения')
+        return date
 
     class Meta:
         model = Profile
@@ -62,49 +108,48 @@ class CustomSetPasswordForm(SetPasswordForm):
                                     widget=forms.PasswordInput(attrs={'placeholder': 'Подтвердите пароль'}))
 
 
-class EditProfileForm(forms.ModelForm):
-    email_public = forms.EmailField(label='Электронная почта',
+class EditProfileForm(BaseFilledFieldsForm, forms.ModelForm):
+    required_fields = False
+    text = forms.CharField(label='Описание профиля', widget=forms.TextInput(
+        attrs={'placeholder': 'Добавьте описание к своему профилю...', 'class': 'profile-description'}))
+    email = forms.EmailField(label='Электронная почта',
                              widget=forms.EmailInput(attrs={'placeholder': 'Введите адрес электронной почты'}))
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    phone_number = forms.CharField(validators=[phone_regex], max_length=17, label='Номер телефона',widget=forms.TextInput(
-        attrs={'placeholder': '+7(000)000-00-00', 'class': 'telephone'}))
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
+                                 message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    phone_number = forms.CharField(validators=[phone_regex], max_length=17, label='Номер телефона',
+                                   widget=forms.TextInput(
+                                       attrs={'placeholder': '+7(000)000-00-00', 'class': 'telephone'}))
     city = forms.CharField(max_length=30, label='Город', widget=forms.TextInput(
         attrs={'placeholder': 'Введите город', 'class': 'city'}))
+
     class Meta:
         model = Profile
-        fields = ['text', 'image', 'phone_number', 'email_public', 'city', 'scope_of_work']
+        fields = ['image', 'text', 'phone_number', 'email', 'city', 'scope_of_work']
 
-    def __init__(self, *args, **kwargs):
-        super(EditProfileForm, self).__init__(*args, **kwargs)
-        for field_name in self.fields:
-            self.initial[field_name] = getattr(self.instance.user.profile, field_name)
+    def save(self, *args, **kwargs):
+        instance = super(EditProfileForm, self).save(*args, **kwargs)
+        instance.user.email = self.cleaned_data['email']
+        instance.user.save()
+        return instance
 
 
-class EditAccountInformationForm(forms.ModelForm):
+class EditAccountInformationForm(BaseFilledFieldsForm, forms.ModelForm):
     first_name = forms.CharField(max_length=30, label='Имя', widget=forms.TextInput(
         attrs={'placeholder': 'Введите имя', 'class': 'first-name'}))
     last_name = forms.CharField(max_length=30, label='Фамилия', widget=forms.TextInput(
         attrs={'placeholder': 'Введите фамилию', 'class': 'last-name'}))
     patronymic = forms.CharField(label='Отчество', required=False, widget=forms.TextInput(
         attrs={'placeholder': 'Введите отчество, если есть', 'class': 'middle-name'}))
+    nickname = forms.SlugField(max_length=50, label='Никнейм', required=True, widget=forms.TextInput(
+        attrs={'placeholder': 'Введите свой никнейм', 'class': 'nickname'}))
     date_of_birth = forms.DateField(label='Дата рождения', widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
                                                                                          years=range(
                                                                                              datetime.date.today().year - 99,
                                                                                              datetime.date.today().year)))
-    nickname = forms.CharField(max_length=30, label='Никнейм', required=False, widget=forms.PasswordInput(
-        attrs={'placeholder': 'Введите свой никнейм', 'class': 'nickname'}))
 
     class Meta:
         model = Profile
         fields = ['last_name', 'first_name', 'patronymic', 'date_of_birth', 'nickname']
-
-    def __init__(self, *args, **kwargs):
-        super(EditAccountInformationForm, self).__init__(*args, **kwargs)
-        for field_name in self.fields:
-            if hasattr(self.instance.user, field_name):
-                self.initial[field_name] = getattr(self.instance.user, field_name)
-            else:
-                self.initial[field_name] = getattr(self.instance.user.profile, field_name)
 
     def save(self, *args, **kwargs):
         instance = super(EditAccountInformationForm, self).save(*args, **kwargs)
@@ -134,11 +179,6 @@ class ChangeEmailForm(forms.ModelForm):
         if User.objects.filter(username=username).exists():
             raise ValidationError('Такая почта уже используется')
         return username
-
-    def save(self, commit=True):
-        user = super(ChangeEmailForm, self).save(commit=False)
-        user.email = self.cleaned_data['username']
-        user.save()
 
 
 class CustomSetPasswordFormNoRequired(CustomSetPasswordForm):

@@ -28,9 +28,9 @@
     </header>
 
     <main>
-        <section class="profile-information">
-            <img src ="images/profile icon example.jpg" alt="Фото профиля">
-            
+    <section>
+        <div class="profile-information">
+            <img src ="images/profile icon example.jpg"  alt="Фото профиля">  
             <div class="main-information">
                 <p class="name">Иванов Иван Иванович</p>
                 <ul>
@@ -49,7 +49,19 @@
                     <li class="email">
                         <p>Электронная почта: ivanIvanov@example.ru</p>
                     </li>
+                    <div class="tags">
+                        <p>Реклама</p>
+                        <p>Реклама</p>
+                        <p>Реклама</p>
+                        <p>Реклама</p>
+                        <p>Реклама</p>
+                    </div>
                 </ul>
+            </div>
+            
+            <div class="about-me">
+                <p class="about">О себе</p>
+                <p>Привет! Я специалист в области рекламы с опытом работы в различных проектах. За плечами много успешных проектов для разных брендов. Готов воплощать в жизнь идеи, привлекая внимание и создавая узнаваемый образ!</p>
             </div>
             <div class="social-networks">
                 <a href="#"><img src="images/social-network1.png"></a>
@@ -57,48 +69,115 @@
                 <a href="#"><img src="images/social-network3.png"></a>
                 <a href="#"><img src="images/social-network4.png"></a>
                 <a href="#"><img src="images/social-network5.png"></a>
-            </div>
-            <div class="about-me">
-                <p class="about">О себе</p>
-                <p>Привет! Я специалист в области рекламы с опытом работы в различных проектах. За плечами много успешных проектов для разных брендов. Готов воплощать в жизнь идеи, привлекая внимание и создавая узнаваемый образ!</p>
-            </div>
-            
-        </section>
-        <section class="posts">
-            <div class="create-new-project">
-                <a href="#">
-                    <img src="images/create-new-project.svg">
-                    <p>Создать новый проект</p>
-                </a>
-            </div>
+            </div> 
+        </div>
 
-            <div class="post">
-                <img src="images/post-example.jpg">
-                <p class="post-name">Реклама цветочного магазина</p>
-                <p class="post-description">Создал яркую рекламу для цветочного магазина, которая словно вдохнула жизнь в каждый бутон. Мои идеи преобразили обычные букеты в источник вдохновения и радости.</p>
-                <a href="#">Подробнее</a>    
+        <div class="create-post">
+            <img src ="images/create post.svg" width="35" height="35" alt="Создать пост(картинка)">
+            <p>Создать пост</p>
+            <a href="#">
+                <img src="images/post-arrow-right.svg" width="14" height="20" alt="Редактировать и создать пост">
+            </a>
+        </div>
+    </section>
+    
+    <section class="posts">
+        <div class="post">
+            <div>
+            <img src ="images/profile icon example.jpg" class="profile-img" alt="Фото профиля">
             </div>
-
-            <div class="post">
-                <img src="images/post-example.jpg">
+            <div class="post-information">
                 <p class="post-name">Реклама цветочного магазина</p>
-                <p class="post-description">Создал яркую рекламу для цветочного магазина, которая словно вдохнула жизнь в каждый бутон. Мои идеи преобразили обычные букеты в источник вдохновения и радости.</p>
-                <a href="#">Подробнее</a>    
+                <p class="post-type">Рекламный пост</p>
+                <div class="tags">
+                    <p>Реклама</p>
+                    <p>Реклама</p>
+                    <p>Реклама</p>
+                    <p>Реклама</p>
+                    <p>Реклама</p>
+                </div>
+                <p>Превратил цветочный магазин в оазис красоты и свежести! Моя рекламная кампания принесла в магазин новых посетителей, влюбленных в цветы и уют. Цветочные композиции стали не только удивительно красивыми, но и неповторимо привлекательными для каждого клиента. Давайте вместе оживим ваш магазин и создадим атмосферу, вдохновляющую на покупку цветов!</p>
+                <div class="post-image">
+                    <a href="#">
+                        <img src="images/post-arrow-left.svg" width="10" height="14" alt="Редактировать и создать пост">
+                    </a>
+                    <img src="images/post-example.jpg">
+                   
+                    <a href="#">
+                        <img src="images/post-arrow-right.svg" width="10" height="14" alt="Редактировать и создать пост">
+                    </a>
+                </div>
+                <p class="grade">+6</p>
+                <p>Жанр:</p>
+                <p>Бюджет:</p>
+                <div class="script">
+                    <img src="images/file.png" alt="Файл сценария">
+                    <p>Название сценария</p>
+                    <a href="#">
+                        <img src="images/post-arrow-right.svg" width="14" height="20" alt="Редактировать и создать пост">
+                    </a>
+                </div>
+                <p class="date">01.05.2024</p>
             </div>
-            <div class="post">
-                <img src="images/post-example.jpg">
+            <div class="icons">
+                <button type="button">
+                    <img src="images/favourites.png" alt="Избранное" >
+                </button> 
+                <button type="button" class="favourites">
+                    <img src="images/three dorts.png" alt="Настройки">
+                </button> 
+                
+            </div>    
+        </div>
+        <div class="post">
+            <div>
+            <img src ="images/profile icon example.jpg" class="profile-img" alt="Фото профиля">
+            </div>
+            <div class="post-information">
                 <p class="post-name">Реклама цветочного магазина</p>
-                <p class="post-description">Создал яркую рекламу для цветочного магазина, которая словно вдохнула жизнь в каждый бутон. Мои идеи преобразили обычные букеты в источник вдохновения и радости.</p>
-                <a href="#">Подробнее</a>    
+                <p class="post-type">Рекламный пост</p>
+                <div class="tags">
+                    <p>Реклама</p>
+                    <p>Реклама</p>
+                    <p>Реклама</p>
+                    <p>Реклама</p>
+                    <p>Реклама</p>
+                </div>
+                <p>Превратил цветочный магазин в оазис красоты и свежести! Моя рекламная кампания принесла в магазин новых посетителей, влюбленных в цветы и уют. Цветочные композиции стали не только удивительно красивыми, но и неповторимо привлекательными для каждого клиента. Давайте вместе оживим ваш магазин и создадим атмосферу, вдохновляющую на покупку цветов!</p>
+                <div class="post-image">
+                    <a href="#">
+                        <img src="images/post-arrow-left.svg" width="10" height="14" alt="Редактировать и создать пост">
+                    </a>
+                    <img src="images/post-example.jpg">
+                    <a href="#">
+                        <img src="images/post-arrow-right.svg" width="10" height="14" alt="Редактировать и создать пост">
+                    </a>
+                </div>
+                <p class="grade">+6</p>
+                <p>Жанр:</p>
+                <p>Бюджет:</p>
+                <div class="script">
+                    <img src="images/file.png" alt="Файл сценария">
+                    <p>Название сценария</p>
+                    <a href="#">
+                        <img src="images/post-arrow-right.svg" width="14" height="20" alt="Редактировать и создать пост">
+                    </a>
+                </div>
+                <p class="date">01.05.2024</p>
             </div>
-
-            <div class="post">
-                <img src="images/post-example.jpg">
-                <p class="post-name">Реклама цветочного магазина</p>
-                <p class="post-description">Создал яркую рекламу для цветочного магазина, которая словно вдохнула жизнь в каждый бутон. Мои идеи преобразили обычные букеты в источник вдохновения и радости.</p>
-                <a href="#">Подробнее</a>    
-            </div>
-        </section>
+            <div class="icons">
+                <button type="button">
+                    <img src="images/favourites.png" alt="Избранное" >
+                </button> 
+                <button type="button" class="favourites">
+                    <img src="images/three dorts.png" alt="Настройки">
+                </button> 
+                
+            </div>    
+        </div>
+                      
+        </div>
+    </section>
     </main>
 
     <footer class="main-footer">

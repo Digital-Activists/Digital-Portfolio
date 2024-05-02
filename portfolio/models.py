@@ -1,12 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
-# from django.db.models.signals import post_save
-# from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.timezone import now
-
-from .utils import get_path_to_user_avatar
 
 
 class Profile(models.Model):
@@ -21,6 +17,8 @@ class Profile(models.Model):
     scope_of_work = models.ForeignKey('ProfileScopeWork', null=True, on_delete=models.PROTECT,
                                       verbose_name='Сфера деятельности')
     social_links = models.JSONField(blank=True, verbose_name='Социальные сети')
+    tags = models.ForeignKey('ProfileTag', null=True, blank=True, on_delete=models.PROTECT,
+                             verbose_name='Теги пользователя')
 
     def save(self, *args, **kwargs):
         if not self.nickname and self.user.username:
@@ -39,15 +37,12 @@ class Profile(models.Model):
         ordering = ['user__last_name', 'user__first_name', 'patronymic']
 
 
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance, **kwargs['request'].session)
+class ProfileTag(models.Model):
+    tag = models.CharField(max_length=50, verbose_name='Тэг профиля')
 
 
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.profile.save()
+class ProfileScopeWork(models.Model):
+    scope_of_word = models.CharField(max_length=50, verbose_name='Сфера работы')
 
 
 class Post(models.Model):
@@ -55,7 +50,7 @@ class Post(models.Model):
     BUDGET = [('', '-'), ('100тыс-1млн', 'От 100 тыс до 1 млн'), ('1млн-10млн', 'От 1 млн до 10 млн'),
               ('10млн-100млн', 'От 10 млн до 100 млн'), ('>100 млн', 'Более 100 млн')]
 
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='posts')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=120, verbose_name='Заголовок')
     text = models.TextField(max_length=700, blank=True, verbose_name='Описание')
     date = models.DateField(default=now, verbose_name='Дата')
@@ -83,5 +78,5 @@ class PostStyle(models.Model):
     style = models.CharField(max_length=50, verbose_name='Стиль проекта')
 
 
-class ProfileScopeWork(models.Model):
-    scope_of_word = models.CharField(max_length=50, verbose_name='Сфера работы')
+class PostTag(models.Model):
+    tag = models.CharField(max_length=50, verbose_name='Тэг поста')

@@ -176,6 +176,5 @@ class UserProfileView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
-        context['profile'] = Profile.objects.get(user=self.request.user)
-        context['posts'] = Post.objects.filter(user=self.request.user)
+        context['posts'] = Post.objects.filter(author=self.request.user)
         return context

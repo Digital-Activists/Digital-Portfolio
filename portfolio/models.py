@@ -3,6 +3,7 @@ from django.db import models
 # from django.db.models.signals import post_save
 # from django.dispatch import receiver
 from django.urls import reverse
+from django.utils.text import slugify
 from django.utils.timezone import now
 
 from .utils import get_path_to_user_avatar
@@ -12,22 +13,25 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     patronymic = models.CharField(max_length=50, blank=True, verbose_name='Отчество')
     date_of_birth = models.DateField(verbose_name='Дата рождения')
-    nickname = models.CharField(max_length=50, blank=True, unique=True, verbose_name='Никнейм')
+    nickname = models.SlugField(max_length=50, unique=True, verbose_name='Никнейм')
     text = models.TextField(blank=True, verbose_name='Описание профиля')
-    image = models.ImageField(upload_to=get_path_to_user_avatar, null=True, verbose_name='Фото профиля')
+    image = models.ImageField(upload_to='photos/avatars', null=True, verbose_name='Фото профиля')
     phone_number = models.CharField(max_length=10, blank=True, verbose_name='Номер телефона')
     city = models.CharField(max_length=50, blank=True, verbose_name='Город')
     scope_of_work = models.ForeignKey('ProfileScopeWork', null=True, on_delete=models.PROTECT,
                                       verbose_name='Сфера деятельности')
     social_links = models.JSONField(blank=True, verbose_name='Социальные сети')
 
+    def save(self, *args, **kwargs):
+        if not self.nickname and self.user.username:
+            self.nickname = slugify(self.user.username)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.user.last_name + self.user.first_name + self.patronymic
 
     def get_absolute_url(self):
-        if self.nickname != '':
-            return reverse('portfolio:profile', kwargs={'nickname': self.nickname})
-        return reverse('portfolio:profile', kwargs={'pk': self.pk})
+        return reverse('view_user_profile', kwargs={'nickname': self.nickname})
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -60,6 +64,11 @@ class Post(models.Model):
     genre = models.ForeignKey('PostGenre', null=True, on_delete=models.PROTECT, verbose_name='Жанр')
     style = models.ForeignKey('PostStyle', null=True, on_delete=models.PROTECT, verbose_name='Стиль')
     age_limit = models.CharField(max_length=3, blank=True, choices=AGE_LIMITS, verbose_name='Возрастные ограничения')
+
+
+class PostPhoto(models.Model):
+    file = models.ImageField(upload_to='photos/posts')
+    post = models.ForeignKey(Post, related_name='photos', on_delete=models.CASCADE)
 
 
 class PostType(models.Model):

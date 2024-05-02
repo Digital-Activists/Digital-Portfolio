@@ -22,7 +22,10 @@ class BaseFilledFieldsForm(forms.ModelForm):
                 field.initial = getattr(self.instance.user.profile, field_name)
 
 
+# TODO: Загрузка файлов
 class CreatePostForm(forms.ModelForm):
+    images = forms.ImageField(widget=forms.ClearableFileInput(attrs={'allow_multiple_selected': True}))
+
     def __init__(self, *args, **kwargs):
         super(CreatePostForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
@@ -32,7 +35,7 @@ class CreatePostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'text', 'date', 'budget', 'post_type', 'genre', 'style', 'age_limit']
+        fields = ['title', 'text', 'date', 'budget', 'post_type', 'genre', 'style', 'age_limit', 'images']
         widgets = {
             'title': forms.TextInput(attrs={'class': '', 'placeholder': ''}),
             'text': forms.Textarea(attrs={'class': '', 'placeholder': ''}),
@@ -137,7 +140,7 @@ class EditAccountInformationForm(BaseFilledFieldsForm, forms.ModelForm):
         attrs={'placeholder': 'Введите фамилию', 'class': 'last-name'}))
     patronymic = forms.CharField(label='Отчество', required=False, widget=forms.TextInput(
         attrs={'placeholder': 'Введите отчество, если есть', 'class': 'middle-name'}))
-    nickname = forms.CharField(max_length=30, label='Никнейм', required=False, widget=forms.TextInput(
+    nickname = forms.SlugField(max_length=50, label='Никнейм', required=True, widget=forms.TextInput(
         attrs={'placeholder': 'Введите свой никнейм', 'class': 'nickname'}))
     date_of_birth = forms.DateField(label='Дата рождения', widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
                                                                                          years=range(

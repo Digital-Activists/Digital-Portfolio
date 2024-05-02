@@ -12,7 +12,7 @@ from .utils import PageTitleMixin, SOCIAL_NETWORKS
 
 
 def index(request):
-    return render(request, 'portfolio/plug-index.html', {'title': 'Home', 'social_networks': SOCIAL_NETWORKS})
+    return render(request, 'portfolio/plug-index.html', context={'user_profile': Profile.objects.get(user=request.user)})
 
 
 class CreatePostView(LoginRequiredMixin, CreateView, PageTitleMixin):
@@ -28,6 +28,10 @@ class CreatePostView(LoginRequiredMixin, CreateView, PageTitleMixin):
         new_post = form.save(commit=False)
         new_post.author = author
         new_post.save()
+
+        for f in self.request.FILES.getlist('files'):
+            PostPhoto.objects.create(file=f, post=new_post)
+
         return redirect(self.success_url)
 
 
@@ -42,6 +46,7 @@ class EditProfileView(LoginRequiredMixin, FormView):
         context['form_photo_and_description'] = list_form[:2]
         context['form_contacts'] = list_form[2:5]
         context['form_scope_of_work'] = list_form[5:]
+        context['user'] = self.request.user
         context.update({'social_networks': SOCIAL_NETWORKS, 'form_add_social_network': AddSocialNetworkForm()})
         return context
 
@@ -59,6 +64,11 @@ class EditAccountInformationView(LoginRequiredMixin, FormView):
     form_class = EditAccountInformationForm
     template_name = 'portfolio/settings-account.html'
     success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
 
     def get_form_kwargs(self):
         kwargs = super(EditAccountInformationView, self).get_form_kwargs()
@@ -135,7 +145,6 @@ def register(request):
             user = user_form.save(commit=False)
             profile = Profile(user=user, **profile_form.cleaned_data)
             profile.social_links = {}
-            profile.nickname = user_form.cleaned_data['username']
             user.save()
             profile.save()
             login(request, user)
@@ -157,10 +166,12 @@ def submit_social_network(request):
             request.user.profile.social_links[social_network_name] = form.cleaned_data['link']
 
 
-class UserProfileView(LoginRequiredMixin, DetailView):
+class UserProfileView(DetailView):
     model = Profile
-    template_name = 'portfolio/plug-index.html'
+    template_name = 'portfolio/profile.html'
     context_object_name = 'user_profile'
+    slug_url_kwarg = 'nickname'
+    slug_field = 'nickname'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

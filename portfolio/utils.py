@@ -1,5 +1,6 @@
 import os.path
 from django.conf import settings
+from django.urls import reverse
 
 PATH_TO_SOCIAL_NETWORKS = 'portfolio/images/social-networks'
 
@@ -28,6 +29,19 @@ SOCIAL_NETWORKS = [SocialNetwork(name, os.path.join(PATH_TO_SOCIAL_NETWORKS, fil
 
 def get_path_to_user_avatar(instance, filename):
     return f'images/users/user_{instance.user.id}/{filename}'
+
+
+class GetProfileMixin:
+    context_object_name = 'user_profile'
+    slug_url_kwarg = 'nickname'
+    slug_field = 'nickname'
+
+
+class ProfileSuccessUrlMixin:
+    custom_success_url = ''
+
+    def get_success_url(self):
+        return reverse(self.custom_success_url, kwargs={'nickname': self.request.user.profile.nickname})
 
 
 class ContextUpdateMixin:

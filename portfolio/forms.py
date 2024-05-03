@@ -16,10 +16,10 @@ class BaseFilledFieldsForm(forms.ModelForm):
         for field_name in self.fields:
             field = self.fields[field_name]
             field.required = self.required_fields
-            if hasattr(self.instance.user, field_name):
-                field.initial = getattr(self.instance.user, field_name)
+            if hasattr(self.instance, field_name):
+                field.initial = getattr(self.instance, field_name)
             else:
-                field.initial = getattr(self.instance.user.profile, field_name)
+                field.initial = getattr(self.instance.user, field_name)
 
 
 # TODO: Загрузка файлов
@@ -125,12 +125,6 @@ class EditProfileForm(BaseFilledFieldsForm, forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['image', 'text', 'phone_number', 'email', 'city', 'scope_of_work']
-
-    def save(self, *args, **kwargs):
-        instance = super(EditProfileForm, self).save(*args, **kwargs)
-        instance.user.email = self.cleaned_data['email']
-        instance.user.save()
-        return instance
 
 
 class EditAccountInformationForm(BaseFilledFieldsForm, forms.ModelForm):

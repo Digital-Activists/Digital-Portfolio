@@ -8,6 +8,15 @@
 {% block settings %}
     <form action="" method="post" class="account-form">
         {% csrf_token %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         <ol>
             <li class="account-image">
                 <label for="account-image">Фото профиля</label>

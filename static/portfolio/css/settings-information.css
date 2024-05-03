@@ -6,26 +6,25 @@ body {
     display: flex;
     flex-direction: column;
     margin: 0;
-    }
+}
 
-  h1 {
+h1 {
     display: none;
-    }
+}
 
 .account-form {
-  width: 820px;
-  margin-top: 60px;
-  margin-bottom: 166px;
-  margin-left: 85px;
+    width: 820px;
+    margin-top: 60px;
+    margin-bottom: 166px;
+    margin-left: 85px;
 
-  border-radius: 10px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
-  background-color: rgba(234, 237, 240, 1);
+    border-radius: 10px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+    background-color: rgba(234, 237, 240, 1);
 
-  padding-left: 45px;
-  padding-right: 45px;
+    padding: 25px 45px;
 
-  text-align: left;
+    text-align: left;
 }
 
 ol {
@@ -34,27 +33,27 @@ ol {
 
 ol,
 ul {
-  list-style-type: none; /* Убирает буллиты */
+    list-style-type: none; /* Убирает буллиты */
 }
 
 .account-form input,
 select {
-  display: block;
-  font-family: "Inter", sans-serif;
-  width: 300px;
-  height: 25px;
-  font-size: 12px;
-  color: rgba(140, 140, 140, 1);
-  background-color: rgba(217, 217, 217, 1);
-  border-radius: 10px;
-  border-width: 0;
-  padding-left: 10px;
+    display: block;
+    font-family: "Inter", sans-serif;
+    width: 300px;
+    height: 25px;
+    font-size: 12px;
+    color: rgba(140, 140, 140, 1);
+    background-color: rgba(217, 217, 217, 1);
+    border-radius: 10px;
+    border-width: 0;
+    padding-left: 10px;
 
-  margin-top: 5px;
-  margin-bottom: 15px;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 
-.profile-description input{
+.profile-description input {
     width: 449px;
 
     white-space: normal;
@@ -62,7 +61,7 @@ select {
 }
 
 
-.account-form label{
+.account-form label {
     display: block;
     color: rgba(0, 0, 0, 1);
     margin-bottom: 15px;
@@ -73,38 +72,46 @@ select {
     padding-bottom: 25px;
     margin-top: 25px;
 }
-.activity{
+
+.activity {
     margin-top: 25px;
 }
-.account-image img{
+
+.account-image img {
     width: 110px;
     height: 110px;
     margin-left: 20px;
 }
 
-.contacts-list label{
+.contacts-list label {
     font-size: 18px;
 }
-.contacts-list{
+
+.contacts-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-areas: "telephone social-networks"
     "email social-networks"
     "city social-networks";
 }
-.contacts-list li{
+
+.contacts-list li {
     margin-left: 30px;
 }
-.social-networks{
+
+.social-networks {
     grid-area: social-networks;
 }
-.telephone{
+
+.telephone {
     grid-area: telephone;
 }
-.email{
+
+.email {
     grid-area: email;
 }
-.city{
+
+.city {
     grid-area: city;
 }
 
@@ -126,64 +133,139 @@ select {
 
 
 .settings-items {
-  width: 465px;
-  height: 143px;
-  margin-left: 35px;
-  margin-right: 35px;
-  margin-top: 60px;
-  margin-bottom: 621px;
+    width: 465px;
+    height: 143px;
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-top: 60px;
+    margin-bottom: 621px;
 
-  border-radius: 10px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
-  background-color: rgba(234, 237, 240, 1);
+    border-radius: 10px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+    background-color: rgba(234, 237, 240, 1);
 
-  padding: 5px 6px 5px 5px;
-  text-align: left;
-  font-size: 18px;
+    padding: 5px 6px 5px 5px;
+    text-align: left;
+    font-size: 18px;
 }
+
 ul {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
+
 .settings-items li {
-  display: flex;
-  width: auto;
-  height: 24px;
-  border-radius: 10px;
-  padding: 10px;
+    display: flex;
+    width: auto;
+    height: 24px;
+    border-radius: 10px;
+    padding: 10px;
 }
+
 .settings-items a {
-  justify-content: start;
-  margin-right: auto;
-  text-decoration: none;
-  color: rgba(0, 0, 0, 1);
+    justify-content: start;
+    margin-right: auto;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 1);
 }
+
 .settings-items img {
-  justify-content: end;
-  width: 20px;
-  height: 20px;
+    justify-content: end;
+    width: 20px;
+    height: 20px;
 }
+
 li.infromation {
-  background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(0, 0, 0, 0.25);
 }
 
-li.social-networks button, li.social-networks button img{
-  
-  width: 30px;
-  height: 30px;
-  border: none;
-  background-color: rgba(217, 217, 217, 1);
-}
-.social-networks div{
-  width: 340px;
-  padding: 10px;
-  background-color: rgba(217, 217, 217, 1);
-  border-radius: 10px;
+li.social-networks button, li.social-networks button img {
+
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: rgba(217, 217, 217, 1);
 }
 
-.account-image button{
-  border: none;
+.social-networks div {
+    width: 340px;
+    padding: 10px;
+    background-color: rgba(217, 217, 217, 1);
+    border-radius: 10px;
+}
+
+.account-image button {
+    border: none;
 }
 
 
+#socialModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 99999;
+    display: none;
+}
 
+#add_social-network-form {
+    width: 580px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    margin: 0 auto;
+    margin-top: 200px;
+    flex-direction: column;
+    text-align: left;
+    padding: 0;
+}
+
+#add_social-network-form label {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 1);
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+#add_social-network-form input {
+    border: none;
+    width: 542px;
+    background-color: rgba(217, 217, 217, 1);
+    border-radius: 5px;
+    padding-top: 7px;
+    padding-bottom: 8px;
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+#add_social-network-form button {
+    text-align: center;
+    background-color: rgba(54, 192, 241, 1);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    width: 120px;
+    height: 25px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-left: 435px;
+}
+
+button#close {
+    text-align: center;
+    border-radius: 2px;
+    border: none;
+    color: white;
+    width: 25px;
+    height: 25px;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+}

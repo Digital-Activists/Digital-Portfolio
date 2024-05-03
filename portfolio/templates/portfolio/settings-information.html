@@ -18,12 +18,7 @@
             </ul>
         {% endif %}
         <ol>
-            <li class="account-image">
-                <label for="account-image">Фото профиля</label>
-                <button type="button">
-                    <img src="{% static "portfolio/images/add image.svg " %}" alt="Добавить фото"/>
-                </button>
-            </li>
+           
             {% for field in form_photo_and_description %}
                 <li class="{{ field.field.widget.attrs.class }}">
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>

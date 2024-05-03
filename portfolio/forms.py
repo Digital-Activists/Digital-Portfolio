@@ -146,10 +146,14 @@ class EditAccountInformationForm(BaseFilledFieldsForm, forms.ModelForm):
         fields = ['last_name', 'first_name', 'patronymic', 'date_of_birth', 'nickname']
 
 
-class AddSocialNetworkForm(forms.Form):
-    social_network = forms.CharField(max_length=30, widget=forms.HiddenInput(attrs={'id': 'social-network'}))
+class AddSocialNetworkForm(forms.ModelForm):
+    type = forms.CharField(max_length=30, widget=forms.HiddenInput(attrs={'id': 'social-network-hidden-input'}))
     link = forms.URLField(label='Введите ссылку на вашу социальную сеть', widget=forms.URLInput(
         attrs={'class': 'social-network-link', 'placeholder': 'Вставьте ссылку...'}))
+
+    class Meta:
+        model = ProfileSocialNetwork
+        fields = ['link', 'type']
 
 
 class ChangeEmailForm(forms.ModelForm):

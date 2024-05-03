@@ -44,7 +44,9 @@
         {{ user_profile.text }}
     </div>
     <div class="social-networks">
-        <a href="#"><img src="images/social-network1.png"></a>
+        {% for social_network in user.social_networks.all %}
+            <a href="{{ social_network.link }}"><img src="{% static social_network.get_image_url %}"></a>
+        {% endfor %}
     </div>
     </div>
 

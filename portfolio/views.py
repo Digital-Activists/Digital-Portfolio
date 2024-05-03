@@ -55,7 +55,7 @@ class EditProfileView(GetProfileMixin, ProfileSuccessUrlMixin, UpdateView, Login
         context['social_networks'] = SOCIAL_NETWORKS
 
         if 'form_add_social_network' not in context:
-            context['form_add_social_network'] = self.second_form_class(self.request.GET)
+            context['form_add_social_network'] = self.get_form(self.second_form_class)
 
         return context
 
@@ -81,10 +81,9 @@ class EditProfileView(GetProfileMixin, ProfileSuccessUrlMixin, UpdateView, Login
                 self.get_context_data(form=profile_form, form_add_social_network=social_network_form))
 
     def form_social_network_save(self, form):
-        social_network_name = form.cleaned_data['social_network']
-        profile = Profile.objects.get(user=self.request.user)
-        profile.social_links[social_network_name] = form.cleaned_data['link']
-        profile.save()
+        social_network = form.save(commit=False)
+        social_network.user = self.request.user
+        social_network.save()
 
     def get_object(self, queryset=None):
         return self.request.user.profile

@@ -1,5 +1,3 @@
-import os
-
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
@@ -22,9 +20,6 @@ class Profile(models.Model):
     city = models.CharField(max_length=50, blank=True, verbose_name='Город')
     scope_of_work = models.ForeignKey('ProfileScopeWork', null=True, on_delete=models.PROTECT,
                                       verbose_name='Сфера деятельности')
-    social_links = models.JSONField(blank=True, verbose_name='Социальные сети')
-    tags = models.ForeignKey('ProfileTag', null=True, blank=True, on_delete=models.PROTECT,
-                             verbose_name='Теги пользователя')
 
     def save(self, *args, **kwargs):
         if not self.nickname and self.user.username:
@@ -56,21 +51,24 @@ class Profile(models.Model):
 
 
 class ProfileSocialNetwork(models.Model):
-    type = models.CharField(choices=[(sn.name, sn.name) for sn in SOCIAL_NETWORKS], max_length=50)
+    type = models.CharField(choices=[(sn, sn) for sn in SOCIAL_NETWORKS.keys()], max_length=50)
     link = models.URLField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='social_networks')
 
     def get_image_url(self):
-        social_network = next((sn for sn in SOCIAL_NETWORKS if sn.name == self.type), None)
-        return social_network.path if social_network else None
+        if self.type in SOCIAL_NETWORKS.keys():
+            path = SOCIAL_NETWORKS[self.type]
+            return path
+        return ''
 
 
 class ProfileTag(models.Model):
     tag = models.CharField(max_length=50, verbose_name='Тэг профиля')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tags')
 
 
 class ProfileScopeWork(models.Model):
-    scope_of_word = models.CharField(max_length=50, verbose_name='Сфера работы')
+    scope_of_work = models.CharField(max_length=50, verbose_name='Сфера работы')
 
 
 class Post(models.Model):

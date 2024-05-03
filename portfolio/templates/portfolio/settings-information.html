@@ -45,10 +45,10 @@
                     <li class="social-networks">
                         <label for="social-networks">Социальные сети</label>
                         <div>
-                            {% for social_network in social_networks %}
+                            {% for social_network, path in social_networks.items %}
                                 <button type="button" class='demoModalStart'
-                                        onclick="openForm('{{ social_network.name }}')">
-                                    <img src="{% static social_network.path %}" alt="{{ social_network.name }}">
+                                        onclick="openForm('{{ social_network }}')">
+                                    <img src="{% static path %}" alt="{{ social_network }}">
                                 </button>
                             {% endfor %}
                         </div>

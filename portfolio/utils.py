@@ -3,14 +3,6 @@ from django.conf import settings
 from django.urls import reverse
 
 PATH_TO_SOCIAL_NETWORKS = 'portfolio/images/social-networks'
-
-
-class SocialNetwork:
-    def __init__(self, name_without_extension, path_relative_static_folder):
-        self.name = name_without_extension
-        self.path = path_relative_static_folder
-
-
 path = os.path.join(settings.BASE_DIR, 'portfolio/static', PATH_TO_SOCIAL_NETWORKS)
 
 SOCIAL_NETWORKS = (('Medium', 'Medium.svg'), ('Tumblr', 'Tumblr.svg'), ('ВКонтакте', 'ВКонтакте.svg'),
@@ -23,8 +15,8 @@ SOCIAL_NETWORKS = (('Medium', 'Medium.svg'), ('Tumblr', 'Tumblr.svg'), ('ВКо�
                    ('Discord', 'Discord.svg'),
                    ('Slack', 'Slack.svg'), ('TikTok', 'TikTok.svg'), ('Behance', 'Behance.svg'))
 
-SOCIAL_NETWORKS = (SocialNetwork(name, os.path.join(PATH_TO_SOCIAL_NETWORKS, file)) for (name, file) in
-                   SOCIAL_NETWORKS)
+SOCIAL_NETWORKS = {name: os.path.join(PATH_TO_SOCIAL_NETWORKS, file) for (name, file) in
+                   SOCIAL_NETWORKS}
 
 
 def get_path_to_user_avatar(instance, filename):

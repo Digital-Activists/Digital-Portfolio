@@ -16,12 +16,12 @@ h1 {
 }
 
 ul {
-  list-style-type: none; /* Убирает буллиты */
-  padding: 0;
-  margin: 0;
+    list-style-type: none; /* Убирает буллиты */
+    padding: 0;
+    margin: 0;
 }
 
-.profile-information{
+.profile-information {
     width: 480px;
 
     margin-top: 30px;
@@ -34,26 +34,30 @@ ul {
 
     text-align: center;
 }
-.profile-information img{
+
+.profile-information img {
     width: 100px;
     height: 100px;
-    margin-top:  30px;
+    margin-top: 30px;
     margin-bottom: 15px;
 }
-p.name{
+
+p.name {
     margin-top: 0;
     font-weight: bold;
     font-size: 25px;
 }
-.profile-information li{
+
+.profile-information li {
     margin-top: 0;
     margin-bottom: -3px;
 }
-li.city{
+
+li.city {
     margin-bottom: 20px;
 }
 
-.social-networks{
+.social-networks {
     display: grid;
     grid-template-columns: repeat(5, 30px);
     column-gap: 10px;
@@ -70,29 +74,31 @@ li.city{
     padding-left: 25px;
 }
 
-.social-networks img{
+.social-networks img {
     margin-top: 10px;
     width: 30px;
     height: 30px;
 }
 
-div.about-me{
+div.about-me {
     margin-left: 65px;
     margin-right: 65px;
     width: 350px;
     margin-top: 25px;
     margin-bottom: 30px;
 }
-.about-me p{
+
+.about-me p {
     margin-top: 5px;
 }
-p.about{
+
+p.about {
     margin-bottom: 0;
     font-size: 18px;
     font-weight: bold;
 }
 
-.create-post{
+.create-post {
     display: flex;
 
     width: 480px;
@@ -103,16 +109,19 @@ p.about{
     background-color: rgba(255, 255, 255, 1);
     align-items: center;
 }
-.create-post p{
+
+.create-post p {
     margin-right: auto;
     color: rgba(140, 140, 140, 1);
     font-size: 18px;
 }
-.create-post img{
+
+.create-post img {
     margin-right: 10px;
     margin-left: 20px;
 }
-.posts{
+
+.posts {
     display: flex;
     flex-direction: column;
     width: 850px;
@@ -123,10 +132,10 @@ p.about{
 
 }
 
-.post{
+.post {
     display: flex;
     width: 865px;
-    padding-right: 20px ;
+    padding-right: 20px;
     border-radius: 5px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
     background-color: rgba(255, 255, 255, 1);
@@ -134,27 +143,31 @@ p.about{
     text-align: left;
     margin-bottom: 20px;
 }
-.profile-img{
+
+.profile-img {
     width: 60px;
     height: 60px;
     margin-left: 15px;
 }
 
-.post-name{
+.post-name {
     font-size: 18px;
     margin-bottom: -10px;
 
 }
-.post-description{
+
+.post-description {
     font-size: 14px;
 }
-.post-information{
+
+.post-information {
     margin: 0;
     padding: 0;
     margin-left: 9px;
     width: 722px;
 }
-.post-image{
+
+.post-image {
     display: grid;
     grid-template-columns: 15px auto 15px;
     align-items: center;
@@ -162,7 +175,7 @@ p.about{
 }
 
 
-.script{
+.script {
     width: 310px;
     height: 40px;
     background-color: rgba(234, 237, 240, 1);
@@ -174,17 +187,19 @@ p.about{
 
     margin-bottom: 34px;
 }
-.script img{
+
+.script img {
     margin-right: 10px;
     margin-left: 10px;
 }
-.script p{
+
+.script p {
     margin-right: auto;
 
     font-size: 10px;
 }
 
-.tags{
+.tags {
 
     display: grid;
     width: 279px;
@@ -194,10 +209,12 @@ p.about{
     column-gap: 20px;
     row-gap: -30px;
 }
-.main-information .tags{
+
+.main-information .tags {
     margin: 0 auto;
 }
-.tags p{
+
+.tags p {
     width: 60px;
     border-radius: 5px;
     background-color: rgba(54, 192, 241, 1);
@@ -205,19 +222,22 @@ p.about{
     padding: 2px 8px;
 }
 
-.post-type, .date{
+.post-type, .date {
     color: rgba(140, 140, 140, 1);
     font-size: 12px;
 }
-.date{
+
+.date {
     margin-left: 720px;
 }
-.icons{
+
+.icons {
     display: flex;
 }
-.icons button{
+
+.icons button {
     width: 13px;
-    height :17px;
+    height: 17px;
     background-color: white;
     border-color: white;
     border: none;
@@ -225,7 +245,7 @@ p.about{
     margin-right: 5px;
 }
 
-p.grade{
+p.grade {
     margin-left: 670px;
     margin-bottom: -30px;
 }

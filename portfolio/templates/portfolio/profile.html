@@ -1,1 +1,116 @@
 {% extends 'portfolio/base-with-navigation.html' %}
+{% load static %}
+
+{% block style_load %}
+    <link rel="stylesheet" href="{% static 'portfolio/css/profile page.css' %}"/>
+{% endblock %}
+
+{% block main %}
+    <section>
+        <div class="profile-information">
+    {% if user_profile.image %}
+        <img src="" alt="Фото профиля">
+    {% else %}
+        <img src="{% static 'Заглушка.png' %}" alt="Фото профиля">
+    {% endif %}
+    <div class="main-information">
+        <p class="name">{{ user.last_name }} {{ user.first_name }} {{ user_profile.patronymic }}</p>
+        <ul>
+            <li class="age">
+                <p>Возраст: 31 год</p>
+            </li>
+            <li class="activity">
+                <p>Сфера деятельности: {{ user_profile.scope_of_work }}</p>
+            </li>
+            <li class="city">
+                <p>Город: {{ user_profile.city }}</p>
+            </li>
+            <li class="telephone">
+                <p>Телефон: {{ user_profile.phone_number }}</p>
+            </li>
+            <li class="email">
+                <p>Электронная почта: {{ user.email }}</p>
+            </li>
+            <div class="tags">
+                {% for tag in user_profile.tags %}
+                    <p>{{ tag }}</p>
+                {% endfor %}
+            </div>
+        </ul>
+    </div>
+
+    <div class="about-me">
+        <p class="about">О себе</p>
+        {{ user_profile.text }}
+    </div>
+    <div class="social-networks">
+        <a href="#"><img src="images/social-network1.png"></a>
+    </div>
+    </div>
+
+    <div class="create-post">
+        <a href="{% url 'create_post' %}">
+            <img src="images/create post.svg" width="35" height="35" alt="Создать пост(картинка)">
+            <p>Создать пост</p>
+            <img src="images/post-arrow-right.svg" width="14" height="20" alt="Редактировать и создать пост">
+        </a>
+    </div>
+    </section>
+
+    <section class="posts">
+        {% for post in posts %}
+            <div class="post">
+                <div>
+                    {% if user_profile.image %}
+                        <img src="" alt="Фото профиля">
+                    {% else %}
+                        <img src="{% static 'Заглушка.png' %}" alt="Фото профиля">
+                    {% endif %}
+                </div>
+                <div class="post-information">
+                    <p class="post-name">{{ post.title }}</p>
+                    <p class="post-type">Рекламный пост</p>
+                    <div class="tags">
+                        {% for tag in post.tags %}
+                            <p>{{ tag }}</p>
+                        {% endfor %}
+                    </div>
+                    <p>{{ post.text }}</p>
+                    <div class="post-image">
+                        <a href="#">
+                            <img src="images/post-arrow-left.svg" width="10" height="14"
+                                 alt="Редактировать и создать пост">
+                        </a>
+                        <img src="images/post-example.jpg">
+
+                        <a href="#">
+                            <img src="images/post-arrow-right.svg" width="10" height="14"
+                                 alt="Редактировать и создать пост">
+                        </a>
+                    </div>
+                    <p class="grade">+6</p>
+                    <p>Жанр:</p>
+                    <p>Бюджет:</p>
+                    <div class="script">
+                        <img src="images/file.png" alt="Файл сценария">
+                        <p>Название сценария</p>
+                        <a href="#">
+                            <img src="images/post-arrow-right.svg" width="14" height="20"
+                                 alt="Редактировать и создать пост">
+                        </a>
+                    </div>
+                    <p class="date">01.05.2024</p>
+                </div>
+                <div class="icons">
+                    <button type="button">
+                        <img src="images/favourites.png" alt="Избранное">
+                    </button>
+                    <button type="button" class="favourites">
+                        <img src="images/three dorts.png" alt="Настройки">
+                    </button>
+
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}

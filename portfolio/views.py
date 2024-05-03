@@ -27,9 +27,8 @@ class CreatePostView(LoginRequiredMixin, CreateView, ContextUpdateMixin):
     raise_exception = True
 
     def form_valid(self, form):
-        author = Profile.objects.get(user=self.request.user)
         new_post = form.save(commit=False)
-        new_post.author = author
+        new_post.author = self.request.user
         new_post.save()
 
         for f in self.request.FILES.getlist('files'):

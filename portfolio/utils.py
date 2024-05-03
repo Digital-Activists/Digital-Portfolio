@@ -13,7 +13,7 @@ class SocialNetwork:
 
 path = os.path.join(settings.BASE_DIR, 'portfolio/static', PATH_TO_SOCIAL_NETWORKS)
 
-SOCIAL_NETWORKS = [('Medium', 'Medium.svg'), ('Tumblr', 'Tumblr.svg'), ('ВКонтакте', 'ВКонтакте.svg'),
+SOCIAL_NETWORKS = (('Medium', 'Medium.svg'), ('Tumblr', 'Tumblr.svg'), ('ВКонтакте', 'ВКонтакте.svg'),
                    ('Мой Мир', 'Mailru_mir.svg'),
                    ('GitHub', 'GitHub.svg'), ('Boosty', 'Boosty.svg'), ('Instagram', 'Instagram.svg'),
                    ('Одноклассники', 'Одноклассники.svg'), ('Telegram', 'Telegram.svg'), ('Facebook', 'Facebook.svg'),
@@ -21,10 +21,10 @@ SOCIAL_NETWORKS = [('Medium', 'Medium.svg'), ('Tumblr', 'Tumblr.svg'), ('ВКо�
                    ('Reddit', 'Reddit.svg'),
                    ('Dribbble', 'Dribbble.svg'), ('Linkedin', 'Linkedin.svg'), ('Patreon', 'Patreon.svg'),
                    ('Discord', 'Discord.svg'),
-                   ('Slack', 'Slack.svg'), ('TikTok', 'TikTok.svg'), ('Behance', 'Behance.svg')]
+                   ('Slack', 'Slack.svg'), ('TikTok', 'TikTok.svg'), ('Behance', 'Behance.svg'))
 
-SOCIAL_NETWORKS = [SocialNetwork(name, os.path.join(PATH_TO_SOCIAL_NETWORKS, file)) for (name, file) in
-                   SOCIAL_NETWORKS]
+SOCIAL_NETWORKS = (SocialNetwork(name, os.path.join(PATH_TO_SOCIAL_NETWORKS, file)) for (name, file) in
+                   SOCIAL_NETWORKS)
 
 
 def get_path_to_user_avatar(instance, filename):

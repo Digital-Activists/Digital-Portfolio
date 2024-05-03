@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
@@ -5,6 +7,8 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.timezone import now
+
+from .utils import SOCIAL_NETWORKS
 
 
 class Profile(models.Model):
@@ -49,6 +53,16 @@ class Profile(models.Model):
 # @receiver(post_save, sender=User)
 # def save_user_profile(sender, instance, **kwargs):
 #     instance.profile.save()
+
+
+class ProfileSocialNetwork(models.Model):
+    type = models.CharField(choices=[(sn.name, sn.name) for sn in SOCIAL_NETWORKS], max_length=50)
+    link = models.URLField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='social_networks')
+
+    def get_image_url(self):
+        social_network = next((sn for sn in SOCIAL_NETWORKS if sn.name == self.type), None)
+        return social_network.path if social_network else None
 
 
 class ProfileTag(models.Model):

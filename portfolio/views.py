@@ -67,16 +67,16 @@ class EditProfileView(GetProfileMixin, ProfileSuccessUrlMixin, UpdateView, Login
         social_network_form = self.second_form_class(request.POST)
 
         if profile_form.is_valid() or social_network_form.is_valid():
-            if profile_form.is_valid():
+            if social_network_form.is_valid():
+                self.form_social_network_save(social_network_form)
+                messages.success(self.request, 'Social network has been updated.')
+            elif profile_form.is_valid():
                 profile = profile_form.save(commit=False)
                 profile.user.email = profile_form.cleaned_data['email']
                 profile.user.save()
                 profile.save()
                 messages.success(self.request, 'Your profile has been updated.')
                 # TODO: Если форма не прошла проверку, display: не none
-            if social_network_form.is_valid():
-                self.form_social_network_save(social_network_form)
-                messages.success(self.request, 'Social network has been updated.')
             return HttpResponseRedirect(self.get_success_url())
         else:
             return self.render_to_response(

@@ -9,6 +9,10 @@ from .models import *
 from .utils import check_social_link, check_social_lick_type
 
 
+class CustomImageWidget(forms.ClearableFileInput):
+    template_name = 'portfolio/widgets/custom_image_widget.html'
+
+
 class BaseFilledFieldsForm(forms.ModelForm):
     required_fields = True
 
@@ -119,9 +123,11 @@ class EditProfileForm(BaseFilledFieldsForm, forms.ModelForm):
                                  message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     phone_number = forms.CharField(validators=[phone_regex], max_length=17, label='Номер телефона',
                                    widget=forms.TextInput(
-                                       attrs={'placeholder': '+7(000)000-00-00', 'class': 'telephone'}))
+                                       attrs={'placeholder': '+70000000000', 'class': 'telephone'}))
     city = forms.CharField(max_length=30, label='Город', widget=forms.TextInput(
         attrs={'placeholder': 'Введите город', 'class': 'city'}))
+    image = forms.ImageField(label='Фото профиля',
+                             widget=CustomImageWidget(attrs={'class': 'profile-image-input', 'placeholder': 'Загрузить'}))
 
     class Meta:
         model = Profile

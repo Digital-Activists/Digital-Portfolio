@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block settings %}
-    <form action="" method="post" class="account-form">
+    <form action="" method="post" class="account-form" id="edit-profile-form" enctype="multipart/form-data">
         {% csrf_token %}
         {% if messages %}
             <ul>
@@ -18,14 +18,26 @@
             </ul>
         {% endif %}
         <ol>
-           
-            {% for field in form_photo_and_description %}
-                <li class="{{ field.field.widget.attrs.class }}">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {{ field }}
-                    <div class="form-error">{{ field.errors }}</div>
-                </li>
-            {% endfor %}
+            <li>
+                <div>
+                    <label for="{{ form_photo.id_for_label }}">{{ form_photo.label }}</label>
+                    {% if user_profile.image %}
+                        <img src="{{ user_profile.image.url }}" alt="Фото профиля">
+                    {% else %}
+                        <img src="{% static 'portfolio/images/profileIconNO.jpg' %}" alt="Фото профиля">
+                    {% endif %}
+                    <div>
+{# Поправить оформление можно в templates/portfolio/widgets/custom_image_widget, но наверное лучше тут #}
+                        {{ form_photo }}
+                    </div>
+                    <div class="form-error">{{ form_photo.errors }}</div>
+                </div>
+            </li>
+            <li class="{{ form_description.field.widget.attrs.class }}">
+                <label for="{{ form_description.id_for_label }}">{{ form_description.label }}</label>
+                {{ form_description }}
+                <div class="form-error">{{ form_description.errors }}</div>
+            </li>
 
             <li class="contacts">
                 <label for="contacts">Контакты</label>
@@ -75,10 +87,10 @@
 
     <script src="{% static 'portfolio/js/social-form.js' %}"></script>
     <script>
-    let social_networks_dict = {};
-    {% for social_network in user_social_networks %}
-        social_networks_dict["{{ social_network.type }}"] = "{{ social_network.link }}";
-    {% endfor %}
+        let social_networks_dict = {};
+        {% for social_network in user_social_networks %}
+            social_networks_dict["{{ social_network.type }}"] = "{{ social_network.link }}";
+        {% endfor %}
 
     </script>
 

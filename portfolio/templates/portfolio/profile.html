@@ -9,7 +9,7 @@
     <section>
         <div class="profile-information">
             {% if user_profile.image %}
-                <img src="" alt="Фото профиля">
+                <img src="{{ user_profile.image.url }}" alt="Фото профиля">
             {% else %}
                 <img src="{% static 'portfolio/images/profileIconNO.jpg' %}" alt="Фото профиля">
             {% endif %}

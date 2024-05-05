@@ -106,3 +106,4 @@ class PostStyle(models.Model):
 
 class PostTag(models.Model):
     tag = models.CharField(max_length=50, verbose_name='Тэг поста')
+    post = models.ForeignKey(Post, related_name='tags', on_delete=models.CASCADE)

@@ -57,6 +57,8 @@ class EditProfileView(GetProfileMixin, ProfileSuccessUrlMixin, UpdateView, Login
         if 'form_add_social_network' not in context:
             context['form_add_social_network'] = self.get_form(self.second_form_class)
 
+        context['user_social_networks'] = ProfileSocialNetwork.objects.filter(user=self.request.user)
+
         return context
 
     def post(self, request, *args, **kwargs):
@@ -81,9 +83,13 @@ class EditProfileView(GetProfileMixin, ProfileSuccessUrlMixin, UpdateView, Login
                 self.get_context_data(form=profile_form, form_add_social_network=social_network_form))
 
     def form_social_network_save(self, form):
-        social_network = form.save(commit=False)
-        social_network.user = self.request.user
-        social_network.save()
+        if form.cleaned_data['link'] == '':
+            social_network = ProfileSocialNetwork.objects.get(user=self.request.user, type=form.cleaned_data['type'])
+            social_network.delete()
+        else:
+            social_network = form.save(commit=False)
+            social_network.user = self.request.user
+            social_network.save()
 
     def get_object(self, queryset=None):
         return self.request.user.profile

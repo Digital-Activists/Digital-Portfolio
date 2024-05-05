@@ -79,5 +79,12 @@
     </div>
 
     <script src="{% static 'portfolio/js/social-form.js' %}"></script>
+    <script>
+    let social_networks_dict = {};
+    {% for social_network in user_social_networks %}
+        social_networks_dict["{{ social_network.type }}"] = "{{ social_network.link }}";
+    {% endfor %}
+
+    </script>
 
 {% endblock %}

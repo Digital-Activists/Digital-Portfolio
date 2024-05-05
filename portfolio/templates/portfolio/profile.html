@@ -11,7 +11,7 @@
     {% if user_profile.image %}
         <img src="" alt="Фото профиля">
     {% else %}
-        <img src="{% static 'Заглушка.png' %}" alt="Фото профиля">
+        <img src="{% static 'portfolio/images/profileIconNO.jpg' %}" alt="Фото профиля">
     {% endif %}
     <div class="main-information">
         <p class="name">{{ user.last_name }} {{ user.first_name }} {{ user_profile.patronymic }}</p>
@@ -41,7 +41,7 @@
 
     <div class="about-me">
         <p class="about">О себе</p>
-        {{ user_profile.text }}
+        <p>{{ user_profile.text }}</p>
     </div>
     <div class="social-networks">
         {% for social_network in user.social_networks.all %}
@@ -51,22 +51,24 @@
     </div>
 
     <div class="create-post">
-        <a href="{% url 'create_post' %}">
-            <img src="images/create post.svg" width="35" height="35" alt="Создать пост(картинка)">
-            <p>Создать пост</p>
-            <img src="images/post-arrow-right.svg" width="14" height="20" alt="Редактировать и создать пост">
-        </a>
+        
+            <a href="{% url 'create_post' %}">
+                <img src="{% static 'portfolio/images/create post.svg' %}" width="35" height="35" alt="Создать пост(картинка)">
+                <p>Создать пост</p>
+                <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="14" height="20" alt="Редактировать и создать пост">
+            </a>
+       
     </div>
     </section>
 
     <section class="posts">
         {% for post in posts %}
             <div class="post">
-                <div>
+                <div class="photo">
                     {% if user_profile.image %}
                         <img src="" alt="Фото профиля">
                     {% else %}
-                        <img src="{% static 'Заглушка.png' %}" alt="Фото профиля">
+                        <img src="{% static 'portfolio/images/profileIconNO.jpg' %}" alt="Фото профиля">
                     {% endif %}
                 </div>
                 <div class="post-information">
@@ -80,35 +82,38 @@
                     <p>{{ post.text }}</p>
                     <div class="post-image">
                         <a href="#">
-                            <img src="images/post-arrow-left.svg" width="10" height="14"
+                            <img src="{% static 'portfolio/images/post-arrow-left.svg' %}" width="10" height="14"
                                  alt="Редактировать и создать пост">
                         </a>
-                        <img src="images/post-example.jpg">
+                        <img src="{% static 'portfolio/images/post-example.jpg' %}">
 
                         <a href="#">
-                            <img src="images/post-arrow-right.svg" width="10" height="14"
+                            <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="10" height="14"
                                  alt="Редактировать и создать пост">
                         </a>
                     </div>
-                    <p class="grade">+6</p>
+                    <p class="date">{{ post.date }}</p>
                     <p>Жанр:</p>
                     <p>Бюджет:</p>
                     <div class="script">
-                        <img src="images/file.png" alt="Файл сценария">
+                        <img src="{% static 'portfolio/images/file.png' %}" alt="Файл сценария">
                         <p>Название сценария</p>
                         <a href="#">
-                            <img src="images/post-arrow-right.svg" width="14" height="20"
+                            <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="14" height="20"
                                  alt="Редактировать и создать пост">
                         </a>
                     </div>
-                    <p class="date">01.05.2024</p>
+                    <div class="grade">
+                        <p>31</p>
+                        <button type="button">
+                            <img src="{% static 'portfolio/images/hurtRED.png' %}">
+                        </button>
+                    </div>
                 </div>
                 <div class="icons">
-                    <button type="button">
-                        <img src="images/favourites.png" alt="Избранное">
-                    </button>
+
                     <button type="button" class="favourites">
-                        <img src="images/three dorts.png" alt="Настройки">
+                        <img src="{% static 'portfolio/images/three dorts.png' %}" alt="Настройки">
                     </button>
 
                 </div>

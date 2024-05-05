@@ -65,7 +65,7 @@ li.city {
     margin-top: 0;
 
     width: 215px;
-    height: 50px;
+    
     border-width: 1px;
     border-style: solid;
     border-radius: 5px;
@@ -98,7 +98,7 @@ p.about {
     font-weight: bold;
 }
 
-.create-post {
+.create-post a {
     display: flex;
 
     width: 480px;
@@ -110,7 +110,7 @@ p.about {
     align-items: center;
 }
 
-.create-post p {
+.create-post a p {
     margin-right: auto;
     color: rgba(140, 140, 140, 1);
     font-size: 18px;
@@ -144,11 +144,7 @@ p.about {
     margin-bottom: 20px;
 }
 
-.profile-img {
-    width: 60px;
-    height: 60px;
-    margin-left: 15px;
-}
+
 
 .post-name {
     font-size: 18px;
@@ -213,7 +209,11 @@ p.about {
 .main-information .tags {
     margin: 0 auto;
 }
-
+.photo img{
+    width: 60px;
+    height: 60px;
+    margin-left: 15px;
+}
 .tags p {
     width: 60px;
     border-radius: 5px;
@@ -228,7 +228,9 @@ p.about {
 }
 
 .date {
-    margin-left: 720px;
+   
+    margin-left: 630px;
+    margin-bottom: -30px;
 }
 
 .icons {
@@ -241,11 +243,18 @@ p.about {
     background-color: white;
     border-color: white;
     border: none;
-    margin-left: 5px;
+    margin-left: 30px;
     margin-right: 5px;
 }
 
-p.grade {
-    margin-left: 670px;
-    margin-bottom: -30px;
+.grade{
+    display: flex;
+    margin-left: 740px;
+    width: 70px;
+}
+
+.grade button{
+    
+    background-color: white;
+    border: none;
 }

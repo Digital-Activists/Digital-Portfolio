@@ -1,15 +1,17 @@
 {% load i18n %}
 
+<div class="custom-button-div">
+    <label class="custom-button"  for="{{ widget.attrs.id }}">
+        <input type="{{ widget.type }}" name="{{ widget.name }}" style="display: none;"
+            onchange="document.getElementById('edit-profile-form').submit();"{% include "django/forms/widgets/attrs.html" %}>
+        Изменить фотографию
+    </label>
 
-<label class="custom-button" for="{{ widget.attrs.id }}">
-    <input type="{{ widget.type }}" name="{{ widget.name }}" style="display: none;"
-           onchange="document.getElementById('edit-profile-form').submit();"{% include "django/forms/widgets/attrs.html" %}>
-    Изменить фотографию
-</label>
 {% if widget.is_initial %}
-    <label class="custom-button" for="{{ widget.checkbox_id }}">
+    <label class="custom-button" id="btn" for="{{ widget.checkbox_id }}">
         <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}" style="display: none;"
                onchange="document.getElementById('edit-profile-form').submit();"/>
         Удалить фотографию
     </label>
+</div>
 {% endif %}

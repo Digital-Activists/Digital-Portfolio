@@ -3,6 +3,7 @@
 
 {% block style_load %}
     <link rel="stylesheet" href="{% static 'portfolio/css/settings-information.css' %} "/>
+    <link rel="stylesheet" href="{% static 'portfolio/css/widget.css' %} "/>
 {% endblock %}
 
 {% block settings %}
@@ -22,9 +23,9 @@
                 <div>
                     <label for="{{ form_photo.id_for_label }}">{{ form_photo.label }}</label>
                     {% if user_profile.image %}
-                        <img src="{{ user_profile.image.url }}" alt="Фото профиля">
+                        <img src="{{ user_profile.image.url }}" width="110" height="110" alt="Фото профиля">
                     {% else %}
-                        <img src="{% static 'portfolio/images/profileIconNO.jpg' %}" alt="Фото профиля">
+                        <img src="{% static 'portfolio/images/profileIconNO.png' %}" width="110" height="110" alt="Фото профиля">
                     {% endif %}
                     <div>
 {# Поправить оформление можно в templates/portfolio/widgets/custom_image_widget, но наверное лучше тут #}
@@ -93,5 +94,4 @@
         {% endfor %}
 
     </script>
-
 {% endblock %}

@@ -8,62 +8,99 @@
 {% block main %}
     <section>
         <div class="profile-information">
-            {% if user_profile.image %}
-                <img src="{{ user_profile.image.url }}" alt="Фото профиля">
-            {% else %}
-                <img src="{% static 'portfolio/images/profileIconNO.jpg' %}" alt="Фото профиля">
-            {% endif %}
-            <div class="main-information">
-                <p class="name">{{ user.last_name }} {{ user.first_name }} {{ user_profile.patronymic }}</p>
-                <ul>
-                    <li class="age">
-                        <p>Возраст: 31 год</p>
-                    </li>
-                    <li class="activity">
+    {% if user_profile.image %}
+        <img src="{{ user_profile.image.url }}" alt="Фото профиля">
+    {% else %}
+        <img src="{% static 'portfolio/images/profileIconNO.png' %}" alt="Фото профиля">
+    {% endif %}
+    <div class="main-information">
+        <p class="name">{{ user.last_name }} {{ user.first_name }} {{ user_profile.patronymic }}</p>
+        <ul>
+            <li class="age">
+                {% if user_profile.date_of_birth %}
+                    <p>Возраст: {{ user_profile.date_of_birth }}</p>
+                {% else %}
+                    {% comment "Optional note" %}
+                        <p>Возраст: {{ user_profile.date_of_birth }}</p>
+                    {% endcomment %}
+                {% endif %}
+            </li>
+            <li class="activity">
+                {% if user_profile.scope_of_work %}
+                    <p>Сфера деятельности: {{ user_profile.scope_of_work }}</p>
+                {% else %}
+                    {% comment "Optional note" %}
                         <p>Сфера деятельности: {{ user_profile.scope_of_work }}</p>
-                    </li>
-                    {% if user_profile.city != '' %}
-                        <li class="city">
-                            <p>Город: {{ user_profile.city }}</p>
-                        </li>
-                    {% endif %}
-                    <li class="telephone">
+                    {% endcomment %}
+                {% endif %}
+            </li>
+            <li class="city">
+                {% if user_profile.city %}
+                    <p>Город: {{ user_profile.city }}</p>
+                {% else %}
+                    {% comment "Optional note" %}
+                        <p>Город: {{ user_profile.city }}</p>
+                    {% endcomment %}
+                {% endif %}
+            </li>
+            <li class="telephone">
+                {% if user_profile.phone_number %}
+                    <p>Телефон: {{ user_profile.phone_number }}</p>
+                {% else %}
+                    {% comment "Optional note" %}
                         <p>Телефон: {{ user_profile.phone_number }}</p>
-                    </li>
-                    <li class="email">
+                    {% endcomment %}
+                {% endif %}
+            </li>
+            <li class="email">
+                {% if user_profile.email %}
+                    <p>Электронная почта: {{ user.email }}</p>
+                {% else %}
+                    {% comment "Optional note" %}
                         <p>Электронная почта: {{ user.email }}</p>
-                    </li>
-                    <div class="tags">
-                        {% for tag in user_profile.tags %}
-                            <p>{{ tag }}</p>
-                        {% endfor %}
-                    </div>
-                </ul>
-            </div>
+                    {% endcomment %}
+                {% endif %}
+            </li>
+        </ul>
+        <div class="tags">
+            {% for tag in user_profile.tags %}
+                <p>{{ tag }}</p>
+            {% endfor %}
+        </div>
 
+        {% if user_profile.text %}
             <div class="about-me">
                 <p class="about">О себе</p>
                 <p>{{ user_profile.text }}</p>
             </div>
-            {% if user.social_networks.all|length > 0 %}
-                <div class="social-networks">
-                {% for social_network in user.social_networks.all %}
-                    <a href="{{ social_network.link }}"><img src="{% static social_network.get_image_url %}"></a>
-                {% endfor %}
-            {% endif %}
-            </div>
-        </div>
+        {% else %}
+            {% comment "Optional note" %}
+                <div class="about-me">
+                    <p class="about">О себе</p>
+                    <p>{{ user_profile.text }}</p>
+                </div>
+            {% endcomment %}
+        {% endif %}
 
+        {% if user.social_networks.all|length > 0 %}
+            <div class="social-networks">
+            {% for social_network in user.social_networks.all %}
+                <a href="{{ social_network.link }}"><img src="{% static social_network.get_image_url %}"></a>
+            {% endfor %}
+            </div>
+        {% endif %}
+
+        </div>
+    </div>
         <div class="create-post">
 
             <a href="{% url 'create_post' user_profile.nickname %}">
-                <img src="{% static 'portfolio/images/create post.svg' %}" width="35" height="35"
+                <img id="create-post" src="{% static 'portfolio/images/create post.svg' %}"
                      alt="Создать пост(картинка)">
                 <p>Создать пост</p>
-                <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="14" height="20"
+                <img id="arrow-right" src="{% static 'portfolio/images/post-arrow-right.svg' %}"
                      alt="Редактировать и создать пост">
             </a>
-
         </div>
     </section>
 
@@ -72,37 +109,72 @@
             <div class="post">
                 <div class="photo">
                     {% if user_profile.image %}
-                        <img src="" alt="Фото профиля">
+                        <img src="{{ user_profile.image.url }}" alt="Фото профиля">
                     {% else %}
-                        <img src="{% static 'portfolio/images/profileIconNO.jpg' %}" alt="Фото профиля">
+                        <img src="{% static 'portfolio/images/profileIconNO.png' %}" alt="Фото профиля">
                     {% endif %}
                 </div>
                 <div class="post-information">
-                    <p class="post-name">{{ post.title }}</p>
-                    <p class="post-type">Рекламный пост</p>
+                    {% if post.title%}
+                        <p class="post-name">{{ post.title }}</p>
+                    {% else %}
+                        <p class="post-name"></p>
+                    {% endif %}
+
+                    {% if post.post_type%}
+                        <p class="post-type">{{ post.post_type }}</p>
+                    {% else %}
+                          <p class="post-type"></p>
+                    {% endif %}
+
                     <div class="tags">
                         {% for tag in post.tags.all %}
                             <p>{{ tag }}</p>
                         {% endfor %}
                     </div>
-                    <p>{{ post.text }}</p>
+
+                    {% if post.text%}
+                        <p>{{ post.text }}</p>
+                    {% else %}
+                          <p></p>
+                    {% endif %}
+
                     <div class="post-image">
                         <a href="#">
                             <img src="{% static 'portfolio/images/post-arrow-left.svg' %}" width="10" height="14"
                                  alt="Редактировать и создать пост">
                         </a>
-                        {% for photo in post.photos.all %}
-                            <img src="{{ photo.url }}">
-                        {% endfor %}
+                        <img src="{% static 'portfolio/images/post-example.jpg' %}">
 
                         <a href="#">
                             <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="10" height="14"
                                  alt="Редактировать и создать пост">
                         </a>
                     </div>
-                    <p class="date">{{ post.date }}</p>
-                    <p>Жанр:</p>
-                    <p>Бюджет:</p>
+                    {% if post.date%}
+                        <p class="date">{{ post.date }}</p>
+                    {% else %}
+                        <p class="date"></p>
+                    {% endif %}
+
+                    {% if post.genre%}
+                        <p>Жанр: {{ post.genre}}</p>
+                    {% else %}
+                        <p></p>
+                    {% endif %}
+
+                    {% if post.budget %}
+                        <p>Бюджет: {{ post.budget}}</p>
+                    {% else %}
+                        <p></p>
+                    {% endif %}
+
+                    {% if post.age_limit %}
+                        <p>Возрастные ограничения: {{post.age_limit}}</p>
+                    {% else %}
+                        <p></p>
+                    {% endif %}
+
                     <div class="script">
                         <img src="{% static 'portfolio/images/file.png' %}" alt="Файл сценария">
                         <p>Название сценария</p>

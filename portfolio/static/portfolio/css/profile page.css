@@ -86,6 +86,7 @@ div.about-me {
     width: 350px;
     margin-top: 25px;
     margin-bottom: 30px;
+    word-wrap: break-word;
 }
 
 .about-me p {
@@ -98,7 +99,8 @@ p.about {
     font-weight: bold;
 }
 
-.create-post a {
+
+.create-post a{
     display: flex;
 
     width: 480px;
@@ -120,7 +122,14 @@ p.about {
     margin-right: 10px;
     margin-left: 20px;
 }
-
+img#create-post{
+    width: 35px;
+    height: 35px;
+}
+img#arrow-right{
+    width: 14px;
+    height: 20px;
+}
 .posts {
     display: flex;
     flex-direction: column;
@@ -154,6 +163,7 @@ p.about {
 
 .post-description {
     font-size: 14px;
+    word-wrap: break-word;
 }
 
 .post-information {

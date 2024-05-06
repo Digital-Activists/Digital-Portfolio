@@ -18,23 +18,32 @@ def index(request):
                   context={'user_profile': Profile.objects.get(user=request.user)})
 
 
-class CreatePostView(LoginRequiredMixin, CreateView, ContextUpdateMixin):
+class CreatePostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin,ContextUpdateMixin, CreateView):
     PageTitle = 'Create Post'
     form_class = CreatePostForm
     template_name = 'portfolio/plug-form.html'
-    success_url = reverse_lazy('home')
+    custom_success_url = 'view_user_profile'
+    context_object_name = 'form'
     login_url = reverse_lazy('login')
     raise_exception = True
 
-    def form_valid(self, form):
-        new_post = form.save(commit=False)
-        new_post.author = self.request.user
-        new_post.save()
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
 
-        for f in self.request.FILES.getlist('files'):
-            PostPhoto.objects.create(file=f, post=new_post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            for image in request.FILES.getlist('images'):
+                PostPhoto.objects.create(post=post, file=image)
+            for video in request.FILES.getlist('videos'):
+                PostVideo.objects.create(post=post, file=video)
+            for file in request.FILES.getlist('files'):
+                PostFile.objects.create(post=post, file=file)
 
-        return redirect(self.success_url)
+            return HttpResponseRedirect(self.get_success_url())
+
+        return self.form_invalid(form)
 
 
 class EditProfileView(GetProfileMixin, ProfileSuccessUrlMixin, UpdateView, LoginRequiredMixin):

@@ -1,15 +1,17 @@
 import datetime
+import os
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from django.core.validators import FileExtensionValidator
 
 from .models import *
 from .utils import check_social_link, check_social_lick_type
 
 
-class CustomImageWidget(forms.ClearableFileInput):
+class ProfileAvatarImageWidget(forms.ClearableFileInput):
     template_name = 'portfolio/widgets/custom_image_widget.html'
 
 
@@ -27,9 +29,45 @@ class BaseFilledFieldsForm(forms.ModelForm):
                 field.initial = getattr(self.instance.user, field_name)
 
 
-# TODO: Загрузка файлов
+def validate_file_extension(value, valid_extensions):
+    ext = os.path.splitext(value.name)[1]
+    if not ext.lower() in valid_extensions:
+        raise ValidationError('Unsupported file extension.')
+
+
+def validate_files(value):
+    valid_extensions = ['.ppt', '.docx', '.doc', '.pdf']
+    validate_file_extension(value, valid_extensions)
+
+
+def validate_image_and_video(value):
+    valid_extensions = ['.', '.', '.', '.']
+    validate_file_extension(value, valid_extensions)
+
+
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
+
+
 class CreatePostForm(forms.ModelForm):
-    images = forms.ImageField(widget=forms.ClearableFileInput(attrs={'allow_multiple_selected': True}))
+    images = MultipleFileField(widget=MultipleFileInput(attrs={}))
+    files = MultipleFileField(validators=[FileExtensionValidator(['pdf', 'ppt', 'doc', 'docx'])],
+                              widget=MultipleFileInput(attrs={}))
+    videos = MultipleFileField(validators=[FileExtensionValidator(['mp4'])], widget=MultipleFileInput(attrs={}))
+    tags = forms.ModelChoiceField(queryset=ProfileTag.objects.all())
 
     def __init__(self, *args, **kwargs):
         super(CreatePostForm, self).__init__(*args, **kwargs)
@@ -40,7 +78,7 @@ class CreatePostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'text', 'date', 'budget', 'post_type', 'genre', 'style', 'age_limit', 'images']
+        fields = ['title', 'text', 'date', 'budget', 'post_type', 'genre', 'style', 'age_limit', 'tags']
         widgets = {
             'title': forms.TextInput(attrs={'class': '', 'placeholder': ''}),
             'text': forms.Textarea(attrs={'class': '', 'placeholder': ''}),
@@ -50,6 +88,7 @@ class CreatePostForm(forms.ModelForm):
             'genre': forms.Select(attrs={'class': '', 'placeholder': ''}),
             'style': forms.Select(attrs={'class': '', 'placeholder': ''}),
             'age_limit': forms.Select(attrs={'class': '', 'placeholder': ''}),
+            'tags': forms.Select(attrs={'class': '', 'placeholder': ''}),
         }
 
 
@@ -127,7 +166,8 @@ class EditProfileForm(BaseFilledFieldsForm, forms.ModelForm):
     city = forms.CharField(max_length=30, label='Город', widget=forms.TextInput(
         attrs={'placeholder': 'Введите город', 'class': 'city'}))
     image = forms.ImageField(label='Фото профиля',
-                             widget=CustomImageWidget(attrs={'class': 'profile-image-input', 'placeholder': 'Загрузить'}))
+                             widget=ProfileAvatarImageWidget(
+                                 attrs={'class': 'profile-image-input', 'placeholder': 'Загрузить'}))
 
     class Meta:
         model = Profile

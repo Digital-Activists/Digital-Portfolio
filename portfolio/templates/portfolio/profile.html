@@ -56,7 +56,7 @@
 
         <div class="create-post">
 
-            <a href="{% url 'create_post' %}">
+            <a href="{% url 'create_post' user_profile.nickname %}">
                 <img src="{% static 'portfolio/images/create post.svg' %}" width="35" height="35"
                      alt="Создать пост(картинка)">
                 <p>Создать пост</p>
@@ -81,7 +81,7 @@
                     <p class="post-name">{{ post.title }}</p>
                     <p class="post-type">Рекламный пост</p>
                     <div class="tags">
-                        {% for tag in post.tags %}
+                        {% for tag in post.tags.all %}
                             <p>{{ tag }}</p>
                         {% endfor %}
                     </div>
@@ -91,7 +91,9 @@
                             <img src="{% static 'portfolio/images/post-arrow-left.svg' %}" width="10" height="14"
                                  alt="Редактировать и создать пост">
                         </a>
-                        <img src="{% static 'portfolio/images/post-example.jpg' %}">
+                        {% for photo in post.photos.all %}
+                            <img src="{{ photo.url }}">
+                        {% endfor %}
 
                         <a href="#">
                             <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="10" height="14"

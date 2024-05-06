@@ -57,6 +57,10 @@ def get_path_to_user_avatar(instance, filename):
     return f'images/users/user_{instance.user.id}/{filename}'
 
 
+def get_path_to_post_files(instance, filename):
+    return f'posts/user_{instance.post.author.id}/{instance.post.id}/{filename}'
+
+
 class GetProfileMixin:
     context_object_name = 'user_profile'
     slug_url_kwarg = 'nickname'

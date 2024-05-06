@@ -5,7 +5,7 @@ from django.utils.text import slugify
 from django.utils.timezone import now
 from PIL import Image
 
-from .utils import SOCIAL_NETWORKS
+from .utils import SOCIAL_NETWORKS, get_path_to_post_files
 
 
 class Profile(models.Model):
@@ -75,16 +75,31 @@ class Post(models.Model):
     title = models.CharField(max_length=120, verbose_name='Заголовок')
     text = models.TextField(max_length=700, blank=True, verbose_name='Описание')
     date = models.DateField(default=now, verbose_name='Дата')
+    created_at = models.DateTimeField(auto_now_add=True)
     budget = models.CharField(max_length=50, blank=True, choices=BUDGET, verbose_name='Бюджет в рублях')
     post_type = models.ForeignKey('PostType', null=True, on_delete=models.PROTECT, verbose_name='Тип поста')
     genre = models.ForeignKey('PostGenre', null=True, on_delete=models.PROTECT, verbose_name='Жанр')
     style = models.ForeignKey('PostStyle', null=True, on_delete=models.PROTECT, verbose_name='Стиль')
     age_limit = models.CharField(max_length=3, blank=True, choices=AGE_LIMITS, verbose_name='Возрастные ограничения')
+    post_slug = models.SlugField()
+
+    class Meta:
+        ordering = ['-created_at']
 
 
 class PostPhoto(models.Model):
-    file = models.ImageField(upload_to='photos/posts')
+    file = models.ImageField(upload_to=get_path_to_post_files)
     post = models.ForeignKey(Post, related_name='photos', on_delete=models.CASCADE)
+
+
+class PostVideo(models.Model):
+    file = models.FileField(upload_to=get_path_to_post_files)
+    post = models.ForeignKey(Post, related_name='videos', on_delete=models.CASCADE)
+
+
+class PostFile(models.Model):
+    file = models.FileField(upload_to=get_path_to_post_files)
+    post = models.ForeignKey(Post, related_name='files', on_delete=models.CASCADE)
 
 
 class PostType(models.Model):

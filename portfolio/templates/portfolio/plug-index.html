@@ -11,11 +11,4 @@
             <a href="{% url "register" %}">Регистрация</a>
         {% endif %}
     </section>
-
-    <section>
-    <a href="{{ user_profile.get_absolute_url }}">PROFILE</a>
-    </section>
-    <section>
-    <a href="{% url 'create_post' %}">Создать пост</a>
-    </section>
 {% endblock %}

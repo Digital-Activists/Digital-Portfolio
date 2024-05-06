@@ -6,6 +6,11 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
 from .models import *
+from .utils import check_social_link, check_social_lick_type
+
+
+class CustomImageWidget(forms.ClearableFileInput):
+    template_name = 'portfolio/widgets/custom_image_widget.html'
 
 
 class BaseFilledFieldsForm(forms.ModelForm):
@@ -112,15 +117,17 @@ class EditProfileForm(BaseFilledFieldsForm, forms.ModelForm):
     required_fields = False
     text = forms.CharField(label='Описание профиля', widget=forms.TextInput(
         attrs={'placeholder': 'Добавьте описание к своему профилю...', 'class': 'profile-description'}))
-    email = forms.EmailField(label='Электронная почта',
+    email = forms.EmailField(label='Публичная электронная почта', help_text='Будет отображаться в профиле',
                              widget=forms.EmailInput(attrs={'placeholder': 'Введите адрес электронной почты'}))
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                                  message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     phone_number = forms.CharField(validators=[phone_regex], max_length=17, label='Номер телефона',
                                    widget=forms.TextInput(
-                                       attrs={'placeholder': '+7(000)000-00-00', 'class': 'telephone'}))
+                                       attrs={'placeholder': '+70000000000', 'class': 'telephone'}))
     city = forms.CharField(max_length=30, label='Город', widget=forms.TextInput(
         attrs={'placeholder': 'Введите город', 'class': 'city'}))
+    image = forms.ImageField(label='Фото профиля',
+                             widget=CustomImageWidget(attrs={'class': 'profile-image-input', 'placeholder': 'Загрузить'}))
 
     class Meta:
         model = Profile
@@ -148,12 +155,25 @@ class EditAccountInformationForm(BaseFilledFieldsForm, forms.ModelForm):
 
 class AddSocialNetworkForm(forms.ModelForm):
     type = forms.CharField(max_length=30, widget=forms.HiddenInput(attrs={'id': 'social-network-hidden-input'}))
-    link = forms.URLField(label='Введите ссылку на вашу социальную сеть', widget=forms.URLInput(
-        attrs={'class': 'social-network-link', 'placeholder': 'Вставьте ссылку...'}))
+    link = forms.URLField(label='Введите ссылку на вашу социальную сеть', required=False, widget=forms.URLInput(
+        attrs={'class': 'social-network-link', 'id': 'social-network-input', 'placeholder': 'Вставьте ссылку...'}))
 
     class Meta:
         model = ProfileSocialNetwork
         fields = ['link', 'type']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        social_network_type = cleaned_data.get('type')
+        link = cleaned_data.get('link')
+
+        if not check_social_lick_type(social_network_type):
+            raise ValidationError('Недопустимая соцсеть')
+
+        if not check_social_link(social_network_type, link) and link != '':
+            raise ValidationError('Ссылка не прошла проверку')
+
+        return cleaned_data
 
 
 class ChangeEmailForm(forms.ModelForm):

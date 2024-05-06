@@ -49,41 +49,49 @@ class EditProfileView(GetProfileMixin, ProfileSuccessUrlMixin, UpdateView, Login
 
         list_profile_form_fields = list(context['form'])
 
-        context['form_photo_and_description'] = list_profile_form_fields[:2]
+        context['form_photo'] = list_profile_form_fields[0]
+        context['form_description'] = list_profile_form_fields[1]
         context['form_contacts'] = list_profile_form_fields[2:5]
         context['form_scope_of_work'] = list_profile_form_fields[5:]
         context['social_networks'] = SOCIAL_NETWORKS
 
-        if 'form_add_social_network' not in context:
-            context['form_add_social_network'] = self.get_form(self.second_form_class)
+        context['form_add_social_network'] = self.get_form(self.second_form_class)
+        context['user_social_networks'] = ProfileSocialNetwork.objects.filter(user=self.request.user)
 
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        profile_form = self.form_class(request.POST, instance=self.object)
+        profile_form = self.form_class(request.POST, request.FILES, instance=self.object)
         social_network_form = self.second_form_class(request.POST)
 
-        if profile_form.is_valid() or social_network_form.is_valid():
-            if profile_form.is_valid():
-                profile = profile_form.save(commit=False)
-                profile.user.email = profile_form.cleaned_data['email']
-                profile.user.save()
-                profile.save()
-                messages.success(self.request, 'Your profile has been updated.')
-                # TODO: Если форма не прошла проверку, display: не none
-            if social_network_form.is_valid():
-                self.form_social_network_save(social_network_form)
-                messages.success(self.request, 'Social network has been updated.')
+        # TODO: Если форма не прошла проверку, display: не none
+        if social_network_form.is_valid():
+            self.form_social_network_save(social_network_form)
+            messages.success(self.request, f'Социальная сеть обновлена.')
             return HttpResponseRedirect(self.get_success_url())
-        else:
-            return self.render_to_response(
-                self.get_context_data(form=profile_form, form_add_social_network=social_network_form))
+        elif profile_form.is_valid():
+            if 'image-clear' in request.POST:
+                self.object.image.delete(save=False)
+                self.object.image = None
+                self.object.save()
+            elif profile_form.has_changed():
+                profile_form.save()
+                self.object.user.email = profile_form.cleaned_data['email']
+                self.object.user.save()
+            messages.success(self.request, 'Ваш профиль был обновлен.')
+            return HttpResponseRedirect(self.get_success_url())
+        return self.render_to_response(
+            self.get_context_data(form=profile_form))
 
     def form_social_network_save(self, form):
-        social_network = form.save(commit=False)
-        social_network.user = self.request.user
-        social_network.save()
+        if form.cleaned_data['link'] == '':
+            social_network = ProfileSocialNetwork.objects.get(user=self.request.user, type=form.cleaned_data['type'])
+            social_network.delete()
+        else:
+            social_network = form.save(commit=False)
+            social_network.user = self.request.user
+            social_network.save()
 
     def get_object(self, queryset=None):
         return self.request.user.profile

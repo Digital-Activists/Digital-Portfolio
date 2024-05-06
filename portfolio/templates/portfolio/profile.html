@@ -9,14 +9,13 @@
     <section>
         <div class="profile-information">
     {% if user_profile.image %}
-        <img src="" alt="Фото профиля">
+        <img src="{{ user_profile.image.url }}" alt="Фото профиля">
     {% else %}
         <img src="{% static 'portfolio/images/profileIconNO.png' %}" alt="Фото профиля">
     {% endif %}
     <div class="main-information">
         <p class="name">{{ user.last_name }} {{ user.first_name }} {{ user_profile.patronymic }}</p>
         <ul>
-            
             <li class="age">
                 {% if user_profile.date_of_birth %}
                     <p>Возраст: {{ user_profile.date_of_birth }}</p>
@@ -62,34 +61,46 @@
                     {% endcomment %}
                 {% endif %} 
             </li>
-            <div class="tags">
-                {% for tag in user_profile.tags %}
-                    <p>{{ tag }}</p>
-                {% endfor %}
-            </div>
         </ul>
-    </div>
+        <div class="tags">
+            {% for tag in user_profile.tags %}
+                <p>{{ tag }}</p>
+            {% endfor %}
+        </div>
 
-    <div class="about-me">
-        <p class="about">О себе</p>
-        <p>{{ user_profile.text }}</p>
+        {% if user_profile.text %}
+            <div class="about-me">
+                <p class="about">О себе</p>
+                <p>{{ user_profile.text }}</p>
+            </div>
+        {% else %}
+            {% comment "Optional note" %}
+                <div class="about-me">
+                    <p class="about">О себе</p>
+                    <p>{{ user_profile.text }}</p>
+                </div>
+            {% endcomment %}
+        {% endif %} 
+            
+        {% if user.social_networks.all|length > 0 %}
+            <div class="social-networks">
+            {% for social_network in user.social_networks.all %}
+                <a href="{{ social_network.link }}"><img src="{% static social_network.get_image_url %}"></a>
+            {% endfor %}
+            </div>
+        {% endif %}
+                
+        </div>
     </div>
-    <div class="social-networks">
-        {% for social_network in user.social_networks.all %}
-            <a href="{{ social_network.link }}"><img src="{% static social_network.get_image_url %}"></a>
-        {% endfor %}
-    </div>
-    </div>
-
-    <div class="create-post">
-        
+        <div class="create-post">
             <a href="{% url 'create_post' %}">
-                <img src="{% static 'portfolio/images/create post.svg' %}" width="35" height="35" alt="Создать пост(картинка)">
+                <img id="create-post" src="{% static 'portfolio/images/create post.svg' %}"
+                     alt="Создать пост(картинка)">
                 <p>Создать пост</p>
-                <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="14" height="20" alt="Редактировать и создать пост">
+                <img id="arrow-right" src="{% static 'portfolio/images/post-arrow-right.svg' %}"
+                     alt="Редактировать и создать пост">
             </a>
-       
-    </div>
+        </div>
     </section>
 
     <section class="posts">
@@ -97,20 +108,36 @@
             <div class="post">
                 <div class="photo">
                     {% if user_profile.image %}
-                        <img src="" alt="Фото профиля">
+                        <img src="{{ user_profile.image.url }}" alt="Фото профиля">
                     {% else %}
                         <img src="{% static 'portfolio/images/profileIconNO.png' %}" alt="Фото профиля">
                     {% endif %}
                 </div>
                 <div class="post-information">
-                    <p class="post-name">{{ post.title }}</p>
-                    <p class="post-type">Рекламный пост</p>
+                    {% if post.title%}
+                        <p class="post-name">{{ post.title }}</p>
+                    {% else %}
+                        <p class="post-name"></p>
+                    {% endif %} 
+                    
+                    {% if post.post_type%}
+                        <p class="post-type">{{ post.post_type }}</p>
+                    {% else %}
+                          <p class="post-type"></p>
+                    {% endif %} 
+
                     <div class="tags">
-                        {% for tag in post.tags %}
+                        {% for tag in post.tags.all %}
                             <p>{{ tag }}</p>
                         {% endfor %}
                     </div>
-                    <p>{{ post.text }}</p>
+
+                    {% if post.text%}
+                        <p>{{ post.text }}</p>
+                    {% else %}
+                          <p></p>
+                    {% endif %} 
+                    
                     <div class="post-image">
                         <a href="#">
                             <img src="{% static 'portfolio/images/post-arrow-left.svg' %}" width="10" height="14"
@@ -123,9 +150,30 @@
                                  alt="Редактировать и создать пост">
                         </a>
                     </div>
-                    <p class="date">{{ post.date }}</p>
-                    <p>Жанр:</p>
-                    <p>Бюджет:</p>
+                    {% if post.date%}
+                        <p class="date">{{ post.date }}</p>
+                    {% else %}
+                        <p class="date"></p>
+                    {% endif %} 
+
+                    {% if post.genre%}
+                        <p>Жанр: {{ post.genre}}</p>
+                    {% else %}
+                        <p></p>
+                    {% endif %} 
+                    
+                    {% if post.budget %}
+                        <p>Бюджет: {{ post.budget}}</p>
+                    {% else %}
+                        <p></p>
+                    {% endif %}
+
+                    {% if post.age_limit %}
+                        <p>Возрастные ограничения: {{post.age_limit}}</p>
+                    {% else %}
+                        <p></p>
+                    {% endif %}
+
                     <div class="script">
                         <img src="{% static 'portfolio/images/file.png' %}" alt="Файл сценария">
                         <p>Название сценария</p>

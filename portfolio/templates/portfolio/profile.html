@@ -11,25 +11,56 @@
     {% if user_profile.image %}
         <img src="" alt="Фото профиля">
     {% else %}
-        <img src="{% static 'portfolio/images/profileIconNO.jpg' %}" alt="Фото профиля">
+        <img src="{% static 'portfolio/images/profileIconNO.png' %}" alt="Фото профиля">
     {% endif %}
     <div class="main-information">
         <p class="name">{{ user.last_name }} {{ user.first_name }} {{ user_profile.patronymic }}</p>
         <ul>
+            
             <li class="age">
-                <p>Возраст: 31 год</p>
+                {% if user_profile.date_of_birth %}
+                    <p>Возраст: {{ user_profile.date_of_birth }}</p>
+                {% else %}
+                    {% comment "Optional note" %}
+                        <p>Возраст: {{ user_profile.date_of_birth }}</p>
+                    {% endcomment %}
+                {% endif %}
             </li>
             <li class="activity">
-                <p>Сфера деятельности: {{ user_profile.scope_of_work }}</p>
+                {% if user_profile.scope_of_work %}
+                    <p>Сфера деятельности: {{ user_profile.scope_of_work }}</p>
+                {% else %}
+                    {% comment "Optional note" %}
+                        <p>Сфера деятельности: {{ user_profile.scope_of_work }}</p>
+                    {% endcomment %}
+                {% endif %} 
             </li>
             <li class="city">
-                <p>Город: {{ user_profile.city }}</p>
+                {% if user_profile.city %}
+                    <p>Город: {{ user_profile.city }}</p>
+                {% else %}
+                    {% comment "Optional note" %}
+                        <p>Город: {{ user_profile.city }}</p>
+                    {% endcomment %}
+                {% endif %} 
             </li>
             <li class="telephone">
-                <p>Телефон: {{ user_profile.phone_number }}</p>
+                {% if user_profile.phone_number %}
+                    <p>Телефон: {{ user_profile.phone_number }}</p>
+                {% else %}
+                    {% comment "Optional note" %}
+                        <p>Телефон: {{ user_profile.phone_number }}</p>
+                    {% endcomment %}
+                {% endif %}  
             </li>
             <li class="email">
-                <p>Электронная почта: {{ user.email }}</p>
+                {% if user_profile.email %}
+                    <p>Электронная почта: {{ user.email }}</p>
+                {% else %}
+                    {% comment "Optional note" %}
+                        <p>Электронная почта: {{ user.email }}</p>
+                    {% endcomment %}
+                {% endif %} 
             </li>
             <div class="tags">
                 {% for tag in user_profile.tags %}
@@ -68,7 +99,7 @@
                     {% if user_profile.image %}
                         <img src="" alt="Фото профиля">
                     {% else %}
-                        <img src="{% static 'portfolio/images/profileIconNO.jpg' %}" alt="Фото профиля">
+                        <img src="{% static 'portfolio/images/profileIconNO.png' %}" alt="Фото профиля">
                     {% endif %}
                 </div>
                 <div class="post-information">

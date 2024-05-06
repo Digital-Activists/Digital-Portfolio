@@ -1,0 +1,115 @@
+body {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 1);
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+h1 {
+    display: none;
+}
+
+
+
+.search-results{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-bottom: 55px;
+}
+.search-result{
+    width: 1360px;
+    margin: 0 auto;
+
+    display: flex;
+    background-color: rgba(234, 237, 240, 1);
+    border-radius: 10px;
+   
+    margin-bottom: 25px;
+}
+
+.search-result img.profile-icon {
+    width: 100px;
+    height: 100px;
+    margin: auto 50px;
+    margin-right: 0;
+}
+
+.FIO{
+    display: flex;
+    gap: 10px;
+    font-size: 18px;
+    margin-top: 25px;
+    margin-left: 10px;
+    margin-bottom: -25px;
+}
+h2{
+    font-size: 25px;
+    font-weight: 400;
+}
+.grade{
+    display: block;
+    width: 20px;
+    height: 17px;
+    background-color: rgba(234, 237, 240, 1);
+    border: none;
+    margin-top: 25px;
+}
+.FIO p{
+    display: block;
+    margin-top: 25px;
+}
+
+.information{
+    margin-left: 20px;
+    margin-top: 0;
+}
+.information p.activity{
+    margin-top: 5px;
+    margin-bottom: 30px;
+}
+.information p.city{
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+
+
+
+.tags {
+
+    display: grid;
+    width: 279px;
+    margin: 0;
+    padding: 0;
+    grid-template-columns: repeat(3, 80px);
+    column-gap: 10px;
+    margin-bottom: 26px;
+}
+.tags p{
+    margin-top: -5px;
+    padding: 0;
+    width: 60px;
+    background-color: rgba(54, 192, 241, 1);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 5px;
+}
+
+.main-information{
+    margin-right: auto;
+}
+a.profile-link{
+    width: 177px;
+    height: 22px;
+    background-color: rgba(54, 192, 241, 1);
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+    padding: 14px 19px;
+    margin: auto 43px;
+}

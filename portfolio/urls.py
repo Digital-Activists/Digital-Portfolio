@@ -13,5 +13,6 @@ urlpatterns = [
     path('profile:<slug:nickname>/edit-settings-profile', EditProfileView.as_view(), name='edit_settings_profile'),
     path('profile:<slug:nickname>/edit-settings-security', EditSecuritySettingsView.as_view(), name='edit_settings_security'),
     path('profile:<slug:nickname>/create-post', CreatePostView.as_view(), name='create_post'),
+    path('profile:<slug:nickname>/edit-post:<slug:post_slug>', EditPostView.as_view(), name='edit_post'),
     path('profile:<slug:nickname>/', UserProfileView.as_view(), name='view_user_profile'),
 ]

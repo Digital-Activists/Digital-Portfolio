@@ -29,22 +29,6 @@ class BaseFilledFieldsForm(forms.ModelForm):
                 field.initial = getattr(self.instance.user, field_name)
 
 
-def validate_file_extension(value, valid_extensions):
-    ext = os.path.splitext(value.name)[1]
-    if not ext.lower() in valid_extensions:
-        raise ValidationError('Unsupported file extension.')
-
-
-def validate_files(value):
-    valid_extensions = ['.ppt', '.docx', '.doc', '.pdf']
-    validate_file_extension(value, valid_extensions)
-
-
-def validate_image_and_video(value):
-    valid_extensions = ['.', '.', '.', '.']
-    validate_file_extension(value, valid_extensions)
-
-
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
@@ -62,15 +46,15 @@ class MultipleFileField(forms.FileField):
         return result
 
 
-class CreatePostForm(forms.ModelForm):
-    images = MultipleFileField(widget=MultipleFileInput(attrs={}))
+class UserPostForm(forms.ModelForm):
+    images = MultipleFileField(validators=[FileExtensionValidator(['png', 'jpg'])], widget=MultipleFileInput(attrs={}))
     files = MultipleFileField(validators=[FileExtensionValidator(['pdf', 'ppt', 'doc', 'docx'])],
                               widget=MultipleFileInput(attrs={}))
     videos = MultipleFileField(validators=[FileExtensionValidator(['mp4'])], widget=MultipleFileInput(attrs={}))
-    tags = forms.ModelChoiceField(queryset=ProfileTag.objects.all())
+    # tags = forms.ModelChoiceField(queryset=ProfileTag.objects.all(), widget=forms.CheckboxInput())
 
     def __init__(self, *args, **kwargs):
-        super(CreatePostForm, self).__init__(*args, **kwargs)
+        super(UserPostForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             field = self.fields[field_name]
             field.required = False
@@ -78,7 +62,7 @@ class CreatePostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'text', 'date', 'budget', 'post_type', 'genre', 'style', 'age_limit', 'tags']
+        fields = ['title', 'text', 'date', 'budget', 'post_type', 'genre', 'style', 'age_limit']
         widgets = {
             'title': forms.TextInput(attrs={'class': '', 'placeholder': ''}),
             'text': forms.Textarea(attrs={'class': '', 'placeholder': ''}),

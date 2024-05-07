@@ -18,32 +18,49 @@ def index(request):
                   context={'user_profile': Profile.objects.get(user=request.user)})
 
 
-class CreatePostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin,ContextUpdateMixin, CreateView):
+class CreatePostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, ContextUpdateMixin, CreateView):
     PageTitle = 'Create Post'
-    form_class = CreatePostForm
+    form_class = UserPostForm
     template_name = 'portfolio/plug-form.html'
     custom_success_url = 'view_user_profile'
     context_object_name = 'form'
     login_url = reverse_lazy('login')
     raise_exception = True
+    
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.author = self.request.user
+        post.save()
+        for image in self.request.FILES.getlist('images'):
+            PostPhoto.objects.create(post=post, file=image)
+        for video in self.request.FILES.getlist('videos'):
+            PostVideo.objects.create(post=post, file=video)
+        for file in self.request.FILES.getlist('files'):
+            PostFile.objects.create(post=post, file=file)
+        # for tag in form.cleaned_data['tags']:
+        #     pass
 
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
+        return redirect(self.get_success_url())
 
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            for image in request.FILES.getlist('images'):
-                PostPhoto.objects.create(post=post, file=image)
-            for video in request.FILES.getlist('videos'):
-                PostVideo.objects.create(post=post, file=video)
-            for file in request.FILES.getlist('files'):
-                PostFile.objects.create(post=post, file=file)
 
-            return HttpResponseRedirect(self.get_success_url())
+class EditPostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
+    form_class = UserPostForm
+    template_name = 'portfolio/plug-form.html'
+    custom_success_url = 'view_user_profile'
+    context_object_name = 'form'
+    raise_exception = True
 
-        return self.form_invalid(form)
+    def get_object(self, queryset=None):
+        post_slug = self.kwargs.get('post_slug')
+        return get_object_or_404(Post, slug=post_slug, author=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['images'] = PostPhoto.objects.filter(post_id=self.kwargs['pk'], post__author=self.request.user)
+        context['videos'] = PostVideo.objects.filter(post_id=self.kwargs['pk'], post__author=self.request.user)
+        context['files'] = PostFile.objects.filter(post_id=self.kwargs['pk'], post__author=self.request.user)
+        context['tags'] = PostTag.objects.filter(post_id=self.kwargs['pk'], post__author=self.request.user)
+        return context
 
 
 class EditProfileView(GetProfileMixin, ProfileSuccessUrlMixin, UpdateView, LoginRequiredMixin):

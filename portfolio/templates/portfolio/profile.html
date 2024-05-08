@@ -100,25 +100,29 @@
                         {% endfor %}
                     </div>
                     {% if post.text %}
-                        <p>{{ post.text }}</p>
+                        <p class="post-description">{{ post.text }}</p>
                     {% endif %}
-                    <div class="post-image">
-                        <a href="#">
-                            <img src="{% static 'portfolio/images/post-arrow-left.svg' %}" width="10" height="14"
-                                 alt="Редактировать и создать пост">
-                        </a>
-                        <img src="{% static 'portfolio/images/post-example.jpg' %}">
+                    {% if post.photos %}
+                        <div class="post-image">
+                            <a href="#">
+                                <img src="{% static 'portfolio/images/post-arrow-left.svg' %}" width="10" height="14"
+                                     alt="Стрелка влево">
+                            </a>
+                            {% for photo in post.photos.all %}
+                                <img src="{{ photo.file.url }}">
+                            {% endfor %}
 
-                        <a href="#">
-                            <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="10" height="14"
-                                 alt="Редактировать и создать пост">
-                        </a>
-                    </div>
+                            <a href="#">
+                                <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="10" height="14"
+                                     alt="Стрелка вправо">
+                            </a>
+                        </div>
+                    {% endif %}
                     {% if post.date %}
                         <p class="date">{{ post.date }}</p>
                     {% endif %}
                     {% if post.genre %}
-                        <p>Жанр: {{ post.genre }}</p>
+                        <p>Жанр: {{ post.get_genre_display }}</p>
                     {% endif %}
                     {% if post.style %}
                         <p>Стиль: {{ post.style }}</p>
@@ -129,14 +133,19 @@
                     {% if post.age_limit %}
                         <p>Возрастные ограничения: {{ post.age_limit }}</p>
                     {% endif %}
-                    <div class="script">
-                        <img src="{% static 'portfolio/images/file.png' %}" alt="Файл сценария">
-                        <p>Название сценария</p>
-                        <a href="#">
-                            <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="14" height="20"
-                                 alt="Редактировать и создать пост">
-                        </a>
-                    </div>
+                    {% if post.files %}
+                        <div class="script">
+                            {% for user_file in post.files.all %}
+                                <a href="{{ user_file.file.url }}" download="{{ user_file }}">
+                                    <img src="{% static 'portfolio/images/file.png' %}" alt="{{ user_file.file.name }}">
+                                    <p>{{ user_file }}</p>
+                                    <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="14"
+                                         height="20"
+                                         alt="Стрелка вправо">
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                     <div class="grade">
                         <p>31</p>
                         <button type="button">

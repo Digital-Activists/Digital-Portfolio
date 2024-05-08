@@ -153,12 +153,14 @@ img#arrow-right{
     margin-bottom: 20px;
 }
 
+.name{
+    word-wrap: break-word;
+}
 
-
-.post-name {
+p.post-name {
     font-size: 18px;
     margin-bottom: -10px;
-
+    word-wrap: break-word;
 }
 
 .post-description {

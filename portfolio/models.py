@@ -1,3 +1,4 @@
+import os
 from datetime import date
 
 from django.contrib.auth.models import User
@@ -24,7 +25,7 @@ class Profile(models.Model):
                                      verbose_name='Сфера деятельности')
     experience = models.CharField(max_length=20, choices=EXPERIENCE_CHOICES, blank=True, default='no_experience',
                                   verbose_name='Опыт работы')
-    specialization = models.CharField(max_length=30, choices=SPECIALIZATION_CHOICES, blank=True,
+    specialization = models.CharField(max_length=40, choices=SPECIALIZATION_CHOICES, blank=True,
                                       verbose_name='Специализация')
     employment_type = models.CharField(max_length=20, choices=EMPLOYMENT_TYPE_CHOICES, blank=True,
                                        verbose_name='Тип занятости')
@@ -93,7 +94,7 @@ class Post(models.Model):
     style = models.CharField(choices=STYLE_CHOICES, blank=True, max_length=64, verbose_name='Стиль')
     age_limit = models.CharField(max_length=3, blank=True, choices=AGE_LIMITS, verbose_name='Возрастные ограничения')
     post_slug = models.SlugField()
-    music_genre = models.CharField(max_length=20, blank=True, choices=MUSIC_GENRE_CHOICES, verbose_name='Музыка')
+    music_genre = models.CharField(max_length=30, blank=True, choices=MUSIC_GENRE_CHOICES, verbose_name='Музыка')
     rhythm = models.CharField(max_length=20, blank=True, choices=RHYTHM_CHOICES, verbose_name='Ритм')
 
     class Meta:
@@ -113,6 +114,9 @@ class PostVideo(models.Model):
 class PostFile(models.Model):
     file = models.FileField(upload_to=get_path_to_post_files)
     post = models.ForeignKey(Post, related_name='files', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return os.path.basename(self.file.name)
 
 
 class PostTag(models.Model):

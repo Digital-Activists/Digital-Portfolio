@@ -58,7 +58,7 @@ def get_path_to_user_avatar(instance, filename):
 
 
 def get_path_to_post_files(instance, filename):
-    return f'posts/user_{instance.post.author.id}/{instance.post.id}/{filename}'
+    return f'posts/user_{instance.post.author.id}/post_{instance.post.id}/{filename}'
 
 
 class GetProfileMixin:

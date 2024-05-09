@@ -34,7 +34,7 @@ class Profile(models.Model):
     def get_user_age(self):
         today = date.today()
         return today.year - self.date_of_birth.year - (
-                    (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+                (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
 
     def save(self, *args, **kwargs):
         if not self.nickname and self.user.username:
@@ -114,6 +114,7 @@ class Post(models.Model):
         super().save(*args, **kwargs)
 
 
+# TODO: Удаление файлов после удаления поста
 class PostPhoto(models.Model):
     file = models.ImageField(upload_to=get_path_to_post_files)
     post = models.ForeignKey(Post, related_name='photos', on_delete=models.CASCADE)

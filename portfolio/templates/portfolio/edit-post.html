@@ -9,13 +9,11 @@
     <form action="" method="post" class="post-form" enctype="multipart/form-data">
         {% csrf_token %}
         <h2>Информация о посте</h2>
-        <ul class="massages">
+        <div class="massages">
             {% for message in messages %}
-                <li>
-                    {{ message }}
-                </li>
+                <p>{{ message }}</p>
             {% endfor %}
-        </ul>
+        </div>
         <ol>
             {% for field in form %}
                 <li class="{{ field.field.widget.attrs.class }}">

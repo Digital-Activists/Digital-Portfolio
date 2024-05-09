@@ -58,8 +58,9 @@
                 {% if user.social_networks.all|length > 0 %}
                     <div class="social-networks">
                         {% for social_network in user.social_networks.all %}
-                            <a href="{{ social_network.link }}"><img
-                                    src="{% static social_network.get_image_url %}"></a>
+                            <a href="{{ social_network.link }}" target="_blank">
+                                <img src="{% static social_network.get_image_url %}">
+                            </a>
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -160,12 +161,12 @@
                     </button>
 
                 </div>
-            <div>
-                <ul>
-                    <li><a href="{% url 'edit_post' post.post_slug %}">Редактировать пост</a></li>
-                    <li><a href="{% url 'delete_post' post.pk %}">Удалить пост</a></li>
-                </ul>
-            </div>
+                <div>
+                    <ul>
+                        <li><a href="{% url 'edit_post' post.post_slug %}">Редактировать пост</a></li>
+                        <li><a href="{% url 'delete_post' post.pk %}">Удалить пост</a></li>
+                    </ul>
+                </div>
             </div>
         {% endfor %}
     </section>

@@ -23,7 +23,7 @@ class CreatePostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin
     PageTitle = 'Create Post'
     form_class = UserPostForm
     template_name = 'portfolio/edit-post.html'
-    custom_success_url = 'view_user_profile'
+    custom_success_url = 'edit_post'
     context_object_name = 'form'
     login_url = reverse_lazy('login')
     raise_exception = True
@@ -45,39 +45,44 @@ class CreatePostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin
         for file in self.request.FILES.getlist('files'):
             PostFile.objects.create(post=post, file=file)
 
-        return redirect(self.get_success_url())
+        messages.success(self.request, 'Ваш пост создан и опубликован')
+        return redirect('edit_post', post.post_slug)
 
 
-class EditPostMixin(ProfileSuccessUrlMixin, LoginRequiredMixin):
+class EditPostMixin(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
     context_object_name = 'form'
     raise_exception = True
     custom_success_url = 'view_user_profile'
 
     def get_object(self, queryset=None):
         post_slug = self.kwargs.get('post_slug')
-        return get_object_or_404(Post, slug=post_slug, author=self.request.user)
+        return get_object_or_404(Post, post_slug=post_slug, author=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['post'] = self.object
+        context['post_is_created'] = True
+        return context
 
 
-class EditPostView(EditPostMixin, UpdateView):
+class EditPostView(EditPostMixin):
     form_class = UserPostForm
     template_name = 'portfolio/edit-post.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['images'] = PostPhoto.objects.filter(post_id=self.kwargs['pk'], post__author=self.request.user)
-        context['videos'] = PostVideo.objects.filter(post_id=self.kwargs['pk'], post__author=self.request.user)
-        context['files'] = PostFile.objects.filter(post_id=self.kwargs['pk'], post__author=self.request.user)
-        context['post_is_created'] = True
+        context['images'] = PostPhoto.objects.filter(post=self.object, post__author=self.request.user)
+        context['videos'] = PostVideo.objects.filter(post=self.object, post__author=self.request.user)
+        context['files'] = PostFile.objects.filter(post=self.object, post__author=self.request.user)
         return context
 
 
-class EditPostTagsView(EditPostMixin, UpdateView):
+class EditPostTagsView(EditPostMixin):
     form_class = PostTagsForm
     template_name = 'portfolio/plug-form.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['post_is_created'] = True
         return context
 
 
@@ -160,7 +165,7 @@ class EditAccountInformationView(GetProfileMixin, ProfileSuccessUrlMixin, LoginR
         form.instance.user.first_name = form.cleaned_data['first_name']
         form.instance.user.last_name = form.cleaned_data['last_name']
         form.instance.user.save()
-        messages.success(self.request, 'Your account has been updated!')
+        messages.success(self.request, 'Ваш аккаунт был обновлен!')
         return response
 
 

@@ -66,6 +66,11 @@ class GetProfileMixin:
     slug_url_kwarg = 'nickname'
     slug_field = 'nickname'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_profile'] = self.request.user.profile
+        return context
+
 
 class ProfileSuccessUrlMixin:
     custom_success_url = ''

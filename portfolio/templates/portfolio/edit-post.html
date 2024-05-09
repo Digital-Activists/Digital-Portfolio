@@ -1,38 +1,30 @@
-{% extends 'portfolio/base-settings.html' %}
+{% extends 'portfolio/base-edit-post.html' %}
 {% load static %}
 
 {% block style_load %}
     <link rel="stylesheet" href="{% static 'portfolio/css/edit-post.css' %} "/>
 {% endblock %}
 
-{% block main %}
-<form action="" method="post" class="post-form" enctype="multipart/form-data">
-    <h2>Информация о посте</h2>
-    <ol>
-      <li class="post-title">
-        <label for="post-title">Заголовок</label>
-        <input type="text" name="title" placeholder="Введите заголовок поста" />
-      </li>
-      <li class="post-description">
-        <label for="post-description">Описание поста</label>
-        <input type="text" name="post-description" placeholder="Добавьте описание к своему посту..." />
-      </li>
-      <li class="post-type">
-        <label for="post-type">Тип поста</label>
-          <select id="month">
-            <option value="">Выберите тип поста</option>
-            <option value="1">тип</option>
-            <option value="2">тип</option>
-            <option value="3">тип</option>
-            <option value="4">тип</option>
-            <option value="5">тип</option>
-            <option value="6">тип</option>
-            <option value="7">тип</option>
-            <option value="8">тип</option>
-          </select>
-      </li>
-    </ol>
-    <button type="submit" value="Сохранить">Сохранить</button>
-  </form>
-
+{% block post-form %}
+    <form action="" method="post" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Информация о посте</h2>
+        <ul class="massages">
+            {% for message in messages %}
+                <li>
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+        <ol>
+            {% for field in form %}
+                <li class="{{ field.field.widget.attrs.class }}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <div class="form-error">{{ field.errors }}</div>
+                </li>
+            {% endfor %}
+        </ol>
+        <button type="submit" value="Сохранить">Сохранить</button>
+    </form>
 {% endblock %}

@@ -27,15 +27,14 @@ class Profile(models.Model):
                                   verbose_name='Опыт работы')
     specialization = models.CharField(max_length=40, choices=SPECIALIZATION_CHOICES, blank=True,
                                       verbose_name='Специализация')
-    employment_type = models.CharField(max_length=20, choices=EMPLOYMENT_TYPE_CHOICES, blank=True,
-                                       verbose_name='Тип занятости')
-    work_schedule = models.CharField(max_length=20, choices=WORK_SCHEDULE_CHOICES, blank=True,
-                                     verbose_name='График работы')
+    employment_type = models.ManyToManyField('ProfileEmploymentType', verbose_name='Тип занятости')
+    work_schedule = models.ManyToManyField('ProfileWorkSchedule', verbose_name='График работы')
+    skills = models.ManyToManyField('ProfileSkill', verbose_name='Ключевые навыки')
 
     def get_user_age(self):
         today = date.today()
         return today.year - self.date_of_birth.year - (
-                (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+                    (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
 
     def save(self, *args, **kwargs):
         if not self.nickname and self.user.username:
@@ -74,16 +73,26 @@ class ProfileSocialNetwork(models.Model):
         return ''
 
 
-class ProfileTag(models.Model):
-    tag = models.CharField(max_length=50, verbose_name='Тэг профиля')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tags')
-
+class StrMixin:
     def __str__(self):
-        return self.tag
+        return self.name
+
+
+class ProfileSkill(StrMixin, models.Model):
+    name = models.CharField(max_length=50, choices=SKILLS_CHOICES)
+
+
+class ProfileEmploymentType(StrMixin, models.Model):
+    name = models.CharField(max_length=30, choices=EMPLOYMENT_TYPE_CHOICES)
+
+
+class ProfileWorkSchedule(StrMixin, models.Model):
+    name = models.CharField(max_length=30, choices=WORK_SCHEDULE_CHOICES)
 
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    post_slug = models.SlugField(db_index=True, unique=True)
     title = models.CharField(max_length=120, verbose_name='Заголовок')
     text = models.TextField(max_length=700, blank=True, verbose_name='Описание')
     date = models.DateField(default=now, verbose_name='Дата')
@@ -92,13 +101,17 @@ class Post(models.Model):
     post_type = models.CharField(choices=PROJECT_TYPE_CHOICES, blank=True, max_length=50, verbose_name='Тип поста')
     genre = models.CharField(choices=PROJECT_GENRE_CHOICES, max_length=64, blank=True, verbose_name='Жанр')
     style = models.CharField(choices=STYLE_CHOICES, blank=True, max_length=64, verbose_name='Стиль')
-    age_limit = models.CharField(max_length=3, blank=True, choices=AGE_LIMITS, verbose_name='Возрастные ограничения')
-    post_slug = models.SlugField()
-    music_genre = models.CharField(max_length=30, blank=True, choices=MUSIC_GENRE_CHOICES, verbose_name='Музыка')
+    age_limit = models.CharField(max_length=3, blank=True, choices=AGE_LIMITS, verbose_name='Возрастное ограничение')
+    music_genre = models.CharField(max_length=30, blank=True, choices=MUSIC_GENRE_CHOICES, verbose_name='Жанр музыки')
     rhythm = models.CharField(max_length=20, blank=True, choices=RHYTHM_CHOICES, verbose_name='Ритм')
 
     class Meta:
         ordering = ['-created_at']
+
+    def save(self, *args, **kwargs):
+        if not self.post_slug:
+            self.post_slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
 
 class PostPhoto(models.Model):
@@ -117,11 +130,3 @@ class PostFile(models.Model):
 
     def __str__(self):
         return os.path.basename(self.file.name)
-
-
-class PostTag(models.Model):
-    tag = models.CharField(max_length=50, verbose_name='Тэг поста')
-    post = models.ForeignKey(Post, related_name='tags', on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.tag

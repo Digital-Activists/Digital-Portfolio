@@ -1,5 +1,4 @@
 import datetime
-import os
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
@@ -9,10 +8,8 @@ from django.core.validators import FileExtensionValidator
 
 from .models import *
 from .utils import check_social_link, check_social_lick_type
-
-
-class ProfileAvatarImageWidget(forms.ClearableFileInput):
-    template_name = 'portfolio/widgets/custom_image_widget.html'
+from .choices import RHYTHMS
+from .form_utils import MultipleFileField, ProfileAvatarImageWidget, MultipleFileInput, CustomRadioSelect
 
 
 class BaseFilledFieldsForm(forms.ModelForm):
@@ -29,29 +26,16 @@ class BaseFilledFieldsForm(forms.ModelForm):
                 field.initial = getattr(self.instance.user, field_name)
 
 
-class MultipleFileInput(forms.ClearableFileInput):
-    allow_multiple_selected = True
-
-
-class MultipleFileField(forms.FileField):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def clean(self, data, initial=None):
-        single_file_clean = super().clean
-        if isinstance(data, (list, tuple)):
-            result = [single_file_clean(d, initial) for d in data]
-        else:
-            result = single_file_clean(data, initial)
-        return result
-
-
 class UserPostForm(forms.ModelForm):
-    images = MultipleFileField(validators=[FileExtensionValidator(['png', 'jpg'])], widget=MultipleFileInput(attrs={}))
-    files = MultipleFileField(validators=[FileExtensionValidator(['pdf', 'ppt', 'doc', 'docx'])],
+    images = MultipleFileField(label='Фотографии', validators=[FileExtensionValidator(['png', 'jpg'])],
+                               widget=MultipleFileInput(attrs={}))
+    files = MultipleFileField(label='Документы', validators=[FileExtensionValidator(['pdf', 'ppt', 'doc', 'docx'])],
                               widget=MultipleFileInput(attrs={}))
-    videos = MultipleFileField(validators=[FileExtensionValidator(['mp4'])], widget=MultipleFileInput(attrs={}))
-    # tags = forms.ModelChoiceField(queryset=ProfileTag.objects.all(), widget=forms.CheckboxInput())
+    videos = MultipleFileField(label='Видео', validators=[FileExtensionValidator(['mp4'])],
+                               widget=MultipleFileInput(attrs={}))
+    date = forms.DateField(label='Дата', widget=forms.SelectDateWidget(attrs={'class': ''},
+                                                                       years=range(datetime.date.today().year - 99,
+                                                                                   datetime.date.today().year)))
 
     def __init__(self, *args, **kwargs):
         super(UserPostForm, self).__init__(*args, **kwargs)
@@ -62,17 +46,34 @@ class UserPostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'text', 'date', 'budget', 'post_type', 'genre', 'style', 'age_limit']
+        fields = ['title', 'text', 'date', 'images', 'videos', 'files', 'budget', 'post_type']
         widgets = {
-            'title': forms.TextInput(attrs={'class': '', 'placeholder': ''}),
-            'text': forms.Textarea(attrs={'class': '', 'placeholder': ''}),
+            'title': forms.TextInput(attrs={'class': 'post-title', 'placeholder': 'Введите заголовок поста'}),
+            'text': forms.Textarea(attrs={'class': 'post-description', 'placeholder': 'Добавьте описание к своему посту описание'}),
             'date': forms.DateInput(attrs={'class': '', 'placeholder': ''}),
             'budget': forms.Select(attrs={'class': '', 'placeholder': ''}),
-            'post_type': forms.Select(attrs={'class': '', 'placeholder': ''}),
+            'post_type': forms.Select(attrs={'class': 'post-type', 'placeholder': ''}),
             'genre': forms.Select(attrs={'class': '', 'placeholder': ''}),
             'style': forms.Select(attrs={'class': '', 'placeholder': ''}),
             'age_limit': forms.Select(attrs={'class': '', 'placeholder': ''}),
             'tags': forms.Select(attrs={'class': '', 'placeholder': ''}),
+        }
+
+
+class PostTagsForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['rhythm', 'music_genre', 'genre', 'style', 'age_limit']
+        help_texts = {
+            'genre': 'Жанр вашего контента',
+            'style': 'Стиль вашего контента'
+        }
+        widgets = {
+            'rhythm': CustomRadioSelect(attrs={'class': ''}),
+            'genre': forms.Select(attrs={'class': '', 'placeholder': 'Выберите жанр проекта'}),
+            'music_genre': forms.Select(attrs={'class': '', 'placeholder': 'Выберите жанр музыки'}),
+            'style': forms.Select(attrs={'class': '', 'placeholder': 'Выберите стиль'}),
+            'age_limits': forms.Select(attrs={'class': '', 'placeholder': 'Выберите возрастное ограничение'})
         }
 
 
@@ -113,9 +114,11 @@ class CreateProfileForm(forms.ModelForm):
 class LoginUserForm(AuthenticationForm):
     username = forms.EmailField(label='Адрес электронной почты',
                                 widget=forms.EmailInput(
-                                    attrs={'placeholder': 'Введите адрес электронной почты', 'class': 'email-Adress'}))
+                                    attrs={'placeholder': 'Введите адрес электронной почты',
+                                           'class': 'email-Adress'}))
     password = forms.CharField(label='Пароль',
-                               widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль', 'class': 'password'}))
+                               widget=forms.PasswordInput(
+                                   attrs={'placeholder': 'Введите пароль', 'class': 'password'}))
 
 
 class EnterEmailToResetPasswordForm(PasswordResetForm):
@@ -158,6 +161,19 @@ class EditProfileForm(BaseFilledFieldsForm, forms.ModelForm):
         fields = ['image', 'text', 'phone_number', 'email', 'city', 'scope_of_work']
 
 
+class EditProfileTagsForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['skills', 'experience', 'specialization', 'employment_type', 'work_schedule']
+        widgets = {
+            'skills': forms.CheckboxSelectMultiple(),
+            'experience': forms.Select(attrs={'class': '', 'placeholder': 'Укажите свой опыт работы'}),
+            'specialization': forms.Select(attrs={'placeholder': 'Выберите свою специализацию'}),
+            'employment_type': forms.CheckboxSelectMultiple(),
+            'work_schedule': forms.CheckboxSelectMultiple(),
+        }
+
+
 class EditAccountInformationForm(BaseFilledFieldsForm, forms.ModelForm):
     first_name = forms.CharField(max_length=30, label='Имя', widget=forms.TextInput(
         attrs={'placeholder': 'Введите имя', 'class': 'first-name'}))
@@ -167,10 +183,11 @@ class EditAccountInformationForm(BaseFilledFieldsForm, forms.ModelForm):
         attrs={'placeholder': 'Введите отчество, если есть', 'class': 'middle-name'}))
     nickname = forms.SlugField(max_length=50, label='Никнейм', required=True, widget=forms.TextInput(
         attrs={'placeholder': 'Введите свой никнейм', 'class': 'nickname'}))
-    date_of_birth = forms.DateField(label='Дата рождения', widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
-                                                                                         years=range(
-                                                                                             datetime.date.today().year - 99,
-                                                                                             datetime.date.today().year)))
+    date_of_birth = forms.DateField(label='Дата рождения',
+                                    widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
+                                                                  years=range(
+                                                                      datetime.date.today().year - 99,
+                                                                      datetime.date.today().year)))
 
     class Meta:
         model = Profile

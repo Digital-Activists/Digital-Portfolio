@@ -3,6 +3,7 @@ from django.contrib.auth import logout, login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -21,12 +22,18 @@ def index(request):
 class CreatePostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, ContextUpdateMixin, CreateView):
     PageTitle = 'Create Post'
     form_class = UserPostForm
-    template_name = 'portfolio/plug-form.html'
+    template_name = 'portfolio/edit-post.html'
     custom_success_url = 'view_user_profile'
     context_object_name = 'form'
     login_url = reverse_lazy('login')
     raise_exception = True
-    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_profile'] = self.request.user.profile
+        context['post_is_created'] = False
+        return context
+
     def form_valid(self, form):
         post = form.save(commit=False)
         post.author = self.request.user
@@ -37,29 +44,40 @@ class CreatePostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin
             PostVideo.objects.create(post=post, file=video)
         for file in self.request.FILES.getlist('files'):
             PostFile.objects.create(post=post, file=file)
-        # for tag in form.cleaned_data['tags']:
-        #     pass
 
         return redirect(self.get_success_url())
 
 
-class EditPostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
-    form_class = UserPostForm
-    template_name = 'portfolio/plug-form.html'
-    custom_success_url = 'view_user_profile'
+class EditPostMixin(ProfileSuccessUrlMixin, LoginRequiredMixin):
     context_object_name = 'form'
     raise_exception = True
+    custom_success_url = 'view_user_profile'
 
     def get_object(self, queryset=None):
         post_slug = self.kwargs.get('post_slug')
         return get_object_or_404(Post, slug=post_slug, author=self.request.user)
+
+
+class EditPostView(EditPostMixin, UpdateView):
+    form_class = UserPostForm
+    template_name = 'portfolio/edit-post.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['images'] = PostPhoto.objects.filter(post_id=self.kwargs['pk'], post__author=self.request.user)
         context['videos'] = PostVideo.objects.filter(post_id=self.kwargs['pk'], post__author=self.request.user)
         context['files'] = PostFile.objects.filter(post_id=self.kwargs['pk'], post__author=self.request.user)
-        context['tags'] = PostTag.objects.filter(post_id=self.kwargs['pk'], post__author=self.request.user)
+        context['post_is_created'] = True
+        return context
+
+
+class EditPostTagsView(EditPostMixin, UpdateView):
+    form_class = PostTagsForm
+    template_name = 'portfolio/plug-form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['post_is_created'] = True
         return context
 
 
@@ -247,3 +265,11 @@ class UserProfileView(GetProfileMixin, DetailView):
         context['user'] = user
         context['posts'] = Post.objects.filter(author=user)
         return context
+
+
+def delete_post(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    if request.user != post.author:
+        raise PermissionDenied
+    post.delete()
+    return redirect('view_user_profile', request.user.profile.nickname)

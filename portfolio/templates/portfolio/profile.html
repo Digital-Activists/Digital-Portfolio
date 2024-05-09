@@ -160,6 +160,12 @@
                     </button>
 
                 </div>
+            <div>
+                <ul>
+                    <li><a href="{% url 'edit_post' post.post_slug %}">Редактировать пост</a></li>
+                    <li><a href="{% url 'delete_post' post.pk %}">Удалить пост</a></li>
+                </ul>
+            </div>
             </div>
         {% endfor %}
     </section>

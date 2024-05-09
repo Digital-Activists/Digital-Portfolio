@@ -1,0 +1,17 @@
+{% extends 'portfolio/base-with-navigation.html' %}
+
+{% block main %}
+    {% block post-form %}
+    {% endblock %}
+    <nav>
+        <ul>
+            {% if post_is_created %}
+                <li><a href="{% url 'edit_post_tags' user_profile.nickname post.slug %}">Выбор тегов</a></li>
+                <li><a href="{% url 'edit_post' user_profile post.slug %}">Редактирование поста</a></li>
+            {% else %}
+                <li>Редактирование поста</li>
+                <li>Выбор тегов</li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

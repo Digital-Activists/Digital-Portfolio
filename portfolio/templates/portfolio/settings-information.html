@@ -20,7 +20,7 @@
         {% endif %}
         <ol>
             <li>
-                <div>
+                <div class="account-image">
                     <label for="{{ form_photo.id_for_label }}">{{ form_photo.label }}</label>
                     {% if user_profile.image %}
                         <img src="{{ user_profile.image.url }}" width="110" height="110" alt="Фото профиля">

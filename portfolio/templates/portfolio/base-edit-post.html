@@ -3,15 +3,15 @@
 {% block main %}
     {% block post-form %}
     {% endblock %}
-    <nav>
+    <section class="settings-items">
         <ul>
             {% if post_is_created %}
-                <li><a href="{% url 'edit_post' post.post_slug %}">Редактирование поста</a></li>
-                <li><a href="{% url 'edit_post_tags' post.post_slug %}">Выбор тегов</a></li>
+                <li class="post-edit"><a href="{% url 'edit_post' post.post_slug %}">Редактирование поста</a></li>
+                <li class="tags"><a href="{% url 'edit_post_tags' post.post_slug %}">Выбор тегов</a></li>
             {% else %}
-                <li>Редактирование поста</li>
-                <li>Выбор тегов</li>
+                <li class="post-edit">Редактирование поста</li>
+                <li class="tags">Выбор тегов</li>
             {% endif %}
         </ul>
-    </nav>
+    </section>
 {% endblock %}

@@ -269,12 +269,37 @@ class UserProfileView(GetProfileMixin, DetailView):
         user = Profile.objects.get(nickname=self.kwargs['nickname']).user
         context['user'] = user
         context['posts'] = Post.objects.filter(author=user)
+        for post in context['posts']:
+            post.photos
         return context
 
 
+@login_required(login_url='login')
 def delete_post(request, post_id):
     post = Post.objects.get(pk=post_id)
     if request.user != post.author:
         raise PermissionDenied
     post.delete()
     return redirect('view_user_profile', request.user.profile.nickname)
+
+
+@login_required(login_url='login')
+def like_post(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    if post.author == request.user or post.liked_users.contains(request.user):
+        raise PermissionDenied
+    post.count_likes += 1
+    post.liked_users.add(request.user)
+    post.save()
+    return redirect('view_user_profile', post.author.profile.nickname)
+
+
+@login_required(login_url='login')
+def dislike_post(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    if post.author == request.user or not post.liked_users.contains(request.user):
+        raise PermissionDenied
+    post.count_likes -= 1
+    post.liked_users.remove(request.user)
+    post.save()
+    return redirect('view_user_profile', post.author.profile.nickname)

@@ -28,12 +28,12 @@ class BaseFilledFieldsForm(forms.ModelForm):
 
 class UserPostForm(forms.ModelForm):
     images = MultipleFileField(label='Фотографии', validators=[FileExtensionValidator(['png', 'jpg'])],
-                               widget=MultipleFileInput(attrs={}))
+                               widget=MultipleFileInput(attrs={'class': 'media'}))
     files = MultipleFileField(label='Документы', validators=[FileExtensionValidator(['pdf', 'ppt', 'doc', 'docx'])],
-                              widget=MultipleFileInput(attrs={}))
+                              widget=MultipleFileInput(attrs={'class': 'documents'}))
     videos = MultipleFileField(label='Видео', validators=[FileExtensionValidator(['mp4'])],
-                               widget=MultipleFileInput(attrs={}))
-    date = forms.DateField(label='Дата', widget=forms.SelectDateWidget(attrs={'class': ''},
+                               widget=MultipleFileInput(attrs={'class': 'media'}))
+    date = forms.DateField(label='Дата', widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
                                                                        years=range(datetime.date.today().year - 99,
                                                                                    datetime.date.today().year)))
 
@@ -50,14 +50,16 @@ class UserPostForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'post-title', 'placeholder': 'Введите заголовок поста'}),
             'text': forms.Textarea(attrs={'class': 'post-description', 'placeholder': 'Добавьте описание к своему посту описание'}),
-            'date': forms.DateInput(attrs={'class': '', 'placeholder': ''}),
-            'budget': forms.Select(attrs={'class': '', 'placeholder': ''}),
+            'date': forms.DateInput(attrs={'class': 'bith-date', 'placeholder': ''}),
+            'budget': forms.Select(attrs={'class': 'post-type', 'placeholder': ''}),
             'post_type': forms.Select(attrs={'class': 'post-type', 'placeholder': ''}),
+
             'genre': forms.Select(attrs={'class': '', 'placeholder': ''}),
             'style': forms.Select(attrs={'class': '', 'placeholder': ''}),
             'age_limit': forms.Select(attrs={'class': '', 'placeholder': ''}),
             'tags': forms.Select(attrs={'class': '', 'placeholder': ''}),
         }
+        
 
 
 class PostTagsForm(forms.ModelForm):

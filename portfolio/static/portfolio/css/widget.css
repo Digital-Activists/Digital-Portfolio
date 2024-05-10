@@ -1,4 +1,6 @@
 .custom-button-div{
+    display: none;
+    position: absolute;
     width: 160px;
     
     background-color: rgba(217, 217, 217, 1);
@@ -25,4 +27,11 @@
     background-color: rgba(217, 217, 217, 1);
     margin: 0;
     padding-top: 5px;
+}
+
+.account-image:hover .custom-button-div{
+    display: block;
+    position: absolute;
+    top: 315px;
+    left: 247px;
 }

@@ -104,6 +104,8 @@ class Post(models.Model):
     age_limit = models.CharField(max_length=3, blank=True, choices=AGE_LIMITS, verbose_name='Возрастное ограничение')
     music_genre = models.CharField(max_length=30, blank=True, choices=MUSIC_GENRE_CHOICES, verbose_name='Жанр музыки')
     rhythm = models.CharField(max_length=20, blank=True, choices=RHYTHM_CHOICES, verbose_name='Ритм')
+    count_likes = models.IntegerField(default=0, verbose_name='Лайки')
+    liked_users = models.ManyToManyField(User, related_name='liked_posts')
 
     class Meta:
         ordering = ['-created_at']
@@ -112,6 +114,13 @@ class Post(models.Model):
         if not self.post_slug:
             self.post_slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def is_liked_post(self, user) -> bool:
+        result = self.liked_users.contains(user)
+        return result
+
+    def get_count_likes(self):
+        return self.liked_users.count()
 
 
 # TODO: Удаление файлов после удаления поста

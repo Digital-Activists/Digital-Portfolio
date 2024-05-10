@@ -40,6 +40,7 @@ ul {
     height: 100px;
     margin-top: 30px;
     margin-bottom: 15px;
+    
 }
 
 p.name {
@@ -225,6 +226,12 @@ p.post-name {
     width: 60px;
     height: 60px;
     margin-left: 15px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+.image{
+    border-radius: 100%;
+    object-fit: cover;
 }
 .tags p {
     width: 60px;

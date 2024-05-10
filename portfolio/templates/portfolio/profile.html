@@ -1,5 +1,9 @@
 {% extends 'portfolio/base-with-navigation.html' %}
 {% load static %}
+{% load portfolio_tags %}
+
+{% static 'portfolio/images/hurtRED.png' as red_heart %}
+{% static 'portfolio/images/hurtEMPTY.png' as empty_heart %}
 
 {% block style_load %}
     <link rel="stylesheet" href="{% static 'portfolio/css/profile page.css' %}"/>
@@ -147,19 +151,30 @@
                             {% endfor %}
                         </div>
                     {% endif %}
-                    <div class="grade">
-                        <p>31</p>
-                        <button type="button">
-                            <img src="{% static 'portfolio/images/hurtRED.png' %}">
-                        </button>
-                    </div>
+                </div>
+                <div class="grade">
+                    <p>{{ post.get_count_likes }}</p>
+                    {% if request.user != user %}
+                        {% is_liked post request.user as liked %}
+                        {% if liked %}
+                            <a href="{% url 'dislike_post' post.pk %}">
+                                <img src="{% static 'portfolio/images/hurtRED.png' %}" alt="Красное сердечко">
+                            </a>
+                        {% else %}
+                            <a href="{% url 'like_post' post.pk %}">
+                                <img src="{% static 'portfolio/images/hurtEMPTY.png' %}" alt="Пустое сердечко">
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="#">
+                            <img src="{% static 'portfolio/images/hurtRED.png' %}" alt="Сердечко">
+                        </a>
+                    {% endif %}
                 </div>
                 <div class="icons">
-
                     <button type="button" class="favourites">
                         <img src="{% static 'portfolio/images/three dorts.png' %}" alt="Настройки">
                     </button>
-
                 </div>
                 <div>
                     <ul>

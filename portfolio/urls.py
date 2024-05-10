@@ -17,4 +17,6 @@ urlpatterns = [
     path('profile:edit-post-tags:<slug:post_slug>', EditPostTagsView.as_view(), name='edit_post_tags'),
     path('profile:<slug:nickname>/', UserProfileView.as_view(), name='view_user_profile'),
     path('delete-post:<int:post_id>', delete_post, name='delete_post'),
+    path('like-post:<int:post_id>', like_post, name='like_post'),
+    path('dislike-post:<int:post_id>', dislike_post, name='dislike_post'),
 ]

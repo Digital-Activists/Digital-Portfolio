@@ -4,12 +4,11 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-from django.core.validators import FileExtensionValidator
 
 from .models import *
 from .utils import check_social_link, check_social_lick_type
 from .choices import RHYTHMS
-from .form_utils import MultipleFileField, ProfileAvatarImageWidget, MultipleFileInput, CustomRadioSelect
+from .form_utils import ProfileAvatarImageWidget, CustomRadioSelect, CustomFileInput, CustomDocInput
 
 
 class BaseFilledFieldsForm(forms.ModelForm):
@@ -27,13 +26,10 @@ class BaseFilledFieldsForm(forms.ModelForm):
 
 
 class UserPostForm(forms.ModelForm):
-    images = MultipleFileField(label='Фотографии', validators=[FileExtensionValidator(['png', 'jpg'])],
-                               widget=MultipleFileInput(attrs={'class': 'media'}))
-    files = MultipleFileField(label='Документы', validators=[FileExtensionValidator(['pdf', 'ppt', 'doc', 'docx'])],
-                              widget=MultipleFileInput(attrs={'class': 'documents'}))
-    videos = MultipleFileField(label='Видео', validators=[FileExtensionValidator(['mp4'])],
-                               widget=MultipleFileInput(attrs={'class': 'media'}))
-    date = forms.DateField(label='Дата', widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
+    videos = forms.FileField(label='Видео', widget=CustomFileInput(accept='video/mp4', hint='Разрешен формат mp4'))
+    images = forms.ImageField(label='Фотографии', widget=CustomFileInput(accept='image/png image/jpeg image/jpg', hint='Разрешены форматы png, jpeg, jpg'))
+    files = forms.FileField(label='Документы', widget=CustomDocInput(accept='.doc, .docx, .ppt, .pdf', hint='Разрешены форматы doc, docx, ppt, pdf'))
+    date = forms.DateField(label='Дата', widget=forms.SelectDateWidget(attrs={'class': ''},
                                                                        years=range(datetime.date.today().year - 99,
                                                                                    datetime.date.today().year)))
 

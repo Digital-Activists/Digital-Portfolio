@@ -28,3 +28,22 @@ class CustomRadioSelect(forms.RadioSelect):
         if value:
             option['attrs']['data-help-text'] = f'label: {label}, name: {name}, value: {value}, selected: {selected}'
         return option
+
+
+class CustomFileInput(forms.FileInput):
+    template_name = 'portfolio/widgets/post_file_widget.html'
+
+    def __init__(self, accept, hint, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.accept = accept
+        self.hint = hint
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget']['accept'] = self.accept
+        context['widget']['hint'] = self.hint
+        return context
+
+
+class CustomDocInput(CustomFileInput):
+    template_name = 'portfolio/widgets/post_doc_widget.html'

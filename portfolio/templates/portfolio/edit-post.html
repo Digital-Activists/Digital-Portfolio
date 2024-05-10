@@ -14,15 +14,7 @@
                 <p>{{ message }}</p>
             {% endfor %}
         </div>
-        <ol>
-            {% for field in form %}
-                <li class="{{ field.field.widget.attrs.class }}">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {{ field }}
-                    <div class="form-error">{{ field.errors }}</div>
-                </li>
-            {% endfor %}
-        </ol>
+        {{ form.as_ul }}
         <button type="submit" value="Сохранить">Сохранить</button>
     </form>
 {% endblock %}

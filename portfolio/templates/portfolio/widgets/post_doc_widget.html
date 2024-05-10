@@ -1,0 +1,10 @@
+<div class="input-doc-row">
+    <label class="input-doc">
+        <input type="file" name="{{ widget.name }}" multiple accept="{{ widget.accept }}" {% include "django/forms/widgets/attrs.html" %}>
+        <div class="gg">
+            <span>Выберите файлы</span>
+            <p class="hint">{{ widget.hint }}</p>
+        </div>
+    </label>
+    <div class="input-doc-list"></div>
+</div>

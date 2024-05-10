@@ -4,12 +4,11 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-from django.core.validators import FileExtensionValidator
 
 from .models import *
 from .utils import check_social_link, check_social_lick_type
 from .choices import RHYTHMS
-from .form_utils import MultipleFileField, ProfileAvatarImageWidget, MultipleFileInput, CustomRadioSelect
+from .form_utils import ProfileAvatarImageWidget, CustomRadioSelect, CustomFileInput, CustomDocInput
 
 
 class BaseFilledFieldsForm(forms.ModelForm):
@@ -27,12 +26,9 @@ class BaseFilledFieldsForm(forms.ModelForm):
 
 
 class UserPostForm(forms.ModelForm):
-    images = MultipleFileField(label='Фотографии', validators=[FileExtensionValidator(['png', 'jpg'])],
-                               widget=MultipleFileInput(attrs={}))
-    files = MultipleFileField(label='Документы', validators=[FileExtensionValidator(['pdf', 'ppt', 'doc', 'docx'])],
-                              widget=MultipleFileInput(attrs={}))
-    videos = MultipleFileField(label='Видео', validators=[FileExtensionValidator(['mp4'])],
-                               widget=MultipleFileInput(attrs={}))
+    videos = forms.FileField(label='Видео', widget=CustomFileInput(accept='video/mp4', hint='Разрешен форматы mp4'))
+    images = forms.ImageField(label='Фотографии', widget=CustomFileInput(accept='image/png image/jpeg image/jpg', hint='Разрешены форматы png, jpeg, jpg'))
+    files = forms.FileField(label='Документы', widget=CustomDocInput(accept='.doc, .docx, .ppt, .pdf', hint='Разрешены форматы doc, docx, ppt, pdf'))
     date = forms.DateField(label='Дата', widget=forms.SelectDateWidget(attrs={'class': ''},
                                                                        years=range(datetime.date.today().year - 99,
                                                                                    datetime.date.today().year)))
@@ -47,6 +43,11 @@ class UserPostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'text', 'date', 'images', 'videos', 'files', 'budget', 'post_type']
+        help_texts = {
+            'videos': 'text',
+            'files': 'text',
+            'images': 'text',
+        }
         widgets = {
             'title': forms.TextInput(attrs={'class': 'post-title', 'placeholder': 'Введите заголовок поста'}),
             'text': forms.Textarea(attrs={'class': 'post-description', 'placeholder': 'Добавьте описание к своему посту описание'}),

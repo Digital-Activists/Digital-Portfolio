@@ -13,11 +13,10 @@ h1 {
   }
 
   .post-form {
-    width: 1250px;
-    margin-top: 30px;
-    margin-bottom: 81px;
-    margin-left: 95px;
-    margin-right: 95px;
+    width: 880px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    margin-left: 30px;
     border-radius: 10px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
     background-color: rgba(234, 237, 240, 1);
@@ -32,6 +31,9 @@ h1 {
     font-size: 32px;
     font-weight: 400;
     color: rgba(0, 0, 0, 1);
+    border-bottom: 1px solid rgba(140, 140, 140, 1);
+    margin-bottom: 10px;
+    padding-bottom: 10px;
   }
 
   ol {
@@ -64,6 +66,9 @@ h1 {
     margin-top: 15px;
     border-bottom: 1px solid rgba(140, 140, 140, 1);
 }
+.post-type:last-child{
+  border:none;
+}
 
 li.post-title input{
     width: 250px;
@@ -71,13 +76,50 @@ li.post-title input{
 }
 li.post-description input{
     width: 450px;
+    
     padding-top: 5px;
-    padding-bottom: 100px;
+    padding-bottom: 40px;
 }
 li.post-type select{
     width: 280px;
     min-height: 35px;
 }
+
+
+.birth-date div {
+  margin-top: 5px;
+  display: flex;
+  gap: 5px;
+}
+
+.birth-date {
+  margin-top: 25px;
+  border-bottom: 1px solid rgba(140, 140, 140, 1);
+  padding-bottom: 10px;
+}
+
+#id_date_of_birth_day {
+  display: inline;
+  width: 37px;
+  padding-left: 0;
+}
+
+#id_date_of_birth_month {
+  display: inline;
+  width: 55px;
+  padding-left: 0;
+}
+
+#id_date_of_birth_year {
+  display: inline;
+  width: 60px;
+  padding-left: 0;
+}
+
+
+
+
+
 .post-form button {
     text-align: center;
     background-color: rgba(54, 192, 241, 1);
@@ -89,8 +131,209 @@ li.post-type select{
     font-size: 18px;
     font-weight: bold;
     
-    margin-top: 250px;
-    margin-bottom: 25px;
+    margin-top: 55px;
+    margin-bottom: 40px;
     
-    margin-left: 1020px;
-  }
+    margin-left: 655px;
+    
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.settings-items {
+  width: 465px;
+  height: 99px;
+  margin-left: 30px;
+  margin-right: 35px;
+  margin-top: 60px;
+
+
+  border-radius: 10px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+  background-color: rgba(234, 237, 240, 1);
+
+  padding: 5px 5px 1px 5px;
+  text-align: left;
+  font-size: 18px;
+}
+.settings-items li {
+  display: flex;
+  width: auto;
+  height: 24px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.settings-items a {
+  justify-content: start;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+
+li.post-edit {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+li.media{
+  border: none;
+  
+}
+
+.input-file-row {
+	display: flex;
+  flex-direction: column;
+}
+.input-file {
+
+	display: block;
+}
+.input-file span, .input-doc span {
+
+	display: inline-block;
+	cursor: pointer;
+	outline: none;
+	text-decoration: none;
+	font-size: 12px;
+	vertical-align: middle;
+	color: rgba(140, 140, 140, 1);
+	text-align: center;
+	border-radius: 10px;
+	background-color: rgba(217, 217, 217, 1);
+	line-height: 22px;
+	width: 174px;
+  height: 30px;
+	padding: 4px 20px;
+	box-sizing: border-box;
+	border: none;
+	margin: 0;
+  margin-bottom: 10px;
+	margin-top: 8px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+}
+.input-file input[type=file], .input-doc input[type=file] {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+	display: block;
+	width: 0;
+	height: 0;
+}
+
+.gg{
+  display: flex;
+  font-size: 12px;
+  color: rgba(54, 197, 240, 1);
+  column-gap: 10px;
+}
+/* Список c превью */
+.input-file-list {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  gap: 20px;
+	padding: 10px 20px;
+  
+}
+.input-file-list-item {
+	display: inline-block;
+	margin: 0 15px 15px;
+	width: 105px;
+	vertical-align: top;
+	position: relative;
+
+  
+}
+.input-file-list-item img {
+	width: 100px;
+  height: 80px;
+  object-fit: contain;
+}
+.input-file-list-name {
+	text-align: center;
+	display: block;
+	font-size: 10px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.input-file-list-remove {
+	color: #fff;
+	text-decoration: none;
+	display: inline-block;
+	position:absolute;
+	padding: 0;
+	margin: 0;
+	top: 5px;
+	right: 5px;
+	background: #ff0202;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+	line-height: 16px;
+	border-radius: 50%;
+}
+
+
+
+
+
+
+/* Список c превью */
+.input-doc-list {
+  display: flex;
+ 
+  flex-direction: column;
+	padding: 10px 20px;
+  
+}
+.input-doc-list-item {
+	display: inline-block;
+	margin: 0 15px 15px;
+	width: 273px;
+  height: 40px;
+	vertical-align: top;
+	position: relative;
+  background-color: white;
+  border-radius: 5px;
+  
+}
+
+.input-doc-list-name {
+	text-align: left;
+	display: block;
+	font-size: 10px;
+  color: black;
+  width: 203px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+  margin-left: 50px;
+  margin-top: -30px;
+  margin-right: 20px;
+}
+
+.input-doc-list-remove {
+	color: #fff;
+	text-decoration: none;
+	display: inline-block;
+	position:absolute;
+	padding: 0;
+	margin: 0;
+	top: 5px;
+	right: 5px;
+	background: #ff0202;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+	line-height: 16px;
+	border-radius: 50%;
+}
+.file{
+  
+  z-index: 10000;
+  width: 30px;
+  height: 30px;
+  margin-top: 5px;
+  margin-left: 10px;
+}

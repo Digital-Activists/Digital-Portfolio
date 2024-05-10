@@ -28,7 +28,7 @@
     </header>
 
     <main>
-      <form action="" method="post" class="post-form">
+      <form action="" method="post" class="post-form" enctype="multipart/form-data">
         <h2>Информация о посте</h2>
         <ol>
           <li class="post-title">
@@ -38,6 +38,116 @@
           <li class="post-description">
             <label for="post-description">Описание поста</label>
             <input type="text" name="post-description" placeholder="Добавьте описание к своему посту..." />
+          </li>
+          <li class="birth-date">
+            <label for="birth-Date">Дата рождения</label>
+            <div>
+              <select id="day">
+                <br />
+                <option value="">1</option>
+                <script>
+                  let x = 0;
+                  while (x < 31) {
+                    x++;
+                    document.getElementById("day").innerHTML +=
+                      "<option>" + x + "</option>";
+                  }
+                </script>
+              </select>
+              <select id="month">
+                <option value="">Мес</option>
+                <option value="1">Янв</option>
+                <option value="2">Февр</option>
+                <option value="3">Март</option>
+                <option value="4">Апр</option>
+                <option value="5">Май</option>
+                <option value="6">Июнь</option>
+                <option value="7">Июль</option>
+                <option value="8">Авг</option>
+                <option value="9">Сент</option>
+                <option value="10">Окт</option>
+                <option value="11">Нояб</option>
+                <option value="12">Дек</option>
+              </select>
+              <select id="year">
+                <br />
+                <option value="">1970</option>
+                <script>
+                  let y = 1969;
+                  while (y < 2024) {
+                    y++;
+                    document.getElementById("year").innerHTML +=
+                      "<option>" + y + "</option>";
+                  }
+                </script>
+              </select>
+            </div>
+          </li>
+
+          <li class="media">
+           
+            <label for="media">Фотографии</label>
+            <div class="input-file-row">
+              <label class="input-file">
+                   <input type="file" name="file[]" multiple accept="image/png, image/jpeg">
+                   <div class="gg">		
+                    <span>Выберите фотографии</span>
+                    <p class="hint">Разрешены форматы jpeg, png</p>
+                   </div>
+               </label>
+              <div class="input-file-list"></div>  
+            </div>
+            
+            
+          </li>
+
+          <li class="media">
+            <label for="media">Видео</label>
+            <div class="input-file-row">
+              <label class="input-file">
+                   <input type="file" name="file[]" multiple accept="video/mp4">
+                   <div class="gg">		
+                    <span>Выберите видео</span>
+                    <p class="hint">Разрешен форматы mp4</p>
+                   </div>
+               </label>
+              <div class="input-file-list"></div>  
+            </div>
+          </li>
+
+          <li class="document">
+            <label for="document">Документ</label>
+            <div class="input-doc-row">
+              <label class="input-doc">
+                   <input type="file" name="file[]" multiple accept=".doc, .docx, .ppt, .pdf">
+                   <div class="gg">		
+                    
+                    <span>Выберите файлы</span>
+                    <p class="hint">Разрешены форматы doc, docx, ppt, pdf</p>
+                   </div>
+               </label>
+              <div class="input-doc-list"></div>  
+            </div>
+            
+          </li>
+          <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+          <script src="js/add document.js"></script>
+          <script src="js/add media.js"></script>
+        
+
+          <li class="post-type">
+            <label for="budget">Бюджет</label>
+              <select id="month">
+                <option value="">Выберите бюджет в рублях</option>
+                <option value="1">тип</option>
+                <option value="2">тип</option>
+                <option value="3">тип</option>
+                <option value="4">тип</option>
+                <option value="5">тип</option>
+                <option value="6">тип</option>
+                <option value="7">тип</option>
+                <option value="8">тип</option>
+              </select>
           </li>
           <li class="post-type">
             <label for="post-type">Тип поста</label>
@@ -56,6 +166,19 @@
         </ol>
         <button type="submit" value="Сохранить">Сохранить</button>
       </form>
+
+      <section class="settings-items">
+        <nav>
+          <ul>
+            <li class="post-edit">
+              <a href="#">Редактирование поста</a>
+            </li>
+            <li class="tags">
+              <a href="#">Выбор тегов</a>
+            </li>
+          </ul>
+        </nav>
+      </section>
     </main>
 
     <footer class="main-footer">

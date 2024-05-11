@@ -110,25 +110,24 @@
                     
                    
                     {% if post.photos %}
-                        <div class="post-image">
+                        <section class="post-image">
                             
-                            <a href="#">
-                                <img src="{% static 'portfolio/images/post-arrow-left.svg' %}" width="10" height="14"
-                                     alt="Стрелка влево">
-                            </a>
-                            
+                            <button class="slide-arrow" id="slide-arrow-prev">
+                                &#8249;
+                            </button>
+                            <button class="slide-arrow" id="slide-arrow-next">
+                                &#8250;
+                            </button>
+                            <ul class="slides-container" id="slides-container">
                             {% for photo in post.photos.all %}
                                 
-                                        <img class="user-image" src="{{ photo.file.url }}">
-                                    
+                               
+                                    <li class="slide"><img class="user-image" src="{{ photo.file.url }}"></li>
+                                
                             {% endfor %}
-
-                            <a href="#">
-                                <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="10" height="14"
-                                     alt="Стрелка вправо">
-                            </a>
-                        
-                        </div>
+                        </ul>
+                        </section>
+                        <script src="{% static 'portfolio/js/carusel.js' %}"></script>
                     {% endif %}
                     
                     {% if post.text %}

@@ -143,8 +143,9 @@ img#arrow-right{
 }
 
 .post {
-    display: flex;
-    width: 865px;
+    display: grid;
+    grid-template-columns: 70px auto 55px;
+    width: 850px;
     padding-right: 20px;
     border-radius: 5px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
@@ -167,26 +168,34 @@ p.post-name {
 .post-description {
     font-size: 14px;
     word-wrap: break-word;
+   
 }
 
 .post-information {
     margin: 0;
     padding: 0;
-    margin-left: 9px;
+    margin-left: 15px;
     width: 722px;
 }
 
 .post-image {
-    display: grid;
+    display: flex;
     grid-template-columns: 15px auto 15px;
     align-items: center;
     text-align: center;
+    margin-top: 16px;
+
+    position: relative;
+    width: 100%;
+    overflow: hidden;
 }
 
 
-.script {
+  
+
+.script a {
     width: 310px;
-    height: 40px;
+    min-height: 40px;
     background-color: rgba(234, 237, 240, 1);
 
     display: flex;
@@ -195,11 +204,16 @@ p.post-name {
     align-items: center;
 
     margin-bottom: 34px;
+
 }
 
-.script img {
+.script  img {
     margin-right: 10px;
     margin-left: 10px;
+}
+.script img.right{
+    margin-left: 5px;
+    margin-left: auto;
 }
 
 .script p {
@@ -229,6 +243,11 @@ p.post-name {
     border-radius: 100%;
     object-fit: cover;
 }
+.post-image img.user-image{
+    object-fit: cover;
+    width: 680px;
+    z-index: 1;
+}
 .image{
     border-radius: 100%;
     object-fit: cover;
@@ -248,12 +267,14 @@ p.post-name {
 
 .date {
    
-    margin-left: 630px;
-    margin-bottom: -30px;
+    margin-left: 600px;
+    margin-top: 2px;
 }
 
 .icons {
     display: flex;
+    margin-left: 40px;
+    margin-right: 5px;
 }
 
 .icons button {
@@ -262,18 +283,78 @@ p.post-name {
     background-color: white;
     border-color: white;
     border: none;
-    margin-left: 30px;
+    margin-left: 45px;
     margin-right: 5px;
 }
 
-.grade{
-    display: flex;
-    margin-left: 740px;
-    width: 70px;
+.icons{
+    
+    margin-left: -50px;
+   
+    width: 70px;   
 }
 
-.grade button{
-    
+.icons button{ 
     background-color: white;
     border: none;
 }
+
+.post-menu{
+    display: none;
+   position: absolute;
+   right: 55px;
+   top: 135px;
+    width: 155px;
+    height: 60px;
+    background-color: rgba(234, 237, 240, 1);
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 3px;
+    padding-left: 5px;
+    padding-right: 3px;
+    text-align: left;
+}
+.post-menu a{
+    color: black;
+    font-size: 12px;
+}
+.post-menu li.edit{
+    width: 144px;
+    height: 22px;
+    background-color: rgba(217, 217, 217, 1);
+    border-radius: 5px;
+    margin: 0;
+    margin-bottom: 5px;
+    padding-top: 5px;
+   
+}
+.post-menu li{
+    padding-left: 5px;
+}
+.icons:hover .post-menu{
+    display: block;
+    position: absolute;
+   right: 55px;
+   top: 135px;
+}
+
+.like{
+    
+    display: flex;
+    margin-bottom: 9px; 
+    margin-left: 800px;
+}
+.like img{
+    margin-top: 13px;
+    margin-left: 5px;
+}
+
+
+
+
+
+
+
+
+
+

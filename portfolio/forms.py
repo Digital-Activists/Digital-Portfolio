@@ -29,7 +29,7 @@ class UserPostForm(forms.ModelForm):
     videos = forms.FileField(label='Видео', widget=CustomFileInput(accept='video/mp4', hint='Разрешен формат mp4'))
     images = forms.ImageField(label='Фотографии', widget=CustomFileInput(accept='image/png image/jpeg image/jpg', hint='Разрешены форматы png, jpeg, jpg'))
     files = forms.FileField(label='Документы', widget=CustomDocInput(accept='.doc, .docx, .ppt, .pdf', hint='Разрешены форматы doc, docx, ppt, pdf'))
-    date = forms.DateField(label='Дата', widget=forms.SelectDateWidget(attrs={'class': ''},
+    date = forms.DateField(label='Дата', widget=forms.SelectDateWidget(attrs={'class': 'bith-date'},
                                                                        years=range(datetime.date.today().year - 99,
                                                                                    datetime.date.today().year)))
 
@@ -46,7 +46,6 @@ class UserPostForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'post-title', 'placeholder': 'Введите заголовок поста'}),
             'text': forms.Textarea(attrs={'class': 'post-description', 'placeholder': 'Добавьте описание к своему посту описание'}),
-            'date': forms.DateInput(attrs={'class': 'bith-date', 'placeholder': ''}),
             'budget': forms.Select(attrs={'class': 'post-type', 'placeholder': ''}),
             'post_type': forms.Select(attrs={'class': 'post-type', 'placeholder': ''}),
 

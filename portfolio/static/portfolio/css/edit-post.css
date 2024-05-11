@@ -86,9 +86,9 @@ li.post-type select{
 }
 
 
-.birth-date div {
+.birth-date select {
 margin-top: 5px;
-display: flex;
+display: inline-block;
 gap: 5px;
 }
 

@@ -15,7 +15,7 @@
             {% if user_profile.image %}
                 <img class="image" src="{{ user_profile.image.url }}" alt="Фото профиля">
             {% else %}
-                <img class="image" src="{% static 'portfolio/images/profileIconNO.png' %}" alt="Фото профиля">
+                <img class="image" src="{% static 'portfolio/images/profileNO.png' %}" alt="Фото профиля">
             {% endif %}
             <div class="main-information">
                 <p class="name">{{ user_profile }}</p>
@@ -87,41 +87,52 @@
             <div class="post">
                 <div class="photo">
                     {% if user_profile.image %}
-                        <img  src="{{ user_profile.image.url }}" alt="Фото профиля">
+                        <img src="{{ user_profile.image.url }}" alt="Фото профиля">
                     {% else %}
-                        <img src="{% static 'portfolio/images/profileIconNO.png' %}" alt="Фото профиля">
+                        <img src="{% static 'portfolio/images/profileNO.png' %}" alt="Фото профиля">
                     {% endif %}
                 </div>
+                
                 <div class="post-information">
                     {% if post.title %}
                         <p class="post-name">{{ post.title }}</p>
                     {% endif %}
+                    
                     {% if post.post_type %}
                         <p class="post-type">{{ post.post_type }}</p>
                     {% endif %}
+                    
                     <div class="tags">
                         {% for tag in post.tags.all %}
                             <p>{{ tag }}</p>
                         {% endfor %}
                     </div>
-                    {% if post.text %}
-                        <p class="post-description">{{ post.text }}</p>
-                    {% endif %}
+                    
+                   
                     {% if post.photos %}
                         <div class="post-image">
+                            
                             <a href="#">
                                 <img src="{% static 'portfolio/images/post-arrow-left.svg' %}" width="10" height="14"
                                      alt="Стрелка влево">
                             </a>
+                            
                             {% for photo in post.photos.all %}
-                                <img src="{{ photo.file.url }}">
+                                
+                                        <img class="user-image" src="{{ photo.file.url }}">
+                                    
                             {% endfor %}
 
                             <a href="#">
                                 <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="10" height="14"
                                      alt="Стрелка вправо">
                             </a>
+                        
                         </div>
+                    {% endif %}
+                    
+                    {% if post.text %}
+                        <p class="post-description">{{ post.text }}</p>
                     {% endif %}
                     {% if post.date %}
                         <p class="date">{{ post.date }}</p>
@@ -144,15 +155,32 @@
                                 <a href="{{ user_file.file.url }}" download="{{ user_file }}">
                                     <img src="{% static 'portfolio/images/file.png' %}" alt="{{ user_file.file.name }}">
                                     <p>{{ user_file }}</p>
-                                    <img src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="14"
+                                    <img class="right"src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="14"
                                          height="20"
                                          alt="Стрелка вправо">
                                 </a>
                             {% endfor %}
                         </div>
+                       
                     {% endif %}
                 </div>
-                <div class="grade">
+                
+                
+                    <div class="icons">
+                        <button type="button" class="favourites">
+                            <img src="{% static 'portfolio/images/three dorts.png' %}" alt="Настройки">
+                        </button>
+                        <div class="post-menu">
+                            <ul>
+                                <li class="edit"><a href="{% url 'edit_post' post.post_slug %}">Редактировать пост</a></li>
+                                <li><a href="{% url 'delete_post' post.pk %}">Удалить пост</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                
+                
+                <div class="like">
                     <p>{{ post.get_count_likes }}</p>
                     {% if request.user != user %}
                         {% is_liked post request.user as liked %}
@@ -170,18 +198,8 @@
                             <img src="{% static 'portfolio/images/hurtRED.png' %}" alt="Сердечко">
                         </a>
                     {% endif %}
-                </div>
-                <div class="icons">
-                    <button type="button" class="favourites">
-                        <img src="{% static 'portfolio/images/three dorts.png' %}" alt="Настройки">
-                    </button>
-                </div>
-                <div>
-                    <ul>
-                        <li><a href="{% url 'edit_post' post.post_slug %}">Редактировать пост</a></li>
-                        <li><a href="{% url 'delete_post' post.pk %}">Удалить пост</a></li>
-                    </ul>
-                </div>
+                    </div>
+                
             </div>
         {% endfor %}
     </section>

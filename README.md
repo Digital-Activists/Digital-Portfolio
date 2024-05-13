@@ -1,3 +1,3 @@
-python manage.py runserver
+**python manage.py runserver**
 
 Возможно придется установить необходимые библиотеки

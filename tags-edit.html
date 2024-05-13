@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/Edit post.css" />
+    <link rel="stylesheet" href="css/Header&Footer.css" />
+    <meta charset="utf-8" />
+    <title>Страница редактирования тегов</title>
+  </head>
+
+  <body>
+    <header class="main-header">
+      <h1>Настройки поста</h1>   
+      <img src="images/Share your projects.svg" alt="Share your projects" />
+      <div class="profile-settings">
+          <a href="#" class="profile-icon">
+              <img src="images/profile icon.svg" alt="Иконка профиля" />
+          </a>
+          <a href="#" class="settings-icon">
+              <img src="images/settings icon.png" alt="Иконка настроек" />
+          </a>
+      </div>    
+    </header>
+
+    <main>
+        <form action="" method="post" class="post-form" enctype="multipart/form-data">
+            <h2>Теги</h2>
+            <ol>
+              <li class="rhythm">
+                <label for="rhythm">Ритм</label>
+                <input type="text" name="title" placeholder="Введите заголовок поста" />
+              </li>
+              <li class="rhythm">
+                <label for="rhythm">Жанр музыки</label>
+                <input type="text" name="title" placeholder="Введите заголовок поста" />
+              </li>
+              <li class="rhythm">
+                <label for="rhythm">Жанр проекта</label>
+                <input type="text" name="title" placeholder="Введите заголовок поста" />
+              </li>
+              <li class="rhythm">
+                <label for="rhythm">Стиль</label>
+                <input type="text" name="title" placeholder="Введите заголовок поста" />
+              </li>
+              <li class="age">
+                <label for="age">Возрастное ограничение</label>
+                    <select id="age">
+                        <option value="">Выберите возрастное ограничение</option>
+                        <option value="1">тип</option>
+                        <option value="2">тип</option>
+                        <option value="3">тип</option>
+                        <option value="4">тип</option>
+                        <option value="5">тип</option>
+                        <option value="6">тип</option>
+                        <option value="7">тип</option>
+                        <option value="8">тип</option>
+                    </select>
+              </li>
+            </ol>
+            <button type="submit" value="Сохранить">Сохранить</button>
+        </form>
+        <section class="settings-items">
+            <nav>
+              <ul>
+                <li class="post-edit">
+                  <a href="#">Редактирование поста</a>
+                </li>
+                <li class="tags">
+                  <a href="#">Выбор тегов</a>
+                </li>
+              </ul>
+            </nav>
+          </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="logotip">
+          <img src="images/Share your projects.svg" alt="Share your projects" />
+        </div>
+      </footer>
+    </body>
+  </html>

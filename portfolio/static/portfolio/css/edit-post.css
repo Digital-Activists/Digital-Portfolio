@@ -21,7 +21,7 @@ h1 {
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
   background-color: rgba(234, 237, 240, 1);
 
-  padding-left: 50px;
+  padding-left: 60px;
   padding-right: 65px;
 
   text-align: left;
@@ -67,7 +67,7 @@ select {
   border-bottom: 1px solid rgba(140, 140, 140, 1);
 }
 .post-type:last-child{
-border:none;
+  border:none;
 }
 
 li.post-title input{
@@ -180,7 +180,6 @@ background-color: rgba(0, 0, 0, 0.25);
 
 li.media{
 border: none;
-
 }
 
 .input-file-row {

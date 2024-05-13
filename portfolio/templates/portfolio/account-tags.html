@@ -1,0 +1,32 @@
+{% extends 'portfolio/base-settings.html' %}
+{% load static %}
+
+{% block style_load %}
+    <link rel="stylesheet" href="{% static 'portfolio/css/settings-account.css' %} "/>
+{% endblock %}
+
+{% block settings %}
+    <form action="" method="post" class="account-form">
+        {% csrf_token %}
+        <h2>Общее</h2>{% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+        <ol>
+            {% for field in form %}
+                <li class="{{ field.field.widget.attrs.class }}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <div class="form-error">{{ field.errors }}</div>
+                </li>
+            {% endfor %}
+        </ol>
+
+        <button type="submit" value="Сохранить">Сохранить</button>
+    </form>
+{% endblock %}

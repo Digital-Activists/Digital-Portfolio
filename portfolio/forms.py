@@ -46,8 +46,8 @@ class UserPostForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'post-title', 'placeholder': 'Введите заголовок поста'}),
             'text': forms.Textarea(attrs={'class': 'post-description', 'placeholder': 'Добавьте описание к своему посту описание'}),
-            'budget': forms.Select(attrs={'class': 'post-type', 'placeholder': ''}),
-            'post_type': forms.Select(attrs={'class': 'post-type', 'placeholder': ''}),
+            'budget': forms.Select(attrs={'class': 'post-type', 'placeholder': 'Выберите бюджет в рублях'}),
+            'post_type': forms.Select(attrs={'class': 'post-type', 'placeholder': 'Выберите тип поста'}),
 
             'genre': forms.Select(attrs={'class': '', 'placeholder': ''}),
             'style': forms.Select(attrs={'class': '', 'placeholder': ''}),
@@ -66,11 +66,11 @@ class PostTagsForm(forms.ModelForm):
             'style': 'Стиль вашего контента'
         }
         widgets = {
-            'rhythm': CustomRadioSelect(attrs={'class': ''}),
-            'genre': forms.Select(attrs={'class': '', 'placeholder': 'Выберите жанр проекта'}),
-            'music_genre': forms.Select(attrs={'class': '', 'placeholder': 'Выберите жанр музыки'}),
-            'style': forms.Select(attrs={'class': '', 'placeholder': 'Выберите стиль'}),
-            'age_limits': forms.Select(attrs={'class': '', 'placeholder': 'Выберите возрастное ограничение'})
+            'rhythm': CustomRadioSelect(attrs={'class': 'rhythm'}),
+            'genre': forms.Select(attrs={'class': 'project', 'placeholder': 'Выберите жанр проекта'}),
+            'music_genre': forms.Select(attrs={'class': 'music', 'placeholder': 'Выберите жанр музыки'}),
+            'style': forms.Select(attrs={'class': 'style', 'placeholder': 'Выберите стиль'}),
+            'age_limit': forms.Select(attrs={'class': 'age_limits', 'placeholder': 'Выберите возрастное ограничение'})
         }
 
 

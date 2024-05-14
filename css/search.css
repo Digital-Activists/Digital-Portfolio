@@ -17,13 +17,13 @@ h1 {
 .search-results{
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
+    margin-top: 40px;
     margin-bottom: 55px;
+    
 }
 .search-result{
-    width: 1360px;
-    margin: 0 auto;
-
+    width: 850px;
+    margin-left: 60px;
     display: flex;
     background-color: rgba(234, 237, 240, 1);
     border-radius: 10px;
@@ -111,5 +111,59 @@ a.profile-link{
     font-size: 18px;
     color: white;
     padding: 14px 19px;
-    margin: auto 43px;
+    margin: auto 20px;
 }
+
+
+
+.settings-items {
+    width: 465px;
+    height: 99px;
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-top: 40px;
+    margin-bottom: 685px;
+  
+    border-radius: 10px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+    background-color: rgba(234, 237, 240, 1);
+  
+    padding: 5px 6px 5px 5px;
+    text-align: left;
+    font-size: 18px;
+  }
+  
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .settings-items li {
+    display: flex;
+    width: auto;
+    height: 24px;
+    border-radius: 10px;
+    padding: 10px;
+  }
+  
+  .settings-items a {
+    justify-content: start;
+    margin-right: auto;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 1);
+  }
+  
+  .settings-items img {
+    justify-content: end;
+    width: 20px;
+    height: 20px;
+  }
+  
+  li.user-search {
+    background-color: rgba(217, 217, 217, 1);
+  }
+  
+  ol,
+  ul {
+    list-style-type: none; /* Убирает буллиты */
+  }

@@ -1,7 +1,9 @@
 import os
 from datetime import date
+from unidecode import unidecode
 
 from django.contrib.auth.models import User
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -112,7 +114,7 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.post_slug:
-            self.post_slug = slugify(self.title)
+            self.post_slug = slugify(unidecode(self.title))
         super().save(*args, **kwargs)
 
     def is_liked_post(self, user) -> bool:
@@ -130,7 +132,7 @@ class PostPhoto(models.Model):
 
 
 class PostVideo(models.Model):
-    file = models.FileField(upload_to=get_path_to_post_files)
+    file = models.FileField(upload_to=get_path_to_post_files, validators=[FileExtensionValidator(['mp4'])])
     post = models.ForeignKey(Post, related_name='videos', on_delete=models.CASCADE)
 
 

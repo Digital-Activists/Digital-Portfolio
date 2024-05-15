@@ -1,4 +1,4 @@
-{% extends 'portfolio/base-with-navigation.html' %}
+{% extends 'portfolio/base/base-with-navigation.html' %}
 {% load static %}
 
 {% block main %}
@@ -22,7 +22,7 @@
                     <img src="{% static "portfolio/images/security icon.svg" %}" alt="Security icon"/>
                 </li>
                 <li class="tags">
-                    <a href="{% url 'edit_settings_security' user_profile.nickname %}">Теги пользователя</a>
+                    <a href="{% url 'edit_settings_tags' user_profile.nickname %}">Теги пользователя</a>
                     <img src="{% static "portfolio/images/tag.svg" %}" alt="Tag icon"/>
                 </li>
             </ul>

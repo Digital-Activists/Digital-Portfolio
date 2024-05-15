@@ -81,15 +81,15 @@ class StrMixin:
 
 
 class ProfileSkill(StrMixin, models.Model):
-    name = models.CharField(max_length=50, choices=SKILLS_CHOICES)
+    name = models.CharField(max_length=50, choices=SKILLS_CHOICES, unique=True)
 
 
 class ProfileEmploymentType(StrMixin, models.Model):
-    name = models.CharField(max_length=30, choices=EMPLOYMENT_TYPE_CHOICES)
+    name = models.CharField(max_length=30, choices=EMPLOYMENT_TYPE_CHOICES, unique=True)
 
 
 class ProfileWorkSchedule(StrMixin, models.Model):
-    name = models.CharField(max_length=30, choices=WORK_SCHEDULE_CHOICES)
+    name = models.CharField(max_length=30, choices=WORK_SCHEDULE_CHOICES, unique=True)
 
 
 class Post(models.Model):
@@ -102,10 +102,10 @@ class Post(models.Model):
     budget = models.CharField(max_length=50, blank=True, choices=BUDGET, verbose_name='Бюджет в рублях')
     post_type = models.CharField(choices=PROJECT_TYPE_CHOICES, blank=True, max_length=50, verbose_name='Тип поста')
     genre = models.CharField(choices=PROJECT_GENRE_CHOICES, max_length=64, blank=True, verbose_name='Жанр')
+    music_genre = models.CharField(max_length=30, blank=True, choices=MUSIC_GENRE_CHOICES, verbose_name='Жанр музыки')
     style = models.CharField(choices=STYLE_CHOICES, blank=True, max_length=64, verbose_name='Стиль')
     age_limit = models.CharField(max_length=3, blank=True, choices=AGE_LIMITS, verbose_name='Возрастное ограничение')
-    music_genre = models.CharField(max_length=30, blank=True, choices=MUSIC_GENRE_CHOICES, verbose_name='Жанр музыки')
-    rhythm = models.CharField(max_length=20, blank=True, choices=RHYTHM_CHOICES, verbose_name='Ритм')
+    rhythm = models.ForeignKey('PostRhythm', null=True, on_delete=models.PROTECT, related_name='posts', verbose_name='Ритм')
     count_likes = models.IntegerField(default=0, verbose_name='Лайки')
     liked_users = models.ManyToManyField(User, related_name='liked_posts')
 
@@ -142,3 +142,11 @@ class PostFile(models.Model):
 
     def __str__(self):
         return os.path.basename(self.file.name)
+
+
+class PostRhythm(StrMixin, models.Model):
+    name = models.CharField(max_length=30, unique=True, choices=RHYTHM_CHOICES, verbose_name='Ритм')
+    description = models.CharField(max_length=100, verbose_name='Описание ритма')
+
+    def get_description(self):
+        return self.description

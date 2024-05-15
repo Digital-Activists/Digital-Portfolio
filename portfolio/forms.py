@@ -1,4 +1,5 @@
 import datetime
+from datetime import date
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
@@ -31,9 +32,9 @@ class UserPostForm(forms.ModelForm):
                                                                          hint='Разрешены форматы png, jpeg, jpg'))
     files = forms.FileField(label='Документы', widget=CustomDocInput(accept='.doc, .docx, .ppt, .pdf',
                                                                      hint='Разрешены форматы doc, docx, ppt, pdf'))
-    date = forms.DateField(label='Дата', widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
+    date = forms.DateField(label='Дата', initial=date.today, widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
                                                                        years=range(datetime.date.today().year - 99,
-                                                                                   datetime.date.today().year)))
+                                                                                   datetime.date.today().year + 1)))
 
     def __init__(self, *args, **kwargs):
         super(UserPostForm, self).__init__(*args, **kwargs)
@@ -61,15 +62,12 @@ class UserPostForm(forms.ModelForm):
 
 
 class PostTagsForm(forms.ModelForm):
+    rhythm = forms.ModelChoiceField(queryset=PostRhythm.objects.all(), empty_label='-', widget=forms.RadioSelect(attrs={'class': 'rhythm'}))
     class Meta:
         model = Post
         fields = ['rhythm', 'music_genre', 'genre', 'style', 'age_limit']
-        help_texts = {
-            'genre': 'Жанр вашего контента',
-            'style': 'Стиль вашего контента'
-        }
         widgets = {
-            'rhythm': CustomRadioSelect(attrs={'class': 'rhythm'}),
+            'rhythm': forms.RadioSelect(attrs={'class': 'rhythm'}),
             'genre': forms.Select(attrs={'class': 'project', 'placeholder': 'Выберите жанр проекта'}),
             'music_genre': forms.Select(attrs={'class': 'music', 'placeholder': 'Выберите жанр музыки'}),
             'style': forms.Select(attrs={'class': 'style', 'placeholder': 'Выберите стиль'}),

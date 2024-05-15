@@ -1,0 +1,41 @@
+{% extends 'portfolio/base/base-edit-post.html' %}
+{% load static %}
+
+{% block style_load %}
+    <link rel="stylesheet" href="{% static 'portfolio/css/edit-tags.css' %} "/>
+{% endblock %}
+
+{% block post-form %}
+    <form action="" method="post" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Теги</h2>
+        <div class="massages">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        <ol>
+{#            <li class="{{ field.field.widget.attrs.class }}">#}
+{#                <p>{{ form.rhythm.label }}</p>#}
+{#                {% for choice in form.rhythm %}#}
+{#                    {{ choice }}#}
+{#                    {% dict_key_lookup rhythms choice.choice_value as description %}#}
+{#                    {% if description %}#}
+{#                        <p>{{ description }}</p>#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{#                <div class="form-error">{{ field.errors }}</div>#}
+{#            </li>#}
+            {% for field in form %}
+{#                {% if not field is form.rhythm %}#}
+                    <li class="{{ field.field.widget.attrs.class }}">
+                        <p for="{{ field.id_for_label }}">{{ field.label }}</p>
+                        {{ field }}
+                        <div class="form-error">{{ field.errors }}</div>
+                    </li>
+{#                {% endif %}#}
+            {% endfor %}
+        </ol>
+        <button type="submit" value="Сохранить">Сохранить</button>
+    </form>
+{% endblock %}

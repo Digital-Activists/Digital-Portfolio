@@ -22,7 +22,7 @@ def index(request):
 class CreatePostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, ContextUpdateMixin, CreateView):
     PageTitle = 'Create Post'
     form_class = UserPostForm
-    template_name = 'portfolio/edit-post.html'
+    template_name = 'portfolio/post-edit.html'
     custom_success_url = 'edit_post'
     context_object_name = 'form'
     login_url = reverse_lazy('login')
@@ -67,7 +67,7 @@ class EditPostMixin(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin,
 
 class EditPostView(EditPostMixin):
     form_class = UserPostForm
-    template_name = 'portfolio/edit-post.html'
+    template_name = 'portfolio/post-edit.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -79,10 +79,11 @@ class EditPostView(EditPostMixin):
 
 class EditPostTagsView(EditPostMixin):
     form_class = PostTagsForm
-    template_name = 'portfolio/tags-edit.html'
+    template_name = 'portfolio/post-tags-edit.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['rhythms'] = {rhythm.name: rhythm.description for rhythm in PostRhythm.objects.all()}
         return context
 
 

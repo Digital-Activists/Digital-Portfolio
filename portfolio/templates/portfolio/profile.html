@@ -1,4 +1,4 @@
-{% extends 'portfolio/base-with-navigation.html' %}
+{% extends 'portfolio/base/base-with-navigation.html' %}
 {% load static %}
 {% load portfolio_tags %}
 
@@ -111,7 +111,7 @@
                    
                     {% if post.photos %}
                         <section class="post-image">
-                            
+
                             <button class="slide-arrow" id="slide-arrow-prev">
                                 &#8249;
                             </button>
@@ -121,9 +121,9 @@
                             <ul class="slides-container" id="slides-container">
                             {% for photo in post.photos.all %}
                                 
-                               
+
                                     <li class="slide"><img class="user-image" src="{{ photo.file.url }}"></li>
-                                
+
                             {% endfor %}
                         </ul>
                         </section>
@@ -132,6 +132,23 @@
                     
                     {% if post.text %}
                         <p class="post-description">{{ post.text }}</p>
+                    {% endif %}
+                    {% if post.videos %}
+                        {% for video in post.videos.all %}
+                            <video
+                                    id="my-video"
+                                    class="video-js"
+                                    controls
+                                    preload="auto"
+                                    width="640"
+                                    height="264"
+                                    poster="MY_VIDEO_POSTER.jpg"
+                                    data-setup="{}"
+                            >
+                            <source src="MY_VIDEO.mp4" type="video/mp4"/>
+                            <source src="MY_VIDEO.webm" type="video/webm"/>
+                            </video>
+                        {% endfor %}
                     {% endif %}
                     {% if post.date %}
                         <p class="date">{{ post.date }}</p>
@@ -202,4 +219,5 @@
             </div>
         {% endfor %}
     </section>
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 {% endblock %}

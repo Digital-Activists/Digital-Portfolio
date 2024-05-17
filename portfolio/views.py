@@ -209,6 +209,18 @@ class EditSecuritySettingsView(GetProfileMixin, ProfileSuccessUrlMixin, LoginReq
         return self.render_to_response(self.get_context_data(form_email=email_form, form_password=password_form))
 
 
+class EditProfileTagsView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = EditProfileTagsForm
+    template_name = 'portfolio/plug-form.html'
+    custom_success_url = 'edit_settings_tags'
+
+    def form_valid(self, form):
+
+        messages.success(self.request, 'Ваш аккаунт был обновлен')
+        return super().form_valid(form)
+
+
 class LoginUser(LoginView, ContextUpdateMixin):
     form_class = LoginUserForm
     template_name = 'portfolio/authorization.html'
@@ -251,7 +263,7 @@ def register(request):
             user.save()
             profile.save()
             login(request, user)
-            return redirect('home')
+            return redirect('view_user_profile', profile.nickname)
     else:
         user_form = CreateUserForm()
         profile_form = CreateProfileForm()

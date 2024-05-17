@@ -7,7 +7,7 @@ from django.core.validators import RegexValidator
 
 from .models import *
 from .utils import check_social_link, check_social_lick_type
-from .choices import RHYTHMS
+from .choices import RHYTHMS, WORK_SCHEDULE_CHOICES
 from .form_utils import ProfileAvatarImageWidget, CustomRadioSelect, CustomFileInput, CustomDocInput
 
 
@@ -27,9 +27,11 @@ class BaseFilledFieldsForm(forms.ModelForm):
 
 class UserPostForm(forms.ModelForm):
     videos = forms.FileField(label='Видео', widget=CustomFileInput(accept='video/mp4', hint='Разрешен формат mp4'))
-    images = forms.ImageField(label='Фотографии', widget=CustomFileInput(accept='image/png image/jpeg image/jpg', hint='Разрешены форматы png, jpeg, jpg'))
-    files = forms.FileField(label='Документы', widget=CustomDocInput(accept='.doc, .docx, .ppt, .pdf', hint='Разрешены форматы doc, docx, ppt, pdf'))
-    date = forms.DateField(label='Дата', widget=forms.SelectDateWidget(attrs={'class': 'bith-date'},
+    images = forms.ImageField(label='Фотографии', widget=CustomFileInput(accept='image/png image/jpeg image/jpg',
+                                                                         hint='Разрешены форматы png, jpeg, jpg'))
+    files = forms.FileField(label='Документы', widget=CustomDocInput(accept='.doc, .docx, .ppt, .pdf',
+                                                                     hint='Разрешены форматы doc, docx, ppt, pdf'))
+    date = forms.DateField(label='Дата', widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
                                                                        years=range(datetime.date.today().year - 99,
                                                                                    datetime.date.today().year)))
 
@@ -45,16 +47,17 @@ class UserPostForm(forms.ModelForm):
         fields = ['title', 'text', 'date', 'images', 'videos', 'files', 'budget', 'post_type']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'post-title', 'placeholder': 'Введите заголовок поста'}),
-            'text': forms.Textarea(attrs={'class': 'post-description', 'placeholder': 'Добавьте описание к своему посту описание'}),
+            'text': forms.Textarea(
+                attrs={'class': 'post-description', 'placeholder': 'Добавьте описание к своему посту описание'}),
+            'budget': forms.Select(attrs={'class': 'post-type', 'placeholder': ''}),
+            'post_type': forms.Select(attrs={'class': 'post-type', 'placeholder': ''}),
             'budget': forms.Select(attrs={'class': 'post-type', 'placeholder': 'Выберите бюджет в рублях'}),
             'post_type': forms.Select(attrs={'class': 'post-type', 'placeholder': 'Выберите тип поста'}),
 
             'genre': forms.Select(attrs={'class': '', 'placeholder': ''}),
             'style': forms.Select(attrs={'class': '', 'placeholder': ''}),
             'age_limit': forms.Select(attrs={'class': '', 'placeholder': ''}),
-            'tags': forms.Select(attrs={'class': '', 'placeholder': ''}),
         }
-        
 
 
 class PostTagsForm(forms.ModelForm):

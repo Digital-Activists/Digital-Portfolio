@@ -167,8 +167,8 @@ class EditProfileTagsForm(forms.ModelForm):
         fields = ['skills', 'experience', 'specialization', 'employment_type', 'work_schedule']
         widgets = {
             'skills': forms.CheckboxSelectMultiple(),
-            'experience': forms.Select(attrs={'class': '', 'placeholder': 'Укажите свой опыт работы'}),
-            'specialization': forms.Select(attrs={'placeholder': 'Выберите свою специализацию'}),
+            'experience': forms.Select(attrs={'class': 'list', 'placeholder': 'Укажите свой опыт работы'}),
+            'specialization': forms.Select(attrs={'class':'list', 'placeholder': 'Выберите свою специализацию'}),
             'employment_type': forms.CheckboxSelectMultiple(),
             'work_schedule': forms.CheckboxSelectMultiple(),
         }

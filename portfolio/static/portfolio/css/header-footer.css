@@ -1,30 +1,82 @@
 .main-header {
     display: flex;
     position: fixed;
+   
     width: 100%;
-    height: 70px;
+    height: 90px;
     background-color: #21c2f8;
 
     box-shadow: 0px 1px 20px 0px rgb(65, 64, 64);
     top: 0;
-    z-index: 100000;
+    z-index: 10000;
     margin-bottom: 0;
     padding: 0;
 }
 
+form.search {
+  position: relative;
+  width: 478px;
+  margin: auto auto;
+  margin-top: 23px;
+  margin-left: 150px;
+}
+input.search, button.search-image {
+  border: none;
+  outline: none;
+  border-radius: 10px;
+}
+input.search {
+  width: 410px;
+  height: 53px;
+  background: white;
+  padding-left: 15px;
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 18px;
+}
+.options{
+    position: absolute;
+    top: 19px;
+    right: 63px;
+    background-color: white;
+    border: none;
+}
+.options select{
+    border: none;
+    color: rgba(54, 192, 241, 1);
+    text-decoration: underline;
+    font-size: 14px;
+}
+button.search-image, button.search-image img {
+  width: 68px;
+  height: 55px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -100000;
+  cursor: pointer;
+}
+button.search-image{
+    background-color: white;
+}
+button.search-image img{
+    top: -23px;
+}
 main{
-    margin-top: 70px;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
 }
 .main-header img, .main-footer img {
-    width: 250px;
+    width: 255px;
     height: 60px;
     margin-left: 157px;
-    margin-top: 5px;   
+    margin-top: 13px;   
 }
 
 .profile-settings{
     margin-left: auto;
     margin-right: 25px;
+    display: block;
 }
 .settings-icon img{
     width: 55px;
@@ -38,15 +90,16 @@ a {
     margin-right: 0;
     width: 55px;
     height: 55px;
+    margin-left: 0;
+}
+.icon-search img{
+    width: 55px;
+    height: 55px;
+    margin-right: 15px;
 }
 
 .main-footer {
     width: 100%;
-    height: 70px;
+    height: 90px;
     background-color: #21c2f8;
-}
-
-main {
-    display: flex;
-    justify-content: center;
 }

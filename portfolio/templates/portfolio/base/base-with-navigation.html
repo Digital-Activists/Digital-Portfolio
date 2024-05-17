@@ -3,6 +3,9 @@
 
 {% block site-navigation %}
     <div class="profile-settings">
+        <a href="#" class="icon-search">
+            <img src="{% static 'portfolio/images/search-icon.svg' %}" alt="Иконка поиска" />
+        </a>
         <a href="{{ user_profile.get_absolute_url }}" class="profile-icon">
             <img src="{% static 'portfolio/images/profile icon.svg' %} " alt="Иконка профиля"/>
         </a>

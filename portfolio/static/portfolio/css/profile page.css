@@ -266,9 +266,11 @@ p.post-name {
     display: flex;
     margin-left: 40px;
     margin-right: 5px;
+    height: 20px;
 }
 
 .icons button {
+    
     width: 13px;
     height: 17px;
     background-color: white;
@@ -281,7 +283,6 @@ p.post-name {
 .icons{
     
     margin-left: -50px;
-   
     width: 70px;   
 }
 
@@ -289,18 +290,21 @@ p.post-name {
     background-color: white;
     border: none;
 }
-
+.icons:hover .post-menu{
+    display: block;
+    position: relative;
+    right: 125px;
+    top: 15px;
+}
 .post-menu{
     display: none;
-   position: absolute;
-   right: 55px;
-   top: 135px;
+    
     width: 155px;
     height: 60px;
     background-color: rgba(234, 237, 240, 1);
     border-radius: 5px;
-    padding-top: 10px;
-    padding-bottom: 3px;
+    padding-top: 4px;
+    padding-bottom: 6px;
     padding-left: 5px;
     padding-right: 3px;
     text-align: left;
@@ -310,6 +314,15 @@ p.post-name {
     font-size: 12px;
 }
 .post-menu li.edit{
+    width: 144px;
+    height: 22px;
+    border-radius: 5px;
+    margin: 0;
+    margin-bottom: 5px;
+    padding-top: 5px;
+   
+}
+.post-menu li.edit:hover{
     width: 144px;
     height: 22px;
     background-color: rgba(217, 217, 217, 1);
@@ -322,12 +335,7 @@ p.post-name {
 .post-menu li{
     padding-left: 5px;
 }
-.icons:hover .post-menu{
-    display: block;
-    position: absolute;
-   right: 55px;
-   top: 135px;
-}
+
 
 .like{
     

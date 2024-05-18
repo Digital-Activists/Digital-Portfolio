@@ -213,7 +213,7 @@ class EditSecuritySettingsView(GetProfileMixin, ProfileSuccessUrlMixin, LoginReq
 class EditProfileTagsView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = EditProfileTagsForm
-    template_name = 'portfolio/plug-form.html'
+    template_name = 'portfolio/account-tags.html'
     custom_success_url = 'edit_settings_tags'
 
     def form_valid(self, form):

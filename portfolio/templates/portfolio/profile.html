@@ -92,23 +92,23 @@
                         <img src="{% static 'portfolio/images/profileNO.png' %}" alt="Фото профиля">
                     {% endif %}
                 </div>
-
+                
                 <div class="post-information">
                     {% if post.title %}
                         <p class="post-name">{{ post.title }}</p>
                     {% endif %}
-
+                    
                     {% if post.post_type %}
                         <p class="post-type">{{ post.post_type }}</p>
                     {% endif %}
-
+                    
                     <div class="tags">
                         {% for tag in post.tags.all %}
                             <p>{{ tag }}</p>
                         {% endfor %}
                     </div>
-
-
+                    
+                   
                     {% if post.photos %}
                         <section class="post-image">
 
@@ -119,16 +119,17 @@
                                 &#8250;
                             </button>
                             <ul class="slides-container" id="slides-container">
-                                {% for photo in post.photos.all %}
-                                    <li class="slide">
-                                        <img class="user-image" src="{{ photo.file.url }}">
-                                    </li>
-                                {% endfor %}
-                            </ul>
+                            {% for photo in post.photos.all %}
+                                
+
+                                    <li class="slide"><img class="user-image" src="{{ photo.file.url }}"></li>
+
+                            {% endfor %}
+                        </ul>
                         </section>
                         <script src="{% static 'portfolio/js/carusel.js' %}"></script>
                     {% endif %}
-
+                    
                     {% if post.text %}
                         <p class="post-description">{{ post.text }}</p>
                     {% endif %}
@@ -144,8 +145,8 @@
                                     poster="MY_VIDEO_POSTER.jpg"
                                     data-setup="{}"
                             >
-                                <source src="MY_VIDEO.mp4" type="video/mp4"/>
-                                <source src="MY_VIDEO.webm" type="video/webm"/>
+                            <source src="MY_VIDEO.mp4" type="video/mp4"/>
+                            <source src="MY_VIDEO.webm" type="video/webm"/>
                             </video>
                         {% endfor %}
                     {% endif %}
@@ -170,31 +171,31 @@
                                 <a href="{{ user_file.file.url }}" download="{{ user_file }}">
                                     <img src="{% static 'portfolio/images/file.png' %}" alt="{{ user_file.file.name }}">
                                     <p>{{ user_file }}</p>
-                                    <img class="right" src="{% static 'portfolio/images/post-arrow-right.svg' %}"
-                                         width="14"
+                                    <img class="right"src="{% static 'portfolio/images/post-arrow-right.svg' %}" width="14"
                                          height="20"
                                          alt="Стрелка вправо">
                                 </a>
                             {% endfor %}
                         </div>
-
+                       
                     {% endif %}
                 </div>
-
-
-                <div class="icons">
-                    <button type="button" class="favourites">
-                        <img src="{% static 'portfolio/images/three dorts.png' %}" alt="Настройки">
-                    </button>
-                    <div class="post-menu">
-                        <ul>
-                            <li class="edit"><a href="{% url 'edit_post' post.post_slug %}">Редактировать пост</a></li>
-                            <li><a href="{% url 'delete_post' post.pk %}">Удалить пост</a></li>
-                        </ul>
+                
+                
+                    <div class="icons">
+                        <button type="button" class="favourites">
+                            <img src="{% static 'portfolio/images/three dorts.png' %}" alt="Настройки">
+                        </button>
+                        <div class="post-menu">
+                            <ul>
+                                <li class="edit"><a href="{% url 'edit_post' post.post_slug %}">Редактировать пост</a></li>
+                                <li class="edit"><a href="{% url 'delete_post' post.pk %}">Удалить пост</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-
-
+                    
+                
+                
                 <div class="like">
                     <p>{{ post.get_count_likes }}</p>
                     {% if request.user != user %}
@@ -213,8 +214,8 @@
                             <img src="{% static 'portfolio/images/hurtRED.png' %}" alt="Сердечко">
                         </a>
                     {% endif %}
-                </div>
-
+                    </div>
+                
             </div>
         {% endfor %}
     </section>

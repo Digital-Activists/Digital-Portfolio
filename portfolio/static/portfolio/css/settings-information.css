@@ -67,12 +67,23 @@ select {
     margin-bottom: 15px;
 }
 
-.account-image, .profile-description, .contacts {
+.ff, .profile-description, .contacts {
     border-bottom: 1px solid rgba(140, 140, 140, 1);
     padding-bottom: 25px;
     margin-top: 25px;
 }
-
+.ff{
+    padding-bottom: 76px;
+}
+.account-image{
+    width: 110px;
+    height: 110px;
+    margin-top: -20px;
+    
+}
+.account-image label{
+    width: 174px;
+}
 .activity {
     margin-top: 25px;
 }

@@ -33,18 +33,15 @@ class CustomRadioSelect(forms.RadioSelect):
 
 class CustomFileInput(forms.FileInput):
     template_name = 'portfolio/widgets/post_file_widget.html'
+    allow_multiple_selected = True
 
-    def __init__(self, accept, hint, *args, **kwargs):
+    def __init__(self, style_class, hint, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.accept = accept
+        self.style_class = style_class
         self.hint = hint
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
-        context['widget']['accept'] = self.accept
         context['widget']['hint'] = self.hint
+        context['widget']['style_class'] = self.style_class
         return context
-
-
-class CustomDocInput(CustomFileInput):
-    template_name = 'portfolio/widgets/post_doc_widget.html'

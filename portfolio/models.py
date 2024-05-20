@@ -105,7 +105,8 @@ class Post(models.Model):
     music_genre = models.CharField(max_length=30, blank=True, choices=MUSIC_GENRE_CHOICES, verbose_name='Жанр музыки')
     style = models.CharField(choices=STYLE_CHOICES, blank=True, max_length=64, verbose_name='Стиль')
     age_limit = models.CharField(max_length=3, blank=True, choices=AGE_LIMITS, verbose_name='Возрастное ограничение')
-    rhythm = models.ForeignKey('PostRhythm', null=True, on_delete=models.PROTECT, related_name='posts', verbose_name='Ритм')
+    rhythm = models.ForeignKey('PostRhythm', null=True, on_delete=models.PROTECT, related_name='posts',
+                               verbose_name='Ритм')
     count_likes = models.IntegerField(default=0, verbose_name='Лайки')
     liked_users = models.ManyToManyField(User, related_name='liked_posts')
 
@@ -125,19 +126,22 @@ class Post(models.Model):
         return self.liked_users.count()
 
 
-# TODO: Удаление файлов после удаления поста
 class PostPhoto(models.Model):
     file = models.ImageField(upload_to=get_path_to_post_files)
     post = models.ForeignKey(Post, related_name='photos', on_delete=models.CASCADE)
 
 
 class PostVideo(models.Model):
-    file = models.FileField(upload_to=get_path_to_post_files, validators=[FileExtensionValidator(['mp4'])])
+    formats = ['mp4']
+    file = models.FileField(upload_to=get_path_to_post_files, validators=[FileExtensionValidator(formats)])
+    preview = models.ImageField(upload_to=get_path_to_post_files)
     post = models.ForeignKey(Post, related_name='videos', on_delete=models.CASCADE)
 
 
 class PostFile(models.Model):
-    file = models.FileField(upload_to=get_path_to_post_files)
+    formats = ['pdf', 'ppt', 'pptx', 'doc', 'docx']
+    file = models.FileField(upload_to=get_path_to_post_files,
+                            validators=[FileExtensionValidator(formats)])
     post = models.ForeignKey(Post, related_name='files', on_delete=models.CASCADE)
 
     def __str__(self):

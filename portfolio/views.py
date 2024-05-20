@@ -7,10 +7,10 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, CreateView, UpdateView
+from django.views.generic import DetailView, CreateView, UpdateView, FormView
 
 from .forms import *
-from .utils import SOCIAL_NETWORKS, ProfileSuccessUrlMixin, ContextUpdateMixin, GetProfileMixin
+from .utils import SOCIAL_NETWORKS, ProfileSuccessUrlMixin, ContextUpdateMixin, GetProfileMixin, get_video_preview
 
 
 @login_required(login_url='login')
@@ -41,7 +41,7 @@ class CreatePostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin
         for image in self.request.FILES.getlist('images'):
             PostPhoto.objects.create(post=post, file=image)
         for video in self.request.FILES.getlist('videos'):
-            PostVideo.objects.create(post=post, file=video)
+            PostVideo.objects.create(post=post, file=video, preview=get_video_preview(video))
         for file in self.request.FILES.getlist('files'):
             PostFile.objects.create(post=post, file=file)
 
@@ -217,7 +217,6 @@ class EditProfileTagsView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequired
     custom_success_url = 'edit_settings_tags'
 
     def form_valid(self, form):
-
         messages.success(self.request, 'Ваш аккаунт был обновлен')
         return super().form_valid(form)
 

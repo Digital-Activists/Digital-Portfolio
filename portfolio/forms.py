@@ -1,15 +1,15 @@
 import datetime
-from datetime import date
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
+from django.core import validators
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
 from .models import *
 from .utils import check_social_link, check_social_lick_type
 from .choices import RHYTHMS, WORK_SCHEDULE_CHOICES
-from .form_utils import ProfileAvatarImageWidget, CustomRadioSelect, CustomFileInput, CustomDocInput
+from .form_utils import ProfileAvatarImageWidget, CustomFileInput, MultipleFileField, MultipleFileInput
 
 
 class BaseFilledFieldsForm(forms.ModelForm):
@@ -27,14 +27,19 @@ class BaseFilledFieldsForm(forms.ModelForm):
 
 
 class UserPostForm(forms.ModelForm):
-    videos = forms.FileField(label='Видео', widget=CustomFileInput(accept='video/mp4', hint='Разрешен формат mp4'))
-    images = forms.ImageField(label='Фотографии', widget=CustomFileInput(accept='image/png image/jpeg image/jpg',
-                                                                         hint='Разрешены форматы png, jpeg, jpg'))
-    files = forms.FileField(label='Документы', widget=CustomDocInput(accept='.doc, .docx, .ppt, .pdf',
-                                                                     hint='Разрешены форматы doc, docx, ppt, pdf'))
-    date = forms.DateField(label='Дата', initial=date.today, widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
-                                                                       years=range(datetime.date.today().year - 99,
-                                                                                   datetime.date.today().year + 1)))
+    videos = MultipleFileField(label='Видео', validators=[FileExtensionValidator(PostVideo.formats)],
+                               widget=CustomFileInput(style_class='input-file',
+                                                      hint=f'Разрешены форматы: {', '.join(PostVideo.formats)}'))
+    images = MultipleFileField(label='Фотографии', validators=[validators.validate_image_file_extension],
+                               widget=CustomFileInput(style_class='input-file',
+                                                      hint='Разрешены форматы png, jpeg, jpg'))
+    files = MultipleFileField(label='Документы', validators=[FileExtensionValidator(PostFile.formats)],
+                              widget=CustomFileInput(style_class='input-doc',
+                                                     hint=f'Разрешены форматы: {', '.join(PostFile.formats)}'))
+    date = forms.DateField(label='Дата', initial=date.today,
+                           widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
+                                                         years=range(datetime.date.today().year - 99,
+                                                                     datetime.date.today().year + 1)))
 
     def __init__(self, *args, **kwargs):
         super(UserPostForm, self).__init__(*args, **kwargs)
@@ -62,7 +67,9 @@ class UserPostForm(forms.ModelForm):
 
 
 class PostTagsForm(forms.ModelForm):
-    rhythm = forms.ModelChoiceField(queryset=PostRhythm.objects.all(), empty_label='-', widget=forms.RadioSelect(attrs={'class': 'rhythm'}))
+    rhythm = forms.ModelChoiceField(label='Ритм', queryset=PostRhythm.objects.all(), empty_label='-',
+                                    widget=forms.RadioSelect(attrs={'class': 'rhythm'}))
+
     class Meta:
         model = Post
         fields = ['rhythm', 'music_genre', 'genre', 'style', 'age_limit']
@@ -166,7 +173,7 @@ class EditProfileTagsForm(forms.ModelForm):
         widgets = {
             'skills': forms.CheckboxSelectMultiple(),
             'experience': forms.Select(attrs={'class': 'list', 'placeholder': 'Укажите свой опыт работы'}),
-            'specialization': forms.Select(attrs={'class':'list', 'placeholder': 'Выберите свою специализацию'}),
+            'specialization': forms.Select(attrs={'class': 'list', 'placeholder': 'Выберите свою специализацию'}),
             'employment_type': forms.CheckboxSelectMultiple(),
             'work_schedule': forms.CheckboxSelectMultiple(),
         }

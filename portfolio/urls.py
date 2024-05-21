@@ -1,9 +1,11 @@
 from django.urls import path
 
 from .views import *
+from .tests import TestView
 
 urlpatterns = [
     path('', index, name='home'),
+    path('test/', TestView.as_view(), name='test'),
     path('register/', register, name='register'),
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
@@ -23,4 +25,7 @@ urlpatterns = [
     path('delete-post:<int:post_id>', delete_post, name='delete_post'),
     path('like-post:<int:post_id>', like_post, name='like_post'),
     path('dislike-post:<int:post_id>', dislike_post, name='dislike_post'),
+
+    path('search:post', SearchPostView.as_view(), name='search_post'),
+    path('search:user', SearchUserView.as_view(), name='search_user'),
 ]

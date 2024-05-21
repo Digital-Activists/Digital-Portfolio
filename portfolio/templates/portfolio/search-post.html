@@ -1,0 +1,17 @@
+{% extends 'portfolio/base/base-search.html' %}
+{% load static %}
+
+{% block style_load %}
+    {#  Временная заглушка  #}
+    <link rel="stylesheet" href="{% static 'portfolio/css/profile page.css' %}"/>
+{% endblock %}
+
+{% block search %}
+    <ul>
+        {% for post in object_list %}
+            <li>
+                {% include 'portfolio/base/post.html' %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

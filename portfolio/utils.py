@@ -67,14 +67,12 @@ def get_path_to_post_files(instance, filename):
 
 
 class GetProfileMixin:
-    context_object_name = 'user_profile'
     slug_url_kwarg = 'nickname'
     slug_field = 'nickname'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user_profile'] = self.request.user.profile
-        return context
+
+class ProfileContextMixin:
+    context_object_name = 'user_profile'
 
 
 class ProfileSuccessUrlMixin:

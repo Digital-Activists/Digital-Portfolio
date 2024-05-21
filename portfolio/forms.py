@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.core import validators
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from django.db.models import Q
 
 from .models import *
 from .utils import check_social_link, check_social_lick_type
@@ -12,7 +13,7 @@ from .choices import RHYTHMS, WORK_SCHEDULE_CHOICES
 from .form_utils import ProfileAvatarImageWidget, CustomFileInput, MultipleFileField, MultipleFileInput
 
 
-class BaseFilledFieldsForm(forms.ModelForm):
+class RequiredFieldsFormMixin:
     required_fields = True
 
     def __init__(self, *args, **kwargs):
@@ -20,6 +21,13 @@ class BaseFilledFieldsForm(forms.ModelForm):
         for field_name in self.fields:
             field = self.fields[field_name]
             field.required = self.required_fields
+
+
+class BaseFilledFieldsForm(RequiredFieldsFormMixin, forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name in self.fields:
+            field = self.fields[field_name]
             if hasattr(self.instance, field_name):
                 field.initial = getattr(self.instance, field_name)
             else:
@@ -80,6 +88,23 @@ class PostTagsForm(forms.ModelForm):
             'style': forms.Select(attrs={'class': 'style', 'placeholder': 'Выберите стиль'}),
             'age_limit': forms.Select(attrs={'class': 'age_limits', 'placeholder': 'Выберите возрастное ограничение'})
         }
+
+
+class SearchPostForm(RequiredFieldsFormMixin, forms.Form):
+    required_fields = False
+    title = forms.CharField(label='Заголовок')
+    budget = forms.MultipleChoiceField(label='Бюджет', choices=BUDGET,
+                                       widget=forms.CheckboxSelectMultiple(attrs={'class': '', 'placeholder': ''}))
+    post_type = forms.MultipleChoiceField(label='Тип поста', choices=PROJECT_TYPE_CHOICES,
+                                          widget=forms.CheckboxSelectMultiple(attrs={'class': '', 'placeholder': ''}))
+
+    def get_results(self):
+        query = Q()
+        for field in self.cleaned_data:
+            if self.cleaned_data.get(field):
+                query &= Q(**{f'{field}__icontains': self.cleaned_data.get(field)})
+
+        return Post.objects.filter(query)
 
 
 class CreateUserForm(UserCreationForm):
@@ -220,6 +245,19 @@ class AddSocialNetworkForm(forms.ModelForm):
             raise ValidationError('Ссылка не прошла проверку')
 
         return cleaned_data
+
+
+class SearchUserForm(RequiredFieldsFormMixin, forms.Form):
+    required_fields = False
+    name = forms.CharField()
+
+    def get_results(self):
+        query = Q()
+        for field in self.cleaned_data:
+            if self.cleaned_data.get(field):
+                query &= Q(**{f'{field}__icontains': self.cleaned_data.get(field)})
+
+        return User.objects.filter(query)
 
 
 class ChangeEmailForm(forms.ModelForm):

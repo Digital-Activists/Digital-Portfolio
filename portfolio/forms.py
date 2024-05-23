@@ -9,7 +9,6 @@ from django.db.models import Q
 
 from .models import *
 from .utils import check_social_link, check_social_lick_type
-from .choices import RHYTHMS, WORK_SCHEDULE_CHOICES
 from .form_utils import ProfileAvatarImageWidget, CustomFileInput, MultipleFileField, MultipleFileInput
 
 
@@ -36,14 +35,14 @@ class BaseFilledFieldsForm(RequiredFieldsFormMixin, forms.ModelForm):
 
 class UserPostForm(forms.ModelForm):
     videos = MultipleFileField(label='Видео', validators=[FileExtensionValidator(PostVideo.formats)],
-                               widget=CustomFileInput(style_class='input-file',
-                                                      hint=f'Разрешены форматы: {', '.join(PostVideo.formats)}'))
+                               widget=CustomFileInput(style_class='input-file', hint='Разрешены форматы: {0}'.format(
+                                   ', '.join(PostVideo.formats))))
     images = MultipleFileField(label='Фотографии', validators=[validators.validate_image_file_extension],
                                widget=CustomFileInput(style_class='input-file',
                                                       hint='Разрешены форматы png, jpeg, jpg'))
     files = MultipleFileField(label='Документы', validators=[FileExtensionValidator(PostFile.formats)],
                               widget=CustomFileInput(style_class='input-doc',
-                                                     hint=f'Разрешены форматы: {', '.join(PostFile.formats)}'))
+                                                     hint='Разрешены форматы: {0}'.format(', '.join(PostFile.formats))))
     date = forms.DateField(label='Дата', initial=date.today,
                            widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
                                                          years=range(datetime.date.today().year - 99,
@@ -180,8 +179,6 @@ class EditProfileForm(BaseFilledFieldsForm, forms.ModelForm):
     phone_number = forms.CharField(validators=[phone_regex], max_length=17, label='Номер телефона',
                                    widget=forms.TextInput(
                                        attrs={'placeholder': '+70000000000', 'class': 'telephone'}))
-    city = forms.CharField(max_length=30, label='Город', widget=forms.TextInput(
-        attrs={'placeholder': 'Введите город', 'class': 'city'}))
     image = forms.ImageField(label='Фото профиля',
                              widget=ProfileAvatarImageWidget(
                                  attrs={'class': 'profile-image-input', 'placeholder': 'Загрузить'}))
@@ -189,6 +186,7 @@ class EditProfileForm(BaseFilledFieldsForm, forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['image', 'text', 'phone_number', 'email', 'city', 'scope_of_work']
+        widgets = {'city': forms.Select(attrs={'placeholder': 'Введите город', 'class': 'city'})}
 
 
 class EditProfileTagsForm(forms.ModelForm):
@@ -249,7 +247,22 @@ class AddSocialNetworkForm(forms.ModelForm):
 
 class SearchUserForm(RequiredFieldsFormMixin, forms.Form):
     required_fields = False
-    name = forms.CharField()
+    name = forms.CharField(label='ФИО')
+    city = forms.ModelMultipleChoiceField(label='Город', queryset=City.objects.all(),
+                                          widget=forms.CheckboxSelectMultiple(attrs={'class': ''}))
+    experience = forms.MultipleChoiceField(label='Опыт работы', choices=EXPERIENCE_CHOICES,
+                                           widget=forms.CheckboxSelectMultiple(attrs={'class': ''}))
+    scope_of_work = forms.MultipleChoiceField(label='Сфера деятельности', choices=JOB_SPHERE_CHOICES,
+                                              widget=forms.CheckboxSelectMultiple(attrs={'class': ''}))
+    specialization = forms.MultipleChoiceField(label='Специализация', choices=SPECIALIZATION_CHOICES,
+                                               widget=forms.CheckboxSelectMultiple(attrs={'class': ''}))
+    employment_type = forms.ModelMultipleChoiceField(label='Тип занятости',
+                                                     queryset=ProfileEmploymentType.objects.all(),
+                                                     widget=forms.CheckboxSelectMultiple(attrs={'class': ''}))
+    work_schedule = forms.ModelMultipleChoiceField(label='График работы', queryset=ProfileWorkSchedule.objects.all(),
+                                                   widget=forms.CheckboxSelectMultiple(attrs={'class': ''}))
+    skills = forms.ModelMultipleChoiceField(label='Ключевые навыки', queryset=ProfileSkill.objects.all(),
+                                       widget=forms.CheckboxSelectMultiple(attrs={'class': ''}))
 
     def get_results(self):
         query = Q()

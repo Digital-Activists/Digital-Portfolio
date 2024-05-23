@@ -22,7 +22,7 @@ class Profile(models.Model):
     text = models.TextField(blank=True, verbose_name='Описание профиля')
     image = models.ImageField(upload_to='photos/avatars', null=True, verbose_name='Фото профиля')
     phone_number = models.CharField(max_length=15, blank=True, verbose_name='Номер телефона')
-    city = models.CharField(max_length=50, blank=True, verbose_name='Город')
+    city = models.ForeignKey('City', null=True, on_delete=models.PROTECT, verbose_name='Город')
     scope_of_work = models.CharField(max_length=20, choices=JOB_SPHERE_CHOICES, blank=True,
                                      verbose_name='Сфера деятельности')
     experience = models.CharField(max_length=20, choices=EXPERIENCE_CHOICES, blank=True, default='no_experience',
@@ -90,6 +90,17 @@ class ProfileEmploymentType(StrMixin, models.Model):
 
 class ProfileWorkSchedule(StrMixin, models.Model):
     name = models.CharField(max_length=30, choices=WORK_SCHEDULE_CHOICES, unique=True)
+
+
+class City(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    country = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['country', 'name']
 
 
 class Post(models.Model):

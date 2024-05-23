@@ -105,7 +105,7 @@ class EditPostTagsView(EditPostMixin):
 
 class EditProfileView(GetProfileMixin, ProfileContextMixin, ProfileSuccessUrlMixin, UpdateView, LoginRequiredMixin):
     model = Profile
-    template_name = 'portfolio/settings-information.html'
+    template_name = 'portfolio/settings/settings-information.html'
     form_class = EditProfileForm
     second_form_class = AddSocialNetworkForm
     custom_success_url = 'edit_settings_profile'
@@ -167,7 +167,7 @@ class EditAccountInformationView(GetProfileMixin, ProfileContextMixin, ProfileSu
                                  UpdateView):
     model = Profile
     form_class = EditAccountInformationForm
-    template_name = 'portfolio/settings-account.html'
+    template_name = 'portfolio/settings/settings-account.html'
     custom_success_url = 'edit_settings_account'
 
     def get_context_data(self, **kwargs):
@@ -192,7 +192,7 @@ class EditSecuritySettingsView(GetProfileMixin, ProfileContextMixin, ProfileSucc
     model = User
     form_class = ChangeEmailForm
     second_form_class = CustomSetPasswordFormNoRequired
-    template_name = 'portfolio/settings-security.html'
+    template_name = 'portfolio/settings/settings-security.html'
     custom_success_url = 'edit_settings_security'
 
     def get_context_data(self, **kwargs):
@@ -231,7 +231,7 @@ class EditSecuritySettingsView(GetProfileMixin, ProfileContextMixin, ProfileSucc
 class EditProfileTagsView(GetProfileMixin, ProfileContextMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = EditProfileTagsForm
-    template_name = 'portfolio/account-tags.html'
+    template_name = 'portfolio/settings/account-tags.html'
     custom_success_url = 'edit_settings_tags'
 
     def form_valid(self, form):
@@ -241,7 +241,7 @@ class EditProfileTagsView(GetProfileMixin, ProfileContextMixin, ProfileSuccessUr
 
 class LoginUser(LoginView, ContextUpdateMixin):
     form_class = LoginUserForm
-    template_name = 'portfolio/authorization.html'
+    template_name = 'portfolio/authorization/authorization.html'
     PageTitle = 'Страница регистрации и авторизации'
 
     def get_success_url(self):
@@ -255,7 +255,7 @@ def logout_user(request):
 
 class EnterEmailToResetPassword(PasswordResetView, ContextUpdateMixin):
     form_class = EnterEmailToResetPasswordForm
-    template_name = 'portfolio/reset-password.html'
+    template_name = 'portfolio/authorization/reset-password.html'
     email_template_name = 'portfolio/email/password_reset_mail_v2.html'
     subject_template_name = 'portfolio/email/password_subject_reset_mail.txt'
     success_url = reverse_lazy('home')
@@ -264,7 +264,7 @@ class EnterEmailToResetPassword(PasswordResetView, ContextUpdateMixin):
 
 class UserResetPasswordConfirm(PasswordResetConfirmView):
     form_class = CustomSetPasswordForm
-    template_name = 'portfolio/reset-password-confirm.html'
+    template_name = 'portfolio/authorization/reset-password-confirm.html'
     success_url = reverse_lazy('login')
     PageTitle = 'Страница сброса пароля'
 
@@ -287,7 +287,7 @@ def register(request):
         profile_form = CreateProfileForm()
 
     fields = list(user_form)[:3] + list(profile_form) + list(user_form)[3:]
-    return render(request, 'portfolio/registration.html', {'form_fields': fields, 'title': 'Регистрация'})
+    return render(request, 'portfolio/authorization/registration.html', {'form_fields': fields, 'title': 'Регистрация'})
 
 
 class UserProfileView(GetProfileMixin, ProfileContextMixin, DetailView):
@@ -367,6 +367,7 @@ class GuidesView(TemplateView):
     template_name = 'portfolio/guides.html'
 
 
+# TODO: ProfileFavouritePostsView, ProfileFavouriteUsersView
 class ProfileFavouritePostsView(ListView, LoginRequiredMixin):
     model = Post
     template_name = 'portfolio/plug/plug-list.html'

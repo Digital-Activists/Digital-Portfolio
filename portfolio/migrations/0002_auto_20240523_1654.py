@@ -1,12 +1,15 @@
 from django.db import migrations
 from portfolio.choices import SKILLS_CHOICES, EMPLOYMENT_TYPE_CHOICES, WORK_SCHEDULE_CHOICES, RHYTHMS
 
+import csv
+
 
 def create_data(apps, schema_editor):
     ProfileSkill = apps.get_model('portfolio', 'ProfileSkill')
     ProfileEmploymentType = apps.get_model('portfolio', 'ProfileEmploymentType')
     ProfileWorkSchedule = apps.get_model('portfolio', 'ProfileWorkSchedule')
     PostRhythm = apps.get_model('portfolio', 'PostRhythm')
+    City = apps.get_model('portfolio', 'City')
 
     for code, name in SKILLS_CHOICES:
         ProfileSkill.objects.create(name=name)
@@ -19,6 +22,15 @@ def create_data(apps, schema_editor):
 
     for (name, description) in RHYTHMS.items():
         PostRhythm.objects.create(name=name, description=description)
+
+    with open('portfolio/data/city.csv', 'r') as f:
+        reader = csv.reader(f)
+        next(reader)  # Пропустить заголовки
+        for row in reader:
+            _, created = City.objects.get_or_create(
+                country=row[2],
+                name=row[9],
+            )
 
 
 class Migration(migrations.Migration):

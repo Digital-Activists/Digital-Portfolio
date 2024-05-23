@@ -21,6 +21,8 @@ urlpatterns = [
     path('profile:<slug:nickname>/', UserProfileView.as_view(), name='view_user_profile'),
     path('profile:edit-post:<slug:post_slug>', EditPostView.as_view(), name='edit_post'),
     path('profile:edit-post-tags:<slug:post_slug>', EditPostTagsView.as_view(), name='edit_post_tags'),
+    path('profile:favorites-posts', ProfileFavouritePostsView.as_view(), name='favorites_posts'),
+    path('profile:favorites-users', ProfileFavouriteUsersView.as_view(), name='favorites_users'),
 
     path('delete-post:<int:post_id>', delete_post, name='delete_post'),
     path('like-post:<int:post_id>', like_post, name='like_post'),
@@ -28,4 +30,6 @@ urlpatterns = [
 
     path('search:post', SearchPostView.as_view(), name='search_post'),
     path('search:user', SearchUserView.as_view(), name='search_user'),
+
+    path('page-guides', GuidesView.as_view(), name='view_guides'),
 ]

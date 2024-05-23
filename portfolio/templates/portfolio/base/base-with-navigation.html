@@ -10,10 +10,12 @@
             <a href="{{ request.user.profile.get_absolute_url }}" class="profile-icon">
                 <img src="{% static 'portfolio/images/profile icon.svg' %} " alt="Иконка профиля"/>
             </a>
+            <a href="{% url 'favorites_posts' %}">Избранное</a>
+            <a href="{% url 'view_guides' %}">Гайды</a>
+            <a href="{% url 'logout' %}">Выйти</a>
             <a href="{% url "edit_settings_account" request.user.profile.nickname %}" class="settings-icon">
                 <img src="{% static 'portfolio/images/settings icon.png' %} " alt="Иконка настроек"/>
             </a>
-            <a href="{% url 'logout' %}">Выйти</a>
         </div>
     {% else %}
         <div>

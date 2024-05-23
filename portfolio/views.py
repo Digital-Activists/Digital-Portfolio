@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, CreateView, UpdateView, FormView, ListView
+from django.views.generic import DetailView, CreateView, UpdateView, FormView, ListView, TemplateView
 
 from .forms import *
 from .utils import SOCIAL_NETWORKS, ProfileSuccessUrlMixin, ContextUpdateMixin, GetProfileMixin, get_video_preview, \
@@ -163,7 +163,8 @@ class EditProfileView(GetProfileMixin, ProfileContextMixin, ProfileSuccessUrlMix
         return self.request.user.profile
 
 
-class EditAccountInformationView(GetProfileMixin, ProfileContextMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
+class EditAccountInformationView(GetProfileMixin, ProfileContextMixin, ProfileSuccessUrlMixin, LoginRequiredMixin,
+                                 UpdateView):
     model = Profile
     form_class = EditAccountInformationForm
     template_name = 'portfolio/settings-account.html'
@@ -186,7 +187,8 @@ class EditAccountInformationView(GetProfileMixin, ProfileContextMixin, ProfileSu
         return response
 
 
-class EditSecuritySettingsView(GetProfileMixin, ProfileContextMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
+class EditSecuritySettingsView(GetProfileMixin, ProfileContextMixin, ProfileSuccessUrlMixin, LoginRequiredMixin,
+                               UpdateView):
     model = User
     form_class = ChangeEmailForm
     second_form_class = CustomSetPasswordFormNoRequired
@@ -359,3 +361,23 @@ class SearchUserView(SearchMixin):
     model = User
     template_name = 'portfolio/search-user.html'
     form_class = SearchUserForm
+
+
+class GuidesView(TemplateView):
+    template_name = 'portfolio/guides.html'
+
+
+class ProfileFavouritePostsView(ListView, LoginRequiredMixin):
+    model = Post
+    template_name = 'portfolio/plug/plug-list.html'
+
+    def get_queryset(self):
+        return self.request.user.liked_posts.all()
+
+
+class ProfileFavouriteUsersView(ListView, LoginRequiredMixin):
+    model = User
+    template_name = 'portfolio/plug/plug-list.html'
+
+    # def get_queryset(self):
+    #     return self.request.user.liked_users.all()

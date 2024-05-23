@@ -7,24 +7,24 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, CreateView, UpdateView
+from django.views.generic import DetailView, CreateView, UpdateView, FormView, ListView, TemplateView
 
 from .forms import *
-from .utils import SOCIAL_NETWORKS, ProfileSuccessUrlMixin, ContextUpdateMixin, GetProfileMixin
+from .utils import SOCIAL_NETWORKS, ProfileSuccessUrlMixin, ContextUpdateMixin, GetProfileMixin, get_video_preview, \
+    ProfileContextMixin
 
 
 @login_required(login_url='login')
 def index(request):
-    return render(request, 'portfolio/plug-index.html',
+    return render(request, 'portfolio/plug/plug-index.html',
                   context={'user_profile': Profile.objects.get(user=request.user)})
 
 
 class CreatePostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, ContextUpdateMixin, CreateView):
     PageTitle = 'Create Post'
     form_class = UserPostForm
-    template_name = 'portfolio/edit-post.html'
+    template_name = 'portfolio/post-edit.html'
     custom_success_url = 'edit_post'
-    context_object_name = 'form'
     login_url = reverse_lazy('login')
     raise_exception = True
 
@@ -41,7 +41,7 @@ class CreatePostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin
         for image in self.request.FILES.getlist('images'):
             PostPhoto.objects.create(post=post, file=image)
         for video in self.request.FILES.getlist('videos'):
-            PostVideo.objects.create(post=post, file=video)
+            PostVideo.objects.create(post=post, file=video, preview=get_video_preview(video))
         for file in self.request.FILES.getlist('files'):
             PostFile.objects.create(post=post, file=file)
 
@@ -50,7 +50,6 @@ class CreatePostView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin
 
 
 class EditPostMixin(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
-    context_object_name = 'form'
     raise_exception = True
     custom_success_url = 'view_user_profile'
 
@@ -67,26 +66,44 @@ class EditPostMixin(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin,
 
 class EditPostView(EditPostMixin):
     form_class = UserPostForm
-    template_name = 'portfolio/edit-post.html'
+    template_name = 'portfolio/post-edit.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['images'] = PostPhoto.objects.filter(post=self.object, post__author=self.request.user)
+        form = context['form']
+        form.fields['images'].initial = PostPhoto.objects.filter(post=self.object, post__author=self.request.user)
         context['videos'] = PostVideo.objects.filter(post=self.object, post__author=self.request.user)
         context['files'] = PostFile.objects.filter(post=self.object, post__author=self.request.user)
         return context
 
+    def form_valid(self, form):
+        post = self.object
+
+        for image in form.cleaned_data['images']:
+            print(image)
+
+        for image in self.request.FILES.getlist('images'):
+            print(image)
+            # PostPhoto.objects.create(post=post, file=image)
+        # for video in self.request.FILES.getlist('videos'):
+        # PostVideo.objects.create(post=post, file=video, preview=get_video_preview(video))
+        # for file in self.request.FILES.getlist('files'):
+        # PostFile.objects.create(post=post, file=file)
+
+        return redirect('edit_post', post.post_slug)
+
 
 class EditPostTagsView(EditPostMixin):
     form_class = PostTagsForm
-    template_name = 'portfolio/tags-edit.html'
+    template_name = 'portfolio/post-tags-edit.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['rhythms'] = {rhythm.name: rhythm.description for rhythm in PostRhythm.objects.all()}
         return context
 
 
-class EditProfileView(GetProfileMixin, ProfileSuccessUrlMixin, UpdateView, LoginRequiredMixin):
+class EditProfileView(GetProfileMixin, ProfileContextMixin, ProfileSuccessUrlMixin, UpdateView, LoginRequiredMixin):
     model = Profile
     template_name = 'portfolio/settings-information.html'
     form_class = EditProfileForm
@@ -146,7 +163,8 @@ class EditProfileView(GetProfileMixin, ProfileSuccessUrlMixin, UpdateView, Login
         return self.request.user.profile
 
 
-class EditAccountInformationView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
+class EditAccountInformationView(GetProfileMixin, ProfileContextMixin, ProfileSuccessUrlMixin, LoginRequiredMixin,
+                                 UpdateView):
     model = Profile
     form_class = EditAccountInformationForm
     template_name = 'portfolio/settings-account.html'
@@ -169,7 +187,8 @@ class EditAccountInformationView(GetProfileMixin, ProfileSuccessUrlMixin, LoginR
         return response
 
 
-class EditSecuritySettingsView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
+class EditSecuritySettingsView(GetProfileMixin, ProfileContextMixin, ProfileSuccessUrlMixin, LoginRequiredMixin,
+                               UpdateView):
     model = User
     form_class = ChangeEmailForm
     second_form_class = CustomSetPasswordFormNoRequired
@@ -209,14 +228,13 @@ class EditSecuritySettingsView(GetProfileMixin, ProfileSuccessUrlMixin, LoginReq
         return self.render_to_response(self.get_context_data(form_email=email_form, form_password=password_form))
 
 
-class EditProfileTagsView(GetProfileMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
+class EditProfileTagsView(GetProfileMixin, ProfileContextMixin, ProfileSuccessUrlMixin, LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = EditProfileTagsForm
     template_name = 'portfolio/account-tags.html'
     custom_success_url = 'edit_settings_tags'
 
     def form_valid(self, form):
-
         messages.success(self.request, 'Ваш аккаунт был обновлен')
         return super().form_valid(form)
 
@@ -272,18 +290,19 @@ def register(request):
     return render(request, 'portfolio/registration.html', {'form_fields': fields, 'title': 'Регистрация'})
 
 
-class UserProfileView(GetProfileMixin, DetailView):
+class UserProfileView(GetProfileMixin, ProfileContextMixin, DetailView):
     model = Profile
     template_name = 'portfolio/profile.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = Profile.objects.get(nickname=self.kwargs['nickname']).user
+        user = self.object.user
         context['user'] = user
         context['posts'] = Post.objects.filter(author=user)
-        for post in context['posts']:
-            post.photos
         return context
+
+    def get_object(self):
+        return Profile.objects.get(nickname=self.kwargs.get('nickname'))
 
 
 @login_required(login_url='login')
@@ -315,3 +334,50 @@ def dislike_post(request, post_id):
     post.liked_users.remove(request.user)
     post.save()
     return redirect('view_user_profile', post.author.profile.nickname)
+
+
+class SearchMixin(ListView):
+    form = None
+
+    def get_queryset(self):
+        self.form = self.form_class(self.request.GET or None)
+        if self.form.is_valid():
+            return self.form.get_results()
+        return super().get_queryset()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form or self.form_class()
+        return context
+
+
+class SearchPostView(SearchMixin):
+    model = Post
+    template_name = 'portfolio/search-post.html'
+    form_class = SearchPostForm
+
+
+class SearchUserView(SearchMixin):
+    model = User
+    template_name = 'portfolio/search-user.html'
+    form_class = SearchUserForm
+
+
+class GuidesView(TemplateView):
+    template_name = 'portfolio/guides.html'
+
+
+class ProfileFavouritePostsView(ListView, LoginRequiredMixin):
+    model = Post
+    template_name = 'portfolio/plug/plug-list.html'
+
+    def get_queryset(self):
+        return self.request.user.liked_posts.all()
+
+
+class ProfileFavouriteUsersView(ListView, LoginRequiredMixin):
+    model = User
+    template_name = 'portfolio/plug/plug-list.html'
+
+    # def get_queryset(self):
+    #     return self.request.user.liked_users.all()

@@ -1,0 +1,14 @@
+{% extends 'portfolio/base/base-with-navigation.html' %}
+
+{% block main %}
+    {% block search %}
+    {% endblock %}
+    <form>
+        {{ form.as_p }}
+        <button type="submit">Тык</button>
+    </form>
+    <div>
+        <a href="{% url 'search_user' %}">Поиск пользователей</a>
+        <a href="{% url 'search_post' %}">Поиск постов</a>
+    </div>
+{% endblock %}

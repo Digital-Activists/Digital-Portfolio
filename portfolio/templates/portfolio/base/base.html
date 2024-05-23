@@ -20,9 +20,7 @@
 <body>
 
 <header class="main-header">
-    <a href="{% url 'home' %}">
-        <img src="{% static 'portfolio/images/Share your projects.svg' %} " alt="Share your projects">
-    </a>
+    {% include 'portfolio/base/logo.html' %}
     {% block site-navigation %}
     {% endblock %}
 </header>
@@ -34,9 +32,7 @@
 </main>
 
 <footer class="main-footer">
-    <a href="{% url 'home' %}">
-        <img src="{% static 'portfolio/images/Share your projects.svg' %} " alt="Share your projects">
-    </a>
+    {% include 'portfolio/base/logo.html' %}
 </footer>
 </body>
 </html>

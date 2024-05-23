@@ -2,16 +2,18 @@ import datetime
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
+from django.core import validators
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from django.db.models import Q
 
 from .models import *
 from .utils import check_social_link, check_social_lick_type
 from .choices import RHYTHMS, WORK_SCHEDULE_CHOICES
-from .form_utils import ProfileAvatarImageWidget, CustomRadioSelect, CustomFileInput, CustomDocInput
+from .form_utils import ProfileAvatarImageWidget, CustomFileInput, MultipleFileField, MultipleFileInput
 
 
-class BaseFilledFieldsForm(forms.ModelForm):
+class RequiredFieldsFormMixin:
     required_fields = True
 
     def __init__(self, *args, **kwargs):
@@ -19,6 +21,13 @@ class BaseFilledFieldsForm(forms.ModelForm):
         for field_name in self.fields:
             field = self.fields[field_name]
             field.required = self.required_fields
+
+
+class BaseFilledFieldsForm(RequiredFieldsFormMixin, forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name in self.fields:
+            field = self.fields[field_name]
             if hasattr(self.instance, field_name):
                 field.initial = getattr(self.instance, field_name)
             else:
@@ -26,14 +35,19 @@ class BaseFilledFieldsForm(forms.ModelForm):
 
 
 class UserPostForm(forms.ModelForm):
-    videos = forms.FileField(label='Видео', widget=CustomFileInput(accept='video/mp4', hint='Разрешен формат mp4'))
-    images = forms.ImageField(label='Фотографии', widget=CustomFileInput(accept='image/png image/jpeg image/jpg',
-                                                                         hint='Разрешены форматы png, jpeg, jpg'))
-    files = forms.FileField(label='Документы', widget=CustomDocInput(accept='.doc, .docx, .ppt, .pdf',
-                                                                     hint='Разрешены форматы doc, docx, ppt, pdf'))
-    date = forms.DateField(label='Дата', widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
-                                                                       years=range(datetime.date.today().year - 99,
-                                                                                   datetime.date.today().year)))
+    videos = MultipleFileField(label='Видео', validators=[FileExtensionValidator(PostVideo.formats)],
+                               widget=CustomFileInput(style_class='input-file',
+                                                      hint='Разрешены форматы: {0}'.format(', '.join(PostVideo.formats))))
+    images = MultipleFileField(label='Фотографии', validators=[validators.validate_image_file_extension],
+                               widget=CustomFileInput(style_class='input-file',
+                                                      hint='Разрешены форматы png, jpeg, jpg'))
+    files = MultipleFileField(label='Документы', validators=[FileExtensionValidator(PostFile.formats)],
+                              widget=CustomFileInput(style_class='input-doc',
+                                                     hint='Разрешены форматы: {0}'.format(', '.join(PostFile.formats))))
+    date = forms.DateField(label='Дата', initial=date.today,
+                           widget=forms.SelectDateWidget(attrs={'class': 'birth-date'},
+                                                         years=range(datetime.date.today().year - 99,
+                                                                     datetime.date.today().year + 1)))
 
     def __init__(self, *args, **kwargs):
         super(UserPostForm, self).__init__(*args, **kwargs)
@@ -61,20 +75,36 @@ class UserPostForm(forms.ModelForm):
 
 
 class PostTagsForm(forms.ModelForm):
+    rhythm = forms.ModelChoiceField(label='Ритм', queryset=PostRhythm.objects.all(), empty_label='-',
+                                    widget=forms.RadioSelect(attrs={'class': 'rhythm'}))
+
     class Meta:
         model = Post
         fields = ['rhythm', 'music_genre', 'genre', 'style', 'age_limit']
-        help_texts = {
-            'genre': 'Жанр вашего контента',
-            'style': 'Стиль вашего контента'
-        }
         widgets = {
-            'rhythm': CustomRadioSelect(attrs={'class': 'rhythm'}),
+            'rhythm': forms.RadioSelect(attrs={'class': 'rhythm'}),
             'genre': forms.Select(attrs={'class': 'project', 'placeholder': 'Выберите жанр проекта'}),
             'music_genre': forms.Select(attrs={'class': 'music', 'placeholder': 'Выберите жанр музыки'}),
             'style': forms.Select(attrs={'class': 'style', 'placeholder': 'Выберите стиль'}),
             'age_limit': forms.Select(attrs={'class': 'age_limits', 'placeholder': 'Выберите возрастное ограничение'})
         }
+
+
+class SearchPostForm(RequiredFieldsFormMixin, forms.Form):
+    required_fields = False
+    title = forms.CharField(label='Заголовок')
+    budget = forms.MultipleChoiceField(label='Бюджет', choices=BUDGET,
+                                       widget=forms.CheckboxSelectMultiple(attrs={'class': '', 'placeholder': ''}))
+    post_type = forms.MultipleChoiceField(label='Тип поста', choices=PROJECT_TYPE_CHOICES,
+                                          widget=forms.CheckboxSelectMultiple(attrs={'class': '', 'placeholder': ''}))
+
+    def get_results(self):
+        query = Q()
+        for field in self.cleaned_data:
+            if self.cleaned_data.get(field):
+                query &= Q(**{f'{field}__icontains': self.cleaned_data.get(field)})
+
+        return Post.objects.filter(query)
 
 
 class CreateUserForm(UserCreationForm):
@@ -168,7 +198,7 @@ class EditProfileTagsForm(forms.ModelForm):
         widgets = {
             'skills': forms.CheckboxSelectMultiple(),
             'experience': forms.Select(attrs={'class': 'list', 'placeholder': 'Укажите свой опыт работы'}),
-            'specialization': forms.Select(attrs={'class':'list', 'placeholder': 'Выберите свою специализацию'}),
+            'specialization': forms.Select(attrs={'class': 'list', 'placeholder': 'Выберите свою специализацию'}),
             'employment_type': forms.CheckboxSelectMultiple(),
             'work_schedule': forms.CheckboxSelectMultiple(),
         }
@@ -215,6 +245,19 @@ class AddSocialNetworkForm(forms.ModelForm):
             raise ValidationError('Ссылка не прошла проверку')
 
         return cleaned_data
+
+
+class SearchUserForm(RequiredFieldsFormMixin, forms.Form):
+    required_fields = False
+    name = forms.CharField()
+
+    def get_results(self):
+        query = Q()
+        for field in self.cleaned_data:
+            if self.cleaned_data.get(field):
+                query &= Q(**{f'{field}__icontains': self.cleaned_data.get(field)})
+
+        return User.objects.filter(query)
 
 
 class ChangeEmailForm(forms.ModelForm):

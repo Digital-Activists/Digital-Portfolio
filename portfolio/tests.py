@@ -10,13 +10,13 @@ from .models import *
 class TestForm(forms.Form):
     videos = MultipleFileField(label='Видео', validators=[FileExtensionValidator(PostVideo.formats)],
                                widget=CustomFileInput(style_class='input-file',
-                                                      hint=f'Разрешены форматы: {', '.join(PostVideo.formats)}'))
+                                                      hint='Разрешены форматы: {0}'.format(', '.join(PostVideo.formats))))
     images = MultipleFileField(label='Фотографии', validators=[validators.validate_image_file_extension],
                                widget=CustomFileInput(style_class='input-file',
                                                       hint='Разрешены форматы png, jpeg, jpg'))
     files = MultipleFileField(label='Документы', validators=[FileExtensionValidator(PostFile.formats)],
                               widget=CustomFileInput(style_class='input-doc',
-                                                     hint=f'Разрешены форматы: {', '.join(PostFile.formats)}'))
+                                                     hint='Разрешены форматы: {0}'.format(', '.join(PostFile.formats))))
 
 
 class TestView(FormView):

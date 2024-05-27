@@ -35,8 +35,8 @@ class BaseFilledFieldsForm(RequiredFieldsFormMixin, forms.ModelForm):
 
 class UserPostForm(forms.ModelForm):
     videos = MultipleFileField(label='Видео', validators=[FileExtensionValidator(PostVideo.formats)],
-                               widget=CustomFileInput(style_class='input-file', hint='Разрешены форматы: {0}'.format(
-                                   ', '.join(PostVideo.formats))))
+                               widget=CustomFileInput(style_class='input-file',
+                                                      hint='Разрешены форматы: {0}'.format(', '.join(PostVideo.formats))))
     images = MultipleFileField(label='Фотографии', validators=[validators.validate_image_file_extension],
                                widget=CustomFileInput(style_class='input-file',
                                                       hint='Разрешены форматы png, jpeg, jpg'))

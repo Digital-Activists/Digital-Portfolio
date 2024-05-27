@@ -22,21 +22,43 @@
             {% endfor %}
         </div>
         {% if post.photos %}
-            <section class="post-image">
-                <button class="slide-arrow" id="slide-arrow-prev">
-                    &#8249;
-                </button>
-                <button class="slide-arrow" id="slide-arrow-next">
-                    &#8250;
-                </button>
-                <ul class="slides-container" id="slides-container">
-                    {% for photo in post.photos.all %}
-                        <li class="slide"><img class="user-image" src="{{ photo.file.url }}"></li>
-                    {% endfor %}
-                </ul>
-            </section>
-            <script src="{% static 'portfolio/js/carusel.js' %}"></script>
-        {% endif %}
+                        <section class="post-image">
+
+                            <button class="slide-arrow" id="slide-arrow-prev">
+                                &#8249;
+                            </button>
+                            <button class="slide-arrow" id="slide-arrow-next">
+                                &#8250;
+                            </button>
+                            <ul class="slides-container" id="slides-container">
+                            {% for photo in post.photos.all %}
+                            
+                                <li class="slide">
+                                    
+                                    <div id="img-viewer">
+                                        <img class="modal-content close" id="full-image" onclick="close_model()">
+                                    </div>
+                                        <img class="user-image img-source expand-icon" src="{{ photo.file.url }}"  onclick="full_view(this);">
+                                
+                                </li>
+                                <script type="text/javascript">
+			
+                                    function full_view(ele){
+                                        let src=ele.parentElement.querySelector(".img-source").getAttribute("src");
+                                        document.querySelector("#img-viewer").querySelector("img").setAttribute("src",src);
+                                        document.querySelector("#img-viewer").style.display="block";
+                                    }
+                                    
+                                    function close_model(){
+                                        document.querySelector("#img-viewer").style.display="none";
+                                    }
+                                </script>
+                            {% endfor %}
+                        </ul>
+                        </section>
+                        <script src="{% static 'portfolio/js/carusel.js' %}"></script>
+                        
+                    {% endif %}
         {% if post.text %}
             <p class="post-description">{{ post.text }}</p>
         {% endif %}

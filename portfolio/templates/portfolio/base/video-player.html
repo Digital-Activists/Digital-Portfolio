@@ -13,7 +13,7 @@
             data-setup="{}"
     >
         {# Заглушка обязательна! Иначе плеер не будет работать #}
-        <source src="{% static 'portfolio/video/plug-video.mp4' %}" type="video/mp4"/>
+        <source src="{% static 'portfolio/video/plug-video.mp4' %}?t={{ timestamp }}" type="video/mp4"/>
 
         <p class="vjs-no-js">
             To view this video please enable JavaScript, and consider upgrading to a

@@ -11,6 +11,8 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('enter-email/', EnterEmailToResetPassword.as_view(), name='enter_email'),
     path('set-new-password/<uidb64>/<token>/', UserResetPasswordConfirm.as_view(), name='reset_password'),
+    path('stream_video/<int:pk>/', get_streaming_video, name='stream_video'),
+    # path('plug_stream_video', get_streaming_video_plug, name='plug_stream_video'),
 
     path('profile:<slug:nickname>/eidt-settings-account', EditAccountInformationView.as_view(), name='edit_settings_account'),
     path('profile:<slug:nickname>/edit-settings-profile', EditProfileView.as_view(), name='edit_settings_profile'),

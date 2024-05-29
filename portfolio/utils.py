@@ -1,12 +1,8 @@
 import re
 import os.path
-from io import BytesIO
 
 from django.conf import settings
 from django.urls import reverse
-from moviepy.editor import VideoFileClip
-from PIL import Image
-from django.core.files.base import ContentFile
 
 PATH_TO_SOCIAL_NETWORKS = 'portfolio/images/social-networks'
 path = os.path.join(settings.BASE_DIR, 'portfolio/static', PATH_TO_SOCIAL_NETWORKS)
@@ -90,14 +86,3 @@ class ContextUpdateMixin:
         context['PageTitle'] = self.PageTitle
         return context
 
-
-def get_video_preview(video):
-    clip = VideoFileClip(video.temporary_file_path())
-    # Получаем кадр из середины видео
-    frame = clip.get_frame(clip.duration / 2)
-    # Сохраняем кадр как изображение
-    image = Image.fromarray(frame)
-    # Преобразуем изображение в байты и возвращаем его
-    image_io = BytesIO()
-    image.save(image_io, format='JPEG')
-    return ContentFile(image_io.getvalue(), 'preview.jpg')

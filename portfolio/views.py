@@ -4,14 +4,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, StreamingHttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, CreateView, UpdateView, FormView, ListView, TemplateView
+from django.views.generic import DetailView, CreateView, UpdateView, ListView, TemplateView
 
 from .forms import *
-from .utils import SOCIAL_NETWORKS, ProfileSuccessUrlMixin, ContextUpdateMixin, GetProfileMixin, get_video_preview, \
-    ProfileContextMixin
+from .services import get_video_preview, open_video
+from .utils import SOCIAL_NETWORKS, ProfileSuccessUrlMixin, ContextUpdateMixin, GetProfileMixin, ProfileContextMixin
 
 
 @login_required(login_url='login')
@@ -382,3 +382,14 @@ class ProfileFavouriteUsersView(ListView, LoginRequiredMixin):
 
     # def get_queryset(self):
     #     return self.request.user.liked_users.all()
+
+
+def get_streaming_video(request, pk: int):
+    file, status_code, content_length, content_range = open_video(request, pk)
+    response = StreamingHttpResponse(file, status=status_code, content_type='video/mp4')
+
+    response['Accept-Ranges'] = 'bytes'
+    response['Content-Length'] = str(content_length)
+    response['Cache-Control'] = 'no-cache'
+    response['Content-Range'] = content_range
+    return response

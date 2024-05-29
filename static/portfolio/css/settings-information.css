@@ -54,7 +54,7 @@ select {
 }
 
 .profile-description input {
-    width: 449px;
+    width: 350px;
 
     white-space: normal;
     word-break: break-all;
@@ -67,12 +67,23 @@ select {
     margin-bottom: 15px;
 }
 
-.account-image, .profile-description, .contacts {
+.ff, .profile-description, .contacts {
     border-bottom: 1px solid rgba(140, 140, 140, 1);
     padding-bottom: 25px;
     margin-top: 25px;
 }
-
+.ff{
+    padding-bottom: 76px;
+}
+.account-image{
+    width: 110px;
+    height: 110px;
+    margin-top: -20px;
+    
+}
+.account-image label{
+    width: 174px;
+}
 .activity {
     margin-top: 25px;
 }
@@ -81,6 +92,8 @@ select {
     width: 110px;
     height: 110px;
     margin-left: 20px;
+    border-radius: 100%;
+    object-fit: cover;
 }
 
 .contacts-list label {
@@ -134,7 +147,7 @@ select {
 
 .settings-items {
     width: 465px;
-    height: 143px;
+    height: 187px;
     margin-left: 35px;
     margin-right: 35px;
     margin-top: 60px;
@@ -218,7 +231,7 @@ li.social-networks button, li.social-networks button img {
     border-radius: 10px;
     display: flex;
     margin: 0 auto;
-    margin-top: 200px;
+    margin-top: 50px;
     flex-direction: column;
     text-align: left;
     padding: 0;

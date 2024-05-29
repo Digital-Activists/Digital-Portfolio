@@ -1,0 +1,29 @@
+{% load static %}
+{% block style_load %}
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet"/>
+{% endblock %}
+<div class="video-player" style="display: none">
+    <video
+            id="video-player"
+            class="video-js"
+            controls
+            preload="none"
+            width="640"
+            height="264"
+            data-setup="{}"
+    >
+        {# Заглушка обязательна! Иначе плеер не будет работать #}
+        <source src="{% static 'portfolio/video/plug-video.mp4' %}" type="video/mp4"/>
+
+        <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a
+            web browser that
+            <a href="https://videojs.com/html5-video-support/" target="_blank"
+            >supports HTML5 video</a
+            >
+        </p>
+    </video>
+</div>
+
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+<script src="{% static 'portfolio/js/video-player.js' %}"></script>

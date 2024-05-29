@@ -1,0 +1,41 @@
+.custom-button-div{
+    display: none;
+    position: absolute;
+    width: 160px;
+    
+    background-color: rgba(217, 217, 217, 1);
+    font-size: 12px;
+    text-align: center;
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 20px;
+    
+}
+.custom-button{
+    width: 144px;
+    height: 22px;
+    
+    border-radius: 5px;
+    margin: 0;
+    padding-top: 5px;
+}
+#btn{
+    width: 144px;
+    height: 22px;
+    border-radius: 5px;
+    
+    margin: 0;
+    margin-left: 13px;
+    margin-top: -10px;
+}
+.custom-button:hover{
+    background-color: rgba(0, 0, 0, 0.25);
+}
+.account-image:hover .custom-button-div{
+    display: block;
+    position: absolute;
+    top: 315px;
+    left: 247px;
+}

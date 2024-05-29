@@ -40,6 +40,7 @@ ul {
     height: 100px;
     margin-top: 30px;
     margin-bottom: 15px;
+    
 }
 
 p.name {
@@ -61,12 +62,11 @@ li.city {
     display: grid;
     grid-template-columns: repeat(5, 30px);
     column-gap: 10px;
-    row-gap: 5px;
     margin-left: 120px;
     margin-top: 0;
 
     width: 215px;
-    height: auto;
+    
     border-width: 1px;
     border-style: solid;
     border-radius: 5px;
@@ -87,6 +87,7 @@ div.about-me {
     width: 350px;
     margin-top: 25px;
     margin-bottom: 30px;
+    word-wrap: break-word;
 }
 
 .about-me p {
@@ -99,7 +100,8 @@ p.about {
     font-weight: bold;
 }
 
-.create-post {
+
+.create-post a{
     display: flex;
 
     width: 480px;
@@ -111,7 +113,7 @@ p.about {
     align-items: center;
 }
 
-.create-post p {
+.create-post a p {
     margin-right: auto;
     color: rgba(140, 140, 140, 1);
     font-size: 18px;
@@ -121,7 +123,14 @@ p.about {
     margin-right: 10px;
     margin-left: 20px;
 }
-
+img#create-post{
+    width: 35px;
+    height: 35px;
+}
+img#arrow-right{
+    width: 14px;
+    height: 20px;
+}
 .posts {
     display: flex;
     flex-direction: column;
@@ -134,8 +143,9 @@ p.about {
 }
 
 .post {
-    display: flex;
-    width: 865px;
+    display: grid;
+    grid-template-columns: 70px auto 55px;
+    width: 850px;
     padding-right: 20px;
     border-radius: 5px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
@@ -145,40 +155,37 @@ p.about {
     margin-bottom: 20px;
 }
 
-.profile-img {
-    width: 60px;
-    height: 60px;
-    margin-left: 15px;
+.name{
+    word-wrap: break-word;
 }
 
-.post-name {
+p.post-name {
     font-size: 18px;
     margin-bottom: -10px;
-
+    word-wrap: break-word;
 }
 
 .post-description {
     font-size: 14px;
+    word-wrap: break-word;
+   
 }
 
 .post-information {
     margin: 0;
     padding: 0;
-    margin-left: 9px;
+    margin-left: 15px;
     width: 722px;
 }
 
-.post-image {
-    display: grid;
-    grid-template-columns: 15px auto 15px;
-    align-items: center;
-    text-align: center;
-}
 
 
-.script {
+
+  
+
+.script a {
     width: 310px;
-    height: 40px;
+    min-height: 40px;
     background-color: rgba(234, 237, 240, 1);
 
     display: flex;
@@ -187,11 +194,16 @@ p.about {
     align-items: center;
 
     margin-bottom: 34px;
+
 }
 
-.script img {
+.script  img {
     margin-right: 10px;
     margin-left: 10px;
+}
+.script img.right{
+    margin-left: 5px;
+    margin-left: auto;
 }
 
 .script p {
@@ -214,7 +226,23 @@ p.about {
 .main-information .tags {
     margin: 0 auto;
 }
-
+.photo img{
+    width: 60px;
+    height: 60px;
+    margin-left: 15px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+.post-image img.user-image{
+    object-fit: cover;
+    width: 680px;
+    height: 400px;
+    z-index: 1;
+}
+.image{
+    border-radius: 100%;
+    object-fit: cover;
+}
 .tags p {
     width: 60px;
     border-radius: 5px;
@@ -229,24 +257,215 @@ p.about {
 }
 
 .date {
-    margin-left: 720px;
+   
+    margin-left: 600px;
+    margin-top: 2px;
 }
 
 .icons {
     display: flex;
+    margin-left: 40px;
+    margin-right: 5px;
+    height: 20px;
 }
 
 .icons button {
+    
     width: 13px;
     height: 17px;
     background-color: white;
     border-color: white;
     border: none;
-    margin-left: 5px;
+    margin-left: 45px;
     margin-right: 5px;
 }
 
-p.grade {
-    margin-left: 670px;
-    margin-bottom: -30px;
+.icons{
+    
+    margin-left: -50px;
+    width: 70px;   
 }
+
+.icons button{ 
+    background-color: white;
+    border: none;
+}
+.icons:hover .post-menu{
+    display: block;
+    position: relative;
+    right: 125px;
+    top: 15px;
+}
+.post-menu{
+    display: none;
+    
+    width: 155px;
+    height: 60px;
+    background-color: rgba(234, 237, 240, 1);
+    border-radius: 5px;
+    padding-top: 4px;
+    padding-bottom: 6px;
+    padding-left: 5px;
+    padding-right: 3px;
+    text-align: left;
+}
+.post-menu a{
+    color: black;
+    font-size: 12px;
+}
+.post-menu li.edit{
+    width: 144px;
+    height: 22px;
+    border-radius: 5px;
+    margin: 0;
+    margin-bottom: 5px;
+    padding-top: 5px;
+   
+}
+.post-menu li.edit:hover{
+    width: 144px;
+    height: 22px;
+    background-color: rgba(217, 217, 217, 1);
+    border-radius: 5px;
+    margin: 0;
+    margin-bottom: 5px;
+    padding-top: 5px;
+   
+}
+.post-menu li{
+    padding-left: 5px;
+}
+
+
+.like{
+    
+    display: flex;
+    margin-bottom: 9px; 
+    margin-left: 800px;
+}
+.like img{
+    margin-top: 13px;
+    margin-left: 5px;
+}
+
+
+.post-image{
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+
+.post-image {
+    margin: 1rem;
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  .slides-container {
+    height: 400px;
+    width: 680px;
+    display: flex;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .slides-container::-webkit-scrollbar
+  {
+    width: 0;
+  }
+  
+  .slide-arrow {
+    position: absolute;
+    display: flex;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 4rem;
+    background-color: rgba(255, 255, 255, 0.768);
+    border: none;
+    width: 2rem;
+    font-size: 3rem;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 100ms;
+  }
+  
+  .slide-arrow:hover,
+  .slide-arrow:focus {
+    opacity: 1;
+  }
+  
+  #slide-arrow-prev {
+    left: 0;
+    padding-left: 0.25rem;
+    border-radius: 0 2rem 2rem 0;
+  }
+  
+  #slide-arrow-next {
+    right: 0;
+    padding-left: 0.75rem;
+    border-radius: 2rem 0 0 2rem;
+  }
+  
+  .slide {
+    width: auto;
+    height: auto;
+    flex: 1 0 100%;
+  }
+
+
+
+
+.modal-content {
+    
+    max-width: 700px;
+    height: auto;
+
+    display: flex;
+    margin: 0 auto;
+    margin-top: 100px;
+    margin-bottom: 150px;
+
+}
+
+
+
+#img-viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 99999;
+    display: none;
+    margin-bottom: 150px;
+}
+
+
+
+#img-viewer .close:hover{
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
+}
+
+
+
+
+
+
+
+
+
+

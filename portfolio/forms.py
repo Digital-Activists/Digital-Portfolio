@@ -73,7 +73,9 @@ class UserPostForm(forms.ModelForm):
         }
 
 
-class PostTagsForm(forms.ModelForm):
+class PostTagsForm(RequiredFieldsFormMixin, forms.ModelForm):
+    required_fields = False
+
     rhythm = forms.ModelChoiceField(label='Ритм', queryset=PostRhythm.objects.all(), empty_label='-',
                                     widget=forms.RadioSelect(attrs={'class': 'rhythm'}))
 
@@ -189,7 +191,9 @@ class EditProfileForm(BaseFilledFieldsForm, forms.ModelForm):
         widgets = {'city': forms.Select(attrs={'placeholder': 'Введите город', 'class': 'city'})}
 
 
-class EditProfileTagsForm(forms.ModelForm):
+class EditProfileTagsForm(RequiredFieldsFormMixin, forms.ModelForm):
+    required_fields = False
+
     class Meta:
         model = Profile
         fields = ['skills', 'experience', 'specialization', 'employment_type', 'work_schedule']

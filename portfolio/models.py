@@ -1,17 +1,25 @@
 import os
 from datetime import date
-from unidecode import unidecode
 
+from PIL import Image
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.timezone import now
-from PIL import Image
+from unidecode import unidecode
 
-from .utils import SOCIAL_NETWORKS, get_path_to_post_files
 from .choices import *
+from .utils import SOCIAL_NETWORKS, get_path_to_post_files
+
+
+def filter_tags(tags):
+    res = []
+    for tag in tags:
+        if tag.__str__() not in ("None", ""):
+            res.append(tag)
+    return res
 
 
 class Profile(models.Model):
@@ -25,13 +33,17 @@ class Profile(models.Model):
     city = models.ForeignKey('City', null=True, on_delete=models.PROTECT, verbose_name='Город')
     scope_of_work = models.CharField(max_length=20, choices=JOB_SPHERE_CHOICES, blank=True,
                                      verbose_name='Сфера деятельности')
-    experience = models.CharField(max_length=20, choices=EXPERIENCE_CHOICES, blank=True, default='no_experience',
+    experience = models.CharField(max_length=20, choices=EXPERIENCE_CHOICES, blank=True,
                                   verbose_name='Опыт работы')
     specialization = models.CharField(max_length=40, choices=SPECIALIZATION_CHOICES, blank=True,
                                       verbose_name='Специализация')
     employment_type = models.ManyToManyField('ProfileEmploymentType', verbose_name='Тип занятости')
     work_schedule = models.ManyToManyField('ProfileWorkSchedule', verbose_name='График работы')
     skills = models.ManyToManyField('ProfileSkill', verbose_name='Ключевые навыки')
+
+    def get_tags(self):
+        tags = (self.experience, self.specialization)
+        return filter_tags(tags)
 
     def get_user_age(self):
         today = date.today()
@@ -135,6 +147,10 @@ class Post(models.Model):
 
     def get_count_likes(self):
         return self.liked_users.count()
+
+    def get_tags(self):
+        tags = (self.rhythm, self.music_genre, self.style, self.genre, self.age_limit, self.budget)
+        return filter_tags(tags)
 
 
 class PostPhoto(models.Model):

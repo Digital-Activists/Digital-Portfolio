@@ -9,7 +9,13 @@
     <form method="post" class="account-form" enctype="multipart/form-data">
     {% csrf_token %}
     <h2>Теги</h2>
-    
+        <ul>
+            {% for message in messages %}
+                <li>
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
     {{ form.as_p }}
     
     <button type="submit" value="Сохранить" class="save">Сохранить</button>

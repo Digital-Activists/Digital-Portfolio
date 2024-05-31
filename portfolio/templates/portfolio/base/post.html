@@ -17,70 +17,75 @@
             <p class="post-type">{{ post.post_type }}</p>
         {% endif %}
         <div class="tags">
-            {% for tag in post.tags.all %}
+            {% for tag in post.get_tags %}
                 <p>{{ tag }}</p>
             {% endfor %}
         </div>
-        {% if post.photos %}
-            <section class="post-image">
-                <button class="slide-arrow" id="slide-arrow-prev">
-                    &#8249;
-                </button>
-                <button class="slide-arrow" id="slide-arrow-next">
-                    &#8250;
-                </button>
-                <ul class="slides-container" id="slides-container">
-                    {% for photo in post.photos.all %}
-                        <li class="slide">
-                            <div id="img-viewer">
-                                <img class="modal-content close" id="full-image" onclick="close_model()">
-                            </div>
-                            <img class="user-image img-source expand-icon" src="{{ photo.file.url }}"
-                                 onclick="full_view(this);">
-                        </li>
-                        <script type="text/javascript">
-                            function full_view(ele) {
-                                let src = ele.parentElement.querySelector(".img-source").getAttribute("src");
-                                document.querySelector("#img-viewer").querySelector("img").setAttribute("src", src);
-                                document.querySelector("#img-viewer").style.display = "block";
-                            }
+        {% with post.photos.all as photos %}
+            {% with post.videos.all as videos %}
+                {% if photos or videos %}
+                    <section class="post-image">
+                        <button class="slide-arrow" id="slide-arrow-prev">
+                            &#8249;
+                        </button>
+                        <button class="slide-arrow" id="slide-arrow-next">
+                            &#8250;
+                        </button>
+                        <ul class="slides-container" id="slides-container">
+                            {% for photo in photos %}
+                                <li class="slide">
+                                    <div id="img-viewer">
+                                        <img class="modal-content close" id="full-image" onclick="close_model()">
+                                    </div>
+                                    <img class="user-image img-source expand-icon" src="{{ photo.file.url }}"
+                                         onclick="full_view(this);">
+                                </li>
+                                <script type="text/javascript">
+                                    function full_view(ele) {
+                                        let src = ele.parentElement.querySelector(".img-source").getAttribute("src");
+                                        document.querySelector("#img-viewer").querySelector("img").setAttribute("src", src);
+                                        document.querySelector("#img-viewer").style.display = "block";
+                                    }
 
-                            function close_model() {
-                                document.querySelector("#img-viewer").style.display = "none";
-                            }
-                        </script>
-                    {% endfor %}
+                                    function close_model() {
+                                        document.querySelector("#img-viewer").style.display = "none";
+                                    }
+                                </script>
+                            {% endfor %}
 
-                    {% for video in post.videos.all %}
-                        <li class="slide">
-                            {# Сюда добавить значок "плэй" #}
-                            <p>Это не фото, это видео</p>
-                            <img class="user-image img-source expand-icon" src="{{ video.preview.url }}" onclick="playVideo('{{ video.pk }}')">
-                        </li>
-                    {% endfor %}
-                </ul>
-            </section>
-            <script src="{% static 'portfolio/js/carusel.js' %}"></script>
+                            {% for video in videos %}
+                                <li class="slide">
+                                    {# Сюда добавить значок "плэй" #}
+                                    <p>Это не фото, это видео</p>
+                                    <img class="user-image img-source expand-icon" src="{{ video.preview.url }}"
+                                         onclick="playVideo('{{ video.pk }}')">
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </section>
+                    <script src="{% static 'portfolio/js/carusel.js' %}"></script>
+                {% endif %}
+            {% endwith %}
+        {% endwith %}
 
-        {% endif %}
-        {% if post.text %}
-            <p class="post-description">{{ post.text }}</p>
-        {% endif %}
-        {% if post.date %}
-            <p class="date">{{ post.date }}</p>
-        {% endif %}
-        {% if post.genre %}
-            <p>Жанр: {{ post.get_genre_display }}</p>
-        {% endif %}
-        {% if post.style %}
-            <p>Стиль: {{ post.style }}</p>
-        {% endif %}
-        {% if post.budget %}
-            <p>Бюджет: {{ post.budget }}</p>
-        {% endif %}
-        {% if post.age_limit %}
-            <p>Возрастные ограничения: {{ post.age_limit }}</p>
-        {% endif %}
+        {#        {% if post.text %}#}
+        {#            <p class="post-description">{{ post.text }}</p>#}
+        {#        {% endif %}#}
+        {#        {% if post.date %}#}
+        {#            <p class="date">{{ post.date }}</p>#}
+        {#        {% endif %}#}
+        {#        {% if post.genre %}#}
+        {#            <p>Жанр: {{ post.get_genre_display }}</p>#}
+        {#        {% endif %}#}
+        {#        {% if post.style %}#}
+        {#            <p>Стиль: {{ post.style }}</p>#}
+        {#        {% endif %}#}
+        {#        {% if post.budget %}#}
+        {#            <p>Бюджет: {{ post.budget }}</p>#}
+        {#        {% endif %}#}
+        {#        {% if post.age_limit %}#}
+        {#            <p>Возрастные ограничения: {{ post.age_limit }}</p>#}
+        {#        {% endif %}#}
         {% if post.files %}
             <div class="script">
                 {% for user_file in post.files.all %}

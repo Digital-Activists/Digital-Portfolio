@@ -47,7 +47,7 @@
                     </li>
                 </ul>
                 <div class="tags">
-                    {% for tag in user_profile.tags %}
+                    {% for tag in user_profile.get_tags %}
                         <p>{{ tag }}</p>
                     {% endfor %}
                 </div>
@@ -71,15 +71,17 @@
 
             </div>
         </div>
-        <div class="create-post">
-            <a href="{% url 'create_post' user_profile.nickname %}">
-                <img id="create-post" src="{% static 'portfolio/images/create post.svg' %}"
-                     alt="Создать пост(картинка)">
-                <p>Создать пост</p>
-                <img id="arrow-right" src="{% static 'portfolio/images/post-arrow-right.svg' %}"
-                     alt="Редактировать и создать пост">
-            </a>
-        </div>
+        {% if user == request.user %}
+            <div class="create-post">
+                <a href="{% url 'create_post' user_profile.nickname %}">
+                    <img id="create-post" src="{% static 'portfolio/images/create post.svg' %}"
+                         alt="Создать пост(картинка)">
+                    <p>Создать пост</p>
+                    <img id="arrow-right" src="{% static 'portfolio/images/post-arrow-right.svg' %}"
+                         alt="Редактировать и создать пост">
+                </a>
+            </div>
+        {% endif %}
     </section>
 
     <section class="posts">

@@ -10,10 +10,10 @@ JOB_SPHERE_CHOICES = [
 ]
 
 EXPERIENCE_CHOICES = [
-    ('Более 6 лет', 'Более 6 лет'),
     ('Нет опыта', 'Нет опыта'),
-    ('От 3 до 6 лет', 'От 3 до 6 лет'),
     ('От 1 года до 3 лет', 'От 1 года до 3 лет'),
+    ('От 3 до 6 лет', 'От 3 до 6 лет'),
+    ('Более 6 лет', 'Более 6 лет'),
 ]
 
 SPECIALIZATION_CHOICES = [
@@ -145,6 +145,7 @@ RHYTHMS = {
 }
 
 RHYTHM_CHOICES = [(key, key) for key in RHYTHMS.keys()]
+RHYTHM_CHOICES.append(('-', '-'))
 
 STYLE_CHOICES = [
     ('Документальный', 'Документальный'),

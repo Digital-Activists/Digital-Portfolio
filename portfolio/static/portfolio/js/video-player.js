@@ -1,6 +1,6 @@
-// Видео плеер обязан быть единственным на странице
 let videoPlayer = document.getElementById('video-player');
 let sourceList = videoPlayer.querySelectorAll('source');
+
 
 function playVideo(pk) {
     openVideoPlayer();
@@ -19,6 +19,6 @@ function openVideoPlayer() {
 }
 
 function closeVideoPlayer() {
-    let div = document.querySelector('.video-player');
+let div = document.querySelector('.video-player');
     div.style.display = 'none';
 }

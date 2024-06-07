@@ -107,7 +107,11 @@ select {
 
     margin-bottom: 25px;
     margin-left: 590px;
+
+    cursor: pointer;
 }
+
+
 
 .settings-items {
     width: 465px;

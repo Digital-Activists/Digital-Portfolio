@@ -11,6 +11,7 @@
             width="640"
             height="264"
             data-setup="{}"
+          
     >
         {# Заглушка обязательна! Иначе плеер не будет работать #}
         <source src="{% static 'portfolio/video/plug-video.mp4' %}?t={{ timestamp }}" type="video/mp4"/>
@@ -22,7 +23,10 @@
             >supports HTML5 video</a
             >
         </p>
+       
+       
     </video>
+    <button class="krest" onclick="closeVideoPlayer()">X</button>
 </div>
 
 <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>

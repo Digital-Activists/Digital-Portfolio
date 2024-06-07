@@ -44,3 +44,9 @@ main {
     display: flex;
     justify-content: center;
 }
+
+
+.no-login{
+    font-size: 32px;
+    color: white;
+}

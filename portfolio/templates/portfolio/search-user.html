@@ -1,7 +1,28 @@
 {% extends 'portfolio/base/base-search.html' %}
+{% load static %}
+{% block search_style_load %}
+    <!--Здесь стили-->
+{% endblock search_style_load %}
 {% block search %}
     <ul>
-        {% for user in object_list %}<li>{{ user }}</li>{% endfor %}
+        {% for user in object_list %}
+            <li>
+                {% if user_profile.image %}
+                    <img class="image" src="{{ user_profile.image.url }}" alt="Фото профиля">
+                {% else %}
+                    <img class="image"
+                         src="{% static 'portfolio/images/profileNO.png' %}"
+                         alt="Фото профиля">
+                {% endif %}
+                <h2>{{ user.profile }}</h2>
+                {% if user.profile.city %}<p>{{ user.profile.city }}</p>{% endif %}
+                {% if user.profile.date_of_birth %}<p>Возраст: {{ user.profile.get_user_age }}</p>{% endif %}
+                {% if user.profile.scope_of_work %}<p>Сфера деятельности: {{ user.profile.scope_of_work }}</p>{% endif %}
+                <div class="tags">
+                    {% for tag in user.profile.get_tags %}<p>{{ tag }}</p>{% endfor %}
+                </div>
+                <a href="{{ user.profile.get_absolute_url }}">Перейти в профиль</a>
+            </li>
+        {% endfor %}
     </ul>
 {% endblock %}
-

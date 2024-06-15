@@ -432,7 +432,7 @@ class AddSocialNetworkForm(forms.ModelForm):
 class SearchUserForm(RequiredFieldsFormMixin, forms.Form):
     required_fields = False
     name = forms.CharField(
-        label="ФИО",
+        label="",
         widget=forms.TextInput(attrs={"class": "search", "placeholder": "Поиск"}),
     )
     city = forms.ModelMultipleChoiceField(
@@ -441,6 +441,18 @@ class SearchUserForm(RequiredFieldsFormMixin, forms.Form):
         widget=forms.CheckboxSelectMultiple(
             attrs={"class": "checkselect", "placeholder": "Выбор города"}
         ),
+    )
+    age_from = forms.IntegerField(
+        label="Возраст от",
+        min_value=0,
+        max_value=100,
+        widget=forms.NumberInput(attrs={"placeholder": "От"}),
+    )
+    age_to = forms.IntegerField(
+        label="Возраст до",
+        min_value=0,
+        max_value=100,
+        widget=forms.NumberInput(attrs={"placeholder": "До"}),
     )
     experience = forms.MultipleChoiceField(
         label="Опыт работы",

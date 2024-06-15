@@ -7,11 +7,16 @@
     {% block search_style_load %}
     {% endblock search_style_load %}
 {% endblock %}
-{% block main %}
+{% block search_block %}
     <form>
+        <!--Форму лучше не вскрывать, могут сброситься чекбокс селекты-->
+        <!--Через js можно попробовать обернуть нужные теги с определенными-->
+        <!--классами в div-ы или что нибудь другое-->
         {{ form }}
         <button type="submit">Поиск</button>
     </form>
+{% endblock search_block %}
+{% block main %}
     {% block search %}{% endblock %}
     <div>
         <a href="{% url 'search_user' %}">Поиск пользователей</a>

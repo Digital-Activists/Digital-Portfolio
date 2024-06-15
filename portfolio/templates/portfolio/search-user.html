@@ -1,11 +1,7 @@
 {% extends 'portfolio/base/base-search.html' %}
-
 {% block search %}
     <ul>
-        {% for user in object_list %}
-            <li>
-                {{ user }}
-            </li>
-        {% endfor %}
+        {% for user in object_list %}<li>{{ user }}</li>{% endfor %}
     </ul>
 {% endblock %}
+

@@ -1,14 +1,107 @@
 {% extends 'portfolio/base/base-with-navigation.html' %}
+{% load static %}
+
+{% block style_load %}
+    <link rel="stylesheet"
+          href="https://snipp.ru/cdn/bootstrap/4.3/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'portfolio/css/search.css' %}" />
+{% endblock %}
 
 {% block main %}
-    {% block search %}
-    {% endblock %}
+    {% block search %}{% endblock %}
     <form>
-        {{ form.as_p }}
+        {{ form }}
+        <div class="checkselect">
+            <div>
+                <label>
+                    <input type="checkbox" name="brands[]" value="1" checked>
+                    Google Inc.
+                </label>
+            </div>
+            <label>
+                <input type="checkbox" name="brands[]" value="2" checked>
+                Apple Inc.
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="3">
+                Microsoft
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="4">
+                AT&T
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="5">
+                Facebook
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="6">
+                Visa
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="7">
+                Amazon
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="8">
+                Verizon
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="9">
+                McDonald's
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="10">
+                IBM
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="11">
+                Tencent
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="12">
+                Philip Morris
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="13">
+                Coca-Cola
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="14">
+                Wells Fargo
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="15">
+                China Mobile
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="16">
+                GE
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="17">
+                UPS
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="18">
+                Alibaba Group
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="19">
+                Disney
+            </label>
+            <label>
+                <input type="checkbox" name="brands[]" value="20">
+                MasterCard
+            </label>
+        </div>
+ 
         <button type="submit">Тык</button>
     </form>
     <div>
         <a href="{% url 'search_user' %}">Поиск пользователей</a>
         <a href="{% url 'search_post' %}">Поиск постов</a>
     </div>
+    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+    <script src="{% static 'portfolio/js/checkselect.js' %}"></script>
 {% endblock %}

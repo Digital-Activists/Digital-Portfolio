@@ -1,27 +1,35 @@
 {% extends 'portfolio/base/base-search.html' %}
 {% load static %}
 {% block search_style_load %}
-    <!--Здесь стили-->
+    
 {% endblock search_style_load %}
 {% block search %}
-    <ul>
+    <ul class="search-results"> 
         {% for user in object_list %}
-            <li>
+            <li class="search-result">
                 {% if user_profile.image %}
-                    <img class="image" src="{{ user_profile.image.url }}" alt="Фото профиля">
+                    <img class="profile-icon" src="{{ user_profile.image.url }}" alt="Фото профиля">
                 {% else %}
-                    <img class="image"
+                    <img class="profile-icon"
                          src="{% static 'portfolio/images/profileNO.png' %}"
-                         alt="Фото профиля">
+                         alt="Фото профиля" class="profile-icon">
                 {% endif %}
-                <h2>{{ user.profile }}</h2>
-                {% if user.profile.city %}<p>{{ user.profile.city }}</p>{% endif %}
-                {% if user.profile.date_of_birth %}<p>Возраст: {{ user.profile.get_user_age }}</p>{% endif %}
-                {% if user.profile.scope_of_work %}<p>Сфера деятельности: {{ user.profile.scope_of_work }}</p>{% endif %}
-                <div class="tags">
-                    {% for tag in user.profile.get_tags %}<p>{{ tag }}</p>{% endfor %}
+                <div class="main-information">
+                    <div class="FIO">
+                        <h2>{{ user.profile }}</h2>
+                    </div>
+                    <div class="information">
+                        {% if user.profile.city %}<p class="city">{{ user.profile.city }}</p>{% endif %}
+                        {% if user.profile.date_of_birth %}<p>Возраст: {{ user.profile.get_user_age }}</p>{% endif %}
+                        {% if user.profile.scope_of_work %}<p class="activity">Сфера деятельности: {{ user.profile.scope_of_work }}</p>{% endif %}
+                        <div class="tags">
+                            {% for tag in user.profile.get_tags %}<p>{{ tag }}</p>{% endfor %}
+                        </div>
+                    </div>
                 </div>
-                <a href="{{ user.profile.get_absolute_url }}">Перейти в профиль</a>
+                <a href="{{ user.profile.get_absolute_url }}" class="profile-link">
+                    Перейти в профиль
+                </a>
             </li>
         {% endfor %}
     </ul>

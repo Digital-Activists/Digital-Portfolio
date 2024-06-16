@@ -1,27 +1,45 @@
 {% extends 'portfolio/base/base-with-navigation.html' %}
 {% load static %}
 {% block style_load %}
-    <link rel="stylesheet"
-          href="https://snipp.ru/cdn/bootstrap/4.3/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'portfolio/css/search-user.css' %}"/>
+   
     <link rel="stylesheet" href="{% static 'portfolio/css/checkselect.css' %}" />
+
     {% block search_style_load %}
     {% endblock search_style_load %}
 {% endblock %}
 {% block search_block %}
-    <form>
+    <button type="button" id="show-params-btn">Параметры</button>
+    <form >
         <!--Форму лучше не вскрывать, могут сброситься чекбокс селекты-->
         <!--Через js можно попробовать обернуть нужные теги с определенными-->
         <!--классами в div-ы или что нибудь другое-->
         {{ form }}
-        <button type="submit">Поиск</button>
+        
+       
+        <button type="submit" class="search-button">Поиск</button>
+        <button type="submit" class="search-image">
+            <img src="{% static 'portfolio/images/search-image.png' %}">
+        </button>
     </form>
+    
 {% endblock search_block %}
 {% block main %}
     {% block search %}{% endblock %}
-    <div>
-        <a href="{% url 'search_user' %}">Поиск пользователей</a>
-        <a href="{% url 'search_post' %}">Поиск постов</a>
-    </div>
+    <section class="settings-items">
+        <nav>
+          <ul>
+            <li class="user-search">
+              <a href="{% url 'search_user' %}">Поиск пользователей</a>
+            </li>
+            <li class="post-search">
+              <a href="{% url 'search_post' %}">Поиск постов</a>
+            </li>
+          </ul>
+        </nav>
+    </section>
+
     <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
     <script src="{% static 'portfolio/js/checkselect.js' %}"></script>
+    <script src="{% static 'portfolio/js/form.js' %}"></script>
 {% endblock %}

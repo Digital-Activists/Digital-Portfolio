@@ -1,4 +1,5 @@
 import datetime
+from dateutil.relativedelta import relativedelta
 
 from django import forms
 from django.contrib.auth.forms import (
@@ -501,12 +502,42 @@ class SearchUserForm(RequiredFieldsFormMixin, forms.Form):
     )
 
     def get_results(self):
-        query = Q()
-        for field in self.cleaned_data:
-            if self.cleaned_data.get(field):
-                query &= Q(**{f"{field}__icontains": self.cleaned_data.get(field)})
+        user_query_dict = {}
+        user_query = Q()
 
-        return User.objects.filter(query)
+        name = self.cleaned_data["name"]
+
+        if name.startswith("@"):
+            user_query &= Q(profile__nickname__icontains=name)
+        else:
+            name_list = name.split(" ")
+            additional_user_query = Q()
+
+            for name_part in name_list:
+                additional_user_query |= Q(last_name__icontains=name_part)
+                additional_user_query |= Q(first_name__icontains=name_part)
+                additional_user_query |= Q(profile__patronymic__icontains=name_part)
+
+            user_query &= additional_user_query
+
+        age_from = self.cleaned_data["age_from"]
+        age_to = self.cleaned_data["age_to"]
+        today = datetime.datetime.today()
+
+        if age_from:
+            age_from = today - relativedelta(years=age_from)
+            user_query &= Q(profile__date_of_birth__gte == age_from)
+
+        if age_to:
+            age_to = today - relativedelta(years=age_to)
+            user_query &= Q(profile__date_of_birth__lte == age_to)
+
+        for field_name in user_query_dict.keys():
+            user_query &= Q(**{f"{field_name}__icontains": user_query_dict[field_name]})
+
+        user_objects = User.objects.filter(user_query)
+
+        return user_objects
 
 
 class ChangeEmailForm(forms.ModelForm):

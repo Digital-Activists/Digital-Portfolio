@@ -447,13 +447,13 @@ class SearchUserForm(RequiredFieldsFormMixin, forms.Form):
         label="Возраст от",
         min_value=0,
         max_value=100,
-        widget=forms.NumberInput(attrs={"placeholder": "От"}),
+        widget=forms.NumberInput(attrs={"class":"for-age", "placeholder": "От"}),
     )
     age_to = forms.IntegerField(
         label="Возраст до",
         min_value=0,
         max_value=100,
-        widget=forms.NumberInput(attrs={"placeholder": "До"}),
+        widget=forms.NumberInput(attrs={"class":"for-age", "placeholder": "До"}),
     )
     experience = forms.MultipleChoiceField(
         label="Опыт работы",

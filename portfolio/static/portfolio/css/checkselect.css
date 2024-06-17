@@ -3,7 +3,6 @@
   display: inline-block;
   min-width: 235px;
   text-align: left;
-
 }
 .checkselect-control {
   position: relative;
@@ -21,10 +20,10 @@
   border-radius: 5px;
 }
 
-.for-age{
+.for-age {
   margin-left: 7px;
 }
-input{
+input {
   border-width: 0px;
   border-radius: 3px;
   width: 50px;

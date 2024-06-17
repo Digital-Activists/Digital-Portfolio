@@ -447,13 +447,13 @@ class SearchUserForm(RequiredFieldsFormMixin, forms.Form):
         label="Возраст от",
         min_value=0,
         max_value=100,
-        widget=forms.NumberInput(attrs={"class":"for-age", "placeholder": "От"}),
+        widget=forms.NumberInput(attrs={"class": "for-age", "placeholder": "От"}),
     )
     age_to = forms.IntegerField(
         label="Возраст до",
         min_value=0,
         max_value=100,
-        widget=forms.NumberInput(attrs={"class":"for-age", "placeholder": "До"}),
+        widget=forms.NumberInput(attrs={"class": "for-age", "placeholder": "До"}),
     )
     experience = forms.MultipleChoiceField(
         label="Опыт работы",
@@ -526,16 +526,20 @@ class SearchUserForm(RequiredFieldsFormMixin, forms.Form):
 
         if age_from:
             age_from = today - relativedelta(years=age_from)
-            user_query &= Q(profile__date_of_birth__gte == age_from)
+            user_query &= Q(profile__date_of_birth__lte=age_from)
 
         if age_to:
             age_to = today - relativedelta(years=age_to)
-            user_query &= Q(profile__date_of_birth__lte == age_to)
+            user_query &= Q(profile__date_of_birth__gte=age_to)
 
-        for field_name in user_query_dict.keys():
-            user_query &= Q(**{f"{field_name}__icontains": user_query_dict[field_name]})
+        for field_name in self.cleaned_data.keys():
+            if field_name in ["name", "age_from", "age_to"]:
+                continue
+            field_values = self.cleaned_data[field_name]
+            if field_values:
+                user_query &= Q(**{f"profile__{field_name}__in": field_values})
 
-        user_objects = User.objects.filter(user_query)
+        user_objects = User.objects.filter(user_query).distinct()
 
         return user_objects
 

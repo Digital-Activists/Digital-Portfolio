@@ -15,7 +15,7 @@
 
 form.search {
   position: relative;
-  width: 430px;
+  width: 365px;
   margin: auto auto;
   margin-top: 13px;
   margin-left: 150px;
@@ -41,8 +41,8 @@ button.search-image img {
   height: 55px;
   position: absolute;
   top: 10px;
-  right: 0;
-  z-index: -1000;
+  right: -34px;
+  z-index: -1;
   cursor: pointer;
 }
 button.search-image {

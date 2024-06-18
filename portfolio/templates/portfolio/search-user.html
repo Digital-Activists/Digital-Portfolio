@@ -1,10 +1,23 @@
 {% extends 'portfolio/base/base-search.html' %}
 {% load static %}
 {% block search_style_load %}
+    <link rel="stylesheet" href="{% static 'portfolio/css/search-user.css' %}" />
 {% endblock search_style_load %}
 {% block search %}
     <ul class="search-results">
-        {% if not object_list %}<p>Нет результатов поиска</p>{% endif %}
+        {% if not object_list %}
+        
+            <div class="no-results">
+                <h2>Результатов не найдено</h2>
+                <p>Попробуйте использовать другие ключевые слова или изменить фильтры</p>
+                
+                <div class="links">
+                    <a href="{% url 'view_guides' %}">Гайды</a>
+                    <a href="#">Главная страница</a>
+                </div>
+            </div>
+        
+        {% endif %}
         {% for user in object_list %}
             <li class="search-result">
                 {% if user.profile.image %}

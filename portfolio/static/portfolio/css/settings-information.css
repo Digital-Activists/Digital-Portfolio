@@ -79,7 +79,11 @@ select {
     width: 110px;
     height: 110px;
     margin-top: -20px;
+    padding-bottom: 20px;
     
+}
+.account-image img{
+    margin-bottom: 26px;
 }
 .account-image label{
     width: 174px;
@@ -94,6 +98,7 @@ select {
     margin-left: 20px;
     border-radius: 100%;
     object-fit: cover;
+    
 }
 
 .contacts-list label {
@@ -142,6 +147,13 @@ select {
 
     margin-bottom: 25px;
     margin-left: 586px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.account-form button.save:hover{
+    background-color: rgba(255, 236, 68, 1);
+    color: black;
 }
 
 
@@ -269,6 +281,12 @@ li.social-networks button, li.social-networks button img {
     margin-top: 15px;
     margin-bottom: 20px;
     margin-left: 435px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+#add_social-network-form button:hover{
+    background-color: rgba(255, 236, 68, 1);
+    color: black;
 }
 
 button#close {

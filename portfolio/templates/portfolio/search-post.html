@@ -4,10 +4,11 @@
 {% block style_load %}
     {#  Временная заглушка  #}
     <link rel="stylesheet" href="{% static 'portfolio/css/profile page.css' %}"/>
+    <link rel="stylesheet" href="{% static 'portfolio/css/search-post.css' %}"/>
 {% endblock %}
 
 {% block search %}
-    <ul>
+    <ul class="posts">
         {% for post in object_list %}
             <li>
                 {% include 'portfolio/base/post.html' %}

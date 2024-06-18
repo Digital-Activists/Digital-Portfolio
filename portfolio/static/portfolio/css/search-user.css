@@ -33,6 +33,8 @@ h1 {
   height: auto;
   margin: auto 50px;
   margin-right: 0;
+  border-radius: 100%;
+  object-fit: cover;
 }
 
 .FIO {
@@ -115,6 +117,11 @@ a.profile-link {
   padding: 14px 19px;
   margin: auto 20px;
   text-decoration: none;
+  transition: background-color 0.5s ease;
+}
+a.profile-link:hover{
+  background-color: rgba(255, 236, 68, 1);
+  color: black;
 }
 
 .settings-items {
@@ -169,3 +176,26 @@ ul {
   list-style-type: none; /* Убирает буллиты */
 }
 
+
+.no-results{
+  width: 850px;
+  background-color: rgba(234, 237, 240, 1);
+  border-radius: 10px;
+  text-align: center;
+}
+.no-results h2{
+  font-weight: 500;
+}
+.no-results div{
+  text-align: center;
+  margin-bottom: 15px;
+  margin-top: 40px;
+}
+.links a{
+  margin-right: 15px;
+  text-decoration: underline;
+  color:rgb(43, 180, 230);
+}
+.links a:hover{
+  color: black;
+}

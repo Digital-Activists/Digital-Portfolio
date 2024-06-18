@@ -159,6 +159,9 @@ p.second {
 .links ul li{
     margin-bottom: 15px;
 }
+.links li:hover a{
+    color:black;
+}
 .instruments{
     margin-top: -30px;
 }

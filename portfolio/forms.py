@@ -158,16 +158,19 @@ class PostTagsForm(RequiredFieldsFormMixin, forms.ModelForm):
 
 class SearchPostForm(RequiredFieldsFormMixin, forms.Form):
     required_fields = False
-    title = forms.CharField(label="Заголовок")
+    name = forms.CharField(
+        label="",
+        widget=forms.TextInput(attrs={"class": "search", "placeholder": "Поиск"}),
+    )
     budget = forms.MultipleChoiceField(
         label="Бюджет",
         choices=BUDGET,
-        widget=forms.CheckboxSelectMultiple(attrs={"class": "", "placeholder": ""}),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "checkselect", "placeholder": "Выберите бюджет"}),
     )
     post_type = forms.MultipleChoiceField(
         label="Тип поста",
         choices=PROJECT_TYPE_CHOICES,
-        widget=forms.CheckboxSelectMultiple(attrs={"class": "", "placeholder": ""}),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "checkselect", "placeholder": "Выберите тип поста"}),
     )
 
     def get_results(self):

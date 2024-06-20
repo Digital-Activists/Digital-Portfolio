@@ -1,5 +1,11 @@
-**python manage.py runserver**
+<h1>Share Your Projects - Digital portfolio для режиссеров</h1>
 
-Возможно придется установить необходимые библиотеки
+Чтобы установить необходимые библиотеки
 
-pip install -r requirements.txt
+`pip install -r requirements.txt`
+
+Для запуска сервера django:
+
+`python manage.py runserver`
+
+Теперь можно открыть сайт в браузере по адресу который будет выведен в консоли
